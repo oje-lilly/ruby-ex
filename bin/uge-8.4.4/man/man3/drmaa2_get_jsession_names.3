@@ -1,0 +1,53 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_GET_JSESSION_NAMES" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_get_jsession_names\fR \- drmaa2_get_jsession_names(3), Returns all available persistent job sessions\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_string_list drmaa2_get_jsession_names();
+.
+.SH "DESCRIPTION"
+Fetches all available persistent DRMAA2 job session names from the \fBUniva(R) Grid Engine(TM)\fR master process\. There is no previous call needed to perform this action\. In case of success a \fBdrmaa2_string_list\fR with all DRMAA2 job session names is returned\. Those job session names can be used for opening a DRMAA2 job session with the drmaa2_open_jsession(3) function\.
+.
+.P
+Note: In \fBUniva(R) Grid Engine(TM)\fR DRMAA2 job sessions can be listed, created, and deleted also by qconf(3) calls\.
+.
+.SH "RETURN VALUES"
+On success a \fBdrmaa2_string_list\fR is returned\. It might contain 0 or more entries\. The string list was initialized with a callback, which deletes all allocated strings when the list is freed with drmaa2_list_free(3)\. In case of an failure the error code indicating the failure reason and a description is stored for the calling thread\. The failure description can be fetched with the drmaa2_lasterror_text(3) function call\. The failure code can be fetched with the drmaa2_lasterror(3) call\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_string_list jsession_names = drmaa2_get_jsession_names();
+
+if (jsession_names == NULL) {
+   drmaa2_string error = drmaa2_lasterror_text();
+   fprintf(stderr, "Error during fetching jsession names: %s\en",
+              "mysession", error);
+   drmaa2_string_free(&error);
+} else {
+   long size, i;
+
+   size = drmaa2_list_size(jsession_names);
+   for (i = 0; i < size; i++) {
+      drmaa2_string jsession_name = (drmaa2_string) drmaa2_list_get(jsession_names, i);
+      printf("job session: %s\en", (char *) jsession_name);
+   }
+
+   drmaa2_list_free(&jsession_names);
+}
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_open_jsession(3), drmaa2_create_jsession(3), drmaa2_list_size(3), drmaa2_list_get(3), drmaa2_list_free(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

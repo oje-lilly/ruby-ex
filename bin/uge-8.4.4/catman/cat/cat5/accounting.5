@@ -1,0 +1,201 @@
+ACCOUNTING(5)                                                    ACCOUNTING(5)
+
+
+
+NNAAMMEE
+       accounting - Univa Grid Engine accounting file format
+
+DDEESSCCRRIIPPTTIIOONN
+       An  accounting  record  is  written to the Univa Grid Engine accounting
+       file for each job having finished. The accounting file is processed  by
+       _q_a_c_c_t(1) to derive accounting statistics.
+
+FFOORRMMAATT
+       Each  job  is represented by a line in the accounting file. Empty lines
+       and lines which contain one character or less are ignored.   Accounting
+       record  entries  are separated by colon (':') signs. The entries denote
+       in their order of appearance:
+
+   qqnnaammee
+       Name of the cluster queue in which the job has run.
+
+   hhoossttnnaammee
+       Name of the execution host.
+
+   ggrroouupp
+       The effective group id of the job owner when executing the job.
+
+   oowwnneerr
+       Owner of the Univa Grid Engine job.
+
+   jjoobb__nnaammee
+       Job name.
+
+   jjoobb__nnuummbbeerr
+       Job identifier - job number.
+
+   aaccccoouunntt
+       An account string as specified by the _q_s_u_b(1) or _q_a_l_t_e_r(1) --AA option.
+
+   pprriioorriittyy
+       Priority value assigned to the job corresponding to the pprriioorriittyy param-
+       eter in the queue configuration (see _q_u_e_u_e___c_o_n_f(5)).
+
+   ssuubbmmiissssiioonn__ttiimmee
+       Submission time (64bit GMT unix time stamp in milliseconds).
+
+   ssttaarrtt__ttiimmee
+       Start time (64bit GMT unix time stamp in milliseconds).
+
+   eenndd__ttiimmee
+       End time (64bit GMT unix time stamp in milliseconds).
+
+   ffaaiilleedd
+       Indicates the problem which occurred in case a job could not be started
+       on the execution host (e.g. because the owner of the job did not have a
+       valid  account  on that machine). If Univa Grid Engine tries to start a
+       job multiple times, this may lead to multiple entries in the accounting
+       file corresponding to the same job ID.
+
+   eexxiitt__ssttaattuuss
+       Exit  status of the job script (or Univa Grid Engine specific status in
+       case of certain error conditions).  The exit status  is  determined  by
+       following the normal shell conventions.  If the command terminates nor-
+       mally the value of the command is its exit  status.   However,  in  the
+       case  that  the  command exits abnormally, a value of 0200 (octal), 128
+       (decimal) is added to the value of the command  to  make  up  the  exit
+       status.
+
+              For  example:  If a job dies through signal 9 (SIGKILL) then the
+              exit status becomes 128 + 9 = 137.
+
+   rruu__wwaallllcclloocckk
+       Difference between eenndd__ttiimmee and ssttaarrtt__ttiimmee (see above).
+
+       The remainder of the accounting entries follows  the  contents  of  the
+       standard UNIX rusage structure as described in _g_e_t_r_u_s_a_g_e(2).  Depending
+       on the operating system where the job was executed some of  the  fields
+       may be 0.  The following entries are provided:
+
+              rruu__uuttiimmee
+              rruu__ssttiimmee
+              rruu__mmaaxxrrssss
+              rruu__iixxrrssss
+              rruu__iissmmrrssss
+              rruu__iiddrrssss
+              rruu__iissrrssss
+              rruu__mmiinnfflltt
+              rruu__mmaajjfflltt
+              rruu__nnsswwaapp
+              rruu__iinnbblloocckk
+              rruu__oouubblloocckk
+              rruu__mmssggssnndd
+              rruu__mmssggrrccvv
+              rruu__nnssiiggnnaallss
+              rruu__nnvvccssww
+              rruu__nniivvccssww
+
+
+
+   pprroojjeecctt
+       The project which was assigned to the job.
+
+   ddeeppaarrttmmeenntt
+       The department which was assigned to the job.
+
+   ggrraanntteedd__ppee
+       The parallel environment which was selected for that job.
+
+   sslloottss
+       The  number of slots which were dispatched to the job by the scheduler.
+
+   ttaasskk__nnuummbbeerr
+       Array job task index number.
+
+   ccppuu
+       The cpu time usage in seconds.
+
+   mmeemm
+       The integral memory usage in Gbytes cpu seconds.
+
+   iioo
+       The amount of data transferred in Gbytes.  On  Linux  data  transferred
+       means  all  bytes  read  and  written  by  the  job through the read(),
+       pread(), write() and pwrite() systems calls.
+
+   ccaatteeggoorryy
+       A string specifying the job category.
+
+   iiooww
+       The io wait time in seconds.
+
+   iiooooppss
+       The number of io operations.
+
+   ppee__ttaasskkiidd
+       If this identifier is set the task was part of a parallel job  and  was
+       passed to Univa Grid Engine via the qrsh -inherit interface.
+
+   mmaaxxvvmmeemm
+       The maximum vmem size in bytes.
+
+   aarriidd
+       Advance reservation identifier. If the job used resources of an advance
+       reservation then this field contains a positive integer identifier oth-
+       erwise the value is "00" .
+
+   aarr__ssuubbmmiissssiioonn__ttiimmee
+       If  the  job  used  resources of an advance reservation then this field
+       contains the submission time (64bit GMT unix time  stamp  in  millisec-
+       onds) of the advance reservation, otherwise the value is "00" .
+
+   jjoobb__ccllaassss
+       If  the job has been running in a job class, the name of the job class,
+       otherwise "NNOONNEE" .
+
+   qqddeell__iinnffoo
+       If the job  (the  array  task)  has  been  deleted  via  qdel,  "<<uusseerr--
+       nnaammee>>@@<<hhoossttnnaammee>>",  else  "NNOONNEE".   If  qdel was called multiple times,
+       every invocation is recorded in a comma separated list.
+
+   mmaaxxrrssss
+       The maximum resident set size in bytes.
+
+   mmaaxxppssss
+       The maximum proportional set size in bytes.
+
+   ssuubbmmiitt__hhoosstt
+       The submit host name.
+
+   ccwwdd
+       The working directory the job ran in as specified with  qsub  /  qalter
+       switches  -cwd  and  -wd.  As the delimiter used by the accounting file
+       (colon ":") can be part of the working  directory  all  colons  in  the
+       working directory are replaced by ASCII code 255.
+
+   ssuubbmmiitt__ccmmdd
+       The command line used for job submission.  As the delimiter used by the
+       accounting file (colon ":") can be part of the command line all  colons
+       in  the  command line are replaced by ASCII code 255.  Line feeds being
+       part of the command line will be replaced by a  space  character.   The
+       qacct  client  converts them back to colon.  For jobs submitted via the
+       DRMAA interface or via qmon graphical  user  interface  the  accounting
+       file contains "NONE" as submit_cmd.
+
+   wwaallllcclloocckk
+       The  wallclock time the job spent in running state.  Times during which
+       the job was suspended are not counted as wallclock time.   For  loosely
+       integrated jobs and for tightly integrated jobs with accounting summary
+       enabled the wallclock time reported for the master task  is  the  wall-
+       clock time multiplied by the number of job slots.
+
+SSEEEE AALLSSOO
+       _s_g_e___i_n_t_r_o(1),     _q_a_c_c_t(1),     _q_a_l_t_e_r(1),    _q_s_u_b(1),    _g_e_t_r_u_s_a_g_e(2),
+       _q_u_e_u_e___c_o_n_f(5).
+
+CCOOPPYYRRIIGGHHTT
+       See _s_g_e___i_n_t_r_o(1) for a full statement of rights and permissions.
+
+
+
+Univa Grid Engine File Formats     UGE 8.4.4                     ACCOUNTING(5)

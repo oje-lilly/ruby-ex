@@ -1,0 +1,13 @@
+pe_name            mpt
+slots              100000
+user_lists         NONE
+xuser_lists        NONE
+start_proc_args    NONE
+stop_proc_args     NONE
+allocation_rule    $fill_up
+control_slaves     TRUE
+job_is_first_task  FALSE
+urgency_slots      min
+accounting_summary TRUE
+daemon_forks_slaves    TRUE
+master_forks_slaves    FALSE

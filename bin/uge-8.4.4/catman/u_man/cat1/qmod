@@ -1,0 +1,235 @@
+QMOD(1)                                                                QMOD(1)
+
+
+
+NNAAMMEE
+       qmod - modify a Univa Grid Engine queue, running job or job class
+
+SSYYNNTTAAXX
+       qqmmoodd [ ooppttiioonnss ]
+
+
+DDEESSCCRRIIPPTTIIOONN
+       _Q_m_o_d  enabled users classified as owners of a running job, queue or job
+       class to modify the state of that object. Users that have  submitted  a
+       job automatically own the job. Queue and job class ownership is defined
+       by the _o_w_n_e_r attribute within a queue and by the  _o_w_n_e_r___l_i_s_t  attribute
+       defined  in  the  job  class (see _q_u_e_u_e___c_o_n_f(5) or _s_g_e___j_o_b___c_l_a_s_s(5) for
+       details).
+
+       A manager/operator or root can execute _q_m_o_d for any object in  a  Univa
+       Grid Engine but only from administrative hosts.
+
+       The  switches  below expect the arguments _w_c___q_u_e_u_e___l_i_s_t, _w_c___j_o_b___l_i_s_t or
+       _j_c___l_i_s_t that describe the object that  should  be  modified.  Find  the
+       description for these arguments in _s_g_e___t_y_p_e_s(1).
+
+OOPPTTIIOONNSS
+       --cc wwcc__jjoobb__rraannggee__lliisstt || wwcc__qquueeuuee__lliisstt
+              NNoottee::  Deprecated,  may be removed in future release. Please use
+              the --ccjj or --ccqq switch instead.
+
+              Clears the error state of the specified jobs(s)/queue(s).
+
+       --ccjj wwcc__jjoobb__rraannggee__lliisstt
+              Clears the error state of the specified jobs(s).
+
+       --ccqq wwcc__qquueeuuee__lliisstt
+              Clears the error state of the specified queue(s).
+
+       --dd wwcc__qquueeuuee__lliisstt
+              Disables the queue(s), i.e. no further jobs  are  dispatched  to
+              disabled queues while jobs already executing in these queues are
+              allowed to finish.
+
+       --ddjjcc jjcc__lliisstt
+              Disables the job class variant(s) that are  specified.  If  only
+              the job class name is specified (without variant name) then only
+              the default variant of a job class will be disabled whereas  all
+              other  variants  remain in their previous state. Job class vari-
+              ants that are in the disabled state cannot be used to create new
+              jobs.
+
+       --ee wwcc__qquueeuuee__lliisstt
+              Enables the queue(s).
+
+       --EE wwcc__qquueeuuee__lliisstt
+              Sets queue(s) into error state.
+
+       --eejjcc jjcc__lliisstt
+              Enables  the  job  class variant(s) that are specified.  If only
+              the job class name is specified (without variant name) then only
+              the  default variant of a job class will be disabled whereas all
+              other variants remain in their previous state. Job  class  vari-
+              ants that are in enabled state can be used to create new jobs.
+
+       --ff     Force the modification action for the queue despite the apparent
+              current state of the queue. For example if a queue appears to be
+              suspended  but the job execution seems to be continuing the man-
+              ager/operator can force a suspend operation which  will  send  a
+              SIGSTOP  to  the jobs. In any case, the queue or job status will
+              be set even if the _s_g_e___e_x_e_c_d(8) controlling the queues/jobs can-
+              not be reached. Requires manager/operator privileges.
+
+       --hheellpp  Prints a listing of all options.
+
+       --mmssgg [[mmeessssaaggee]]
+              The  --mmssgg  switch can be used in combination with other switches
+              of this command that trigger queue state changes. The  specified
+              message  will  be  attached  to  specified queues. If message is
+              omitted then previously attached messages will be  deleted.  The
+              message  string  will  be  displayed  by qstat if the --eexxppllaaiinn mm
+              switch is specified for this command.
+
+       --pp jjiidd wwcc__jjoobb__ttaasskk__lliisstt [[pprreeeemmppttiivvee__aaccttiioonn]]
+              Sends a manual preemption request to the Univa Grid Engine  sys-
+              tem.
+
+              The  job  specified by _j_i_d has to be pending and it will be seen
+              as preemptor candidate by the  Univa  Grid  Engine  system.  All
+              other   jobs   (or   tasks   of   an  array  job)  specified  by
+              _w_c___j_o_b___t_a_s_k___l_i_s_t have to be running and they  act  as  preemptee
+              candidates.
+
+              The  Univa  Grid  Engine  scheduler tries to start the preemptor
+              candidate if there are no other jobs  with  a  higher  effective
+              priority. If there are no free resources available then the sys-
+              tem will preempt the preemptee candidates to gain access to  the
+              used resources so that the preemptor candidate can be started.
+
+              The  method how preemptee candidates are preempted can be speci-
+              fied by the _p_r_e_e_m_p_t_i_o_n___a_c_t_i_o_n. It can  be  one  of  the  letters
+              (SS)suspend, e(NN)handed suspend, (PP)reempt, (CC)heckpoint, (RR)erun
+              or (TT)erminate. If the specified preemption action is not avail-
+              able  for a preemptee candidate or when the _p_r_e_e_m_p_t_i_o_n___a_c_t_i_o_n is
+              not specified then the system might choose an  appropriate  pre-
+              emption action to gain required resources.
+
+              For more detail about preemption and the differences of the pre-
+              emptive actions read _s_g_e___p_r_e_e_m_p_t_i_o_n(5)
+
+       --rr wwcc__jjoobb__rraannggee__lliisstt || wwcc__qquueeuuee__lliisstt
+              NNoottee:: Deprecated, may be removed in future release.  Please  use
+              the --rrjj or --rrqq switch instead.
+
+              If  applied to queues, reschedules all jobs currently running in
+              this queue.  If applied to running jobs, reschedules  the  jobs.
+              Requires  root  or  manager privileges. In order for a job to be
+              rescheduled, it or the queue in which it is executing must  have
+              the rerun flag activated. (See _-_r option in the _q_s_u_b(1) man page
+              and the _r_e_r_u_n option in the  _q_u_e_u_e___c_o_n_f(5)  man  page  for  more
+              information.)
+
+              Additional  restrictions  apply  for  parallel and checkpointing
+              jobs. (See the _r_e_s_c_h_e_d_u_l_e___u_n_k_n_o_w_n description in the _s_g_e___c_o_n_f(5)
+              man page for details).
+
+       --rrjj wwcc__jjoobb__rraannggee__lliisstt
+              If  applied to running jobs, reschedules the jobs if they can be
+              rescheduled.  See also the --rr switch. Requires root  or  manager
+              privileges.
+
+       --rrqq wwcc__qquueeuuee__lliisstt
+              If  applied to queues, reschedules all jobs currently running in
+              this queue.  For parallel jobs, the job is rescheduled  only  if
+              the  master  task of this parallel job is running in this queue.
+              See also the --rr switch. Requires root or manager privileges.
+
+       --ss wwcc__jjoobb__rraannggee__lliisstt || wwcc__qquueeuuee__lliisstt
+              NNoottee:: Deprecated, may be removed in future release.  Please  use
+              the --ssjj or --ssqq switch instead.
+
+              If  applied  to  queues,  suspends the queues and any jobs which
+              might be active.  If applied to running jobs, suspends the jobs.
+
+       --ssii sseessssiioonn__iidd
+              Requests  sent  by this client to the _s_g_e___q_m_a_s_t_e_r(1) daemon will
+              be done as part of the specified session. If the switch is omit-
+              ted  or  if  NNOONNEE  is specified as sseessssiioonn__iidd then such requests
+              will be executed outside the control of a session.
+
+              Find more information concerning sessions in _s_e_s_s_i_o_n___c_o_n_f(5).
+
+       --ssjj wwcc__jjoobb__rraannggee__lliisstt
+              If applied to running jobs,  suspends  the  jobs.  For  parallel
+              jobs, Univa Grid Engine sends the STOP signal to the master task
+              only. The master task has to handle the suspending of all  slave
+              tasks  itself  then.  This  is because Univa Grid Engine doesn't
+              know in which order the slave tasks have to be suspended.  If  a
+              job  is  both  suspended  explicitly  and  via suspension of its
+              queue, a following unsuspend of the queue will not  release  the
+              suspension state on the job.
+
+       --ssqq wwcc__qquueeuuee__lliisstt
+              If  applied  to  queues,  suspends the queues and any jobs which
+              might be active.  For parallel jobs, Univa Grid Engine sends the
+              STOP  signal  to  the  master task only (see --ssjj switch). If any
+              slave task of a parallel job runs in a queue that is to be  sus-
+              pended,  the  master  task  of  this job is suspended, no matter
+              where it is running.
+
+       --uuss wwcc__jjoobb__rraannggee__lliisstt || wwcc__qquueeuuee__lliisstt
+              NNoottee:: Deprecated, may be removed in future release.  Please  use
+              the --uussjj or --uussqq switch instead.
+
+              If  applied  to queues, unsuspends the queues and any jobs which
+              might be active. If applied to jobs, unsuspends  the  jobs.  For
+              parallel jobs, please see the --uussjj or --uussqq switch.
+
+       --uussjj wwcc__jjoobb__rraannggee__lliisstt
+              If  applied  to  jobs,  unsuspends  the jobs. For parallel jobs,
+              Univa Grid Engine sends the CONT signal to the master task only.
+              The  master  task  has  to  handle the unsuspending of all slave
+              tasks itself then.  If a job is both  suspended  explicitly  and
+              via  suspension of its queue, a following unsuspend of the queue
+              will not release the suspension state on the  job.   A  parallel
+              job is not un-suspended as long as at least one task of this job
+              is suspended for any reason.
+
+       --uussqq wwcc__qquueeuuee__lliisstt
+              If applied to queues, unsuspends the queues and any  jobs  which
+              might be active.  For parallel jobs, Univa Grid Engine sends the
+              CONT signal to the master task only (see --uussjj switch). A  paral-
+              lel  job is not unsuspended as long as at least one task of this
+              job is suspended for any reason.
+
+EENNVVIIRROONNMMEENNTTAALL VVAARRIIAABBLLEESS
+       SSGGEE__RROOOOTT
+              Specifies the location of the Univa Grid Engine standard config-
+              uration files.
+
+       SSGGEE__CCEELLLL
+              If set, specifies the default Univa Grid Engine cell. To address
+              a Univa Grid Engine cell _q_m_o_d uses (in the order of precedence):
+
+              The  name  of  the  cell  specified  in the environment variable
+              SGE_CELL, if it is set.
+
+              The name of the default cell, i.e. ddeeffaauulltt.
+
+
+       SSGGEE__DDEEBBUUGG__LLEEVVEELL
+              If set, specifies that debug information should  be  written  to
+              stderr.  In addition the level of detail in which debug informa-
+              tion is generated is defined.
+
+       SSGGEE__QQMMAASSTTEERR__PPOORRTT
+              If set, specifies  the  tcp  port  on  which  _s_g_e___q_m_a_s_t_e_r(8)  is
+              expected  to  listen for communication requests.  Most installa-
+              tions will use a services map entry for the  service  "sge_qmas-
+              ter" instead to define that port.
+
+FFIILLEESS
+       _<_s_g_e___r_o_o_t_>_/_<_c_e_l_l_>_/_c_o_m_m_o_n_/_a_c_t___q_m_a_s_t_e_r
+              Univa Grid Engine master host file
+
+SSEEEE AALLSSOO
+       _s_g_e___i_n_t_r_o(1),  _s_g_e___c_k_p_t(1),  _q_s_t_a_t(1),  _q_u_e_u_e___c_o_n_f(5), _s_e_s_s_i_o_n___c_o_n_f(5),
+       _s_g_e___p_r_e_e_m_p_t_i_o_n(5), _s_g_e___e_x_e_c_d(8), _s_g_e___t_y_p_e_s(1), _s_g_e___j_o_b___c_l_a_s_s(5).
+
+CCOOPPYYRRIIGGHHTT
+       See _s_g_e___i_n_t_r_o(1) for a full statement of rights and permissions.
+
+
+
+Univa Grid Engine User Commands    UGE 8.4.4                           QMOD(1)

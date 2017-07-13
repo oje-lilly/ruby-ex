@@ -1,0 +1,35 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_QUEUEINFO_FREE" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_queueinfo_free\fR \- drmaa2_queueinfo_free, Frees a queueinfo object\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.IP "" 4
+.
+.nf
+
+typedef struct {
+   drmaa2_string                name;
+} drmaa2_queueinfo_s;
+typedef drmaa2_queueinfo_s * drmaa2_queueinfo;
+.
+.fi
+.
+.IP "" 0
+.
+.P
+void drmaa2_queueinfo_free (drmaa2_queueinfo *qi);
+.
+.SH "DESCRIPTION"
+Frees the memory of a \fBdrmaa2_queueinfo\fR object and sets it to NULL\.
+.
+.SH "SEE ALSO"
+drmaa2_queueinfo_impl_spec(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

@@ -1,0 +1,43 @@
+#___INFO__MARK_BEGIN__
+###########################################################################
+#
+#  The contents of this file are made available subject to the terms of the
+#  Apache Software License 2.0 ('The License').
+#  You may not use this file except in compliance with The License.
+#  You may obtain a copy of The License at
+#  http://www.apache.org/licenses/LICENSE-2.0.html
+#
+#  Copyright (c) 2011-2012 Univa Corporation.
+#
+###########################################################################
+#___INFO__MARK_END__
+Tight integration for lam was tested with version
+lam-7.1.4.
+
+Building lam mpi
+================
+Configure, make and make install lam mpi.
+
+In order for tight integration of LAM MPI with Grid Engine to work you need
+to start lamd through a wrapper script.
+
+Change to the installed bin directory.
+mv lamd lamd_binary
+cp $SGE_ROOT/mpi/lam/lamd_wrapper .
+ln -s lamd_wrapper lamd
+
+Installing the PE
+=================
+Edit $SGE_ROOT/mpi/lam/lam.template,
+replace <path to LAM installation> with the absolute path to your lam installation.
+
+qconf -Ap $SGE_ROOT/mpi/lam/lam.template
+
+Calling lamboot and lamhalt outside of the preinstalled pe start/stop procedure:
+================================================================================
+lamboot and lamhalt are usually started by the pe start and stop procedure delivered
+with Univa Grid Engine.
+
+Sometimes it may be desirable to start lamboot and lamhalt as part of the job script.
+To make sure to point lamboot to the correct lam installation on the remote hosts
+call lamboot -prefix <path to the lam install directory>

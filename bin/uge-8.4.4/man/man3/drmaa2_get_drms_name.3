@@ -1,0 +1,38 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_GET_DRMS_NAME" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_get_drms_name\fR \- drmaa2_get_drms_name, Returns the name of the DRMS
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_string drmaa2_get_drms_name();
+.
+.SH "DESCRIPTION"
+Allocates a new drmaa2_string(3) which contains the name of the distributed resource management system\. Using \fBUniva(R) Grid Engine(TM)\fR the string is typically \fBUniva(R) Grid Engine(TM)\fR\.
+.
+.SH "RETURN VALUES"
+This function returns a newly allocated drmaa2_string(3) or NULL if insufficient memory was available\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_string name = drmaa2_get_drms_name();
+
+if (name != NULL) {
+   fprintf("DRMS name: %s", (char *) v\->major);
+   drmaa2_string_free(&name);
+}
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_string_free(3), drmaa2_get_drms_version(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

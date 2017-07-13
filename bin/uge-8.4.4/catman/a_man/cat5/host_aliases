@@ -1,0 +1,38 @@
+HOST_ALIASES(5)                                                HOST_ALIASES(5)
+
+
+
+NNAAMMEE
+       host_aliases - Univa Grid Engine host aliases file format
+
+DDEESSCCRRIIPPTTIIOONN
+       All  Univa Grid Engine components use a hostname resolving service pro-
+       vided by the communication library to identify hosts via a unique host-
+       name.  The communication library itself references standard UNIX direc-
+       tory services such as DNS, NIS and /etc/hosts to resolve hostnames.  In
+       rare  cases  these  standard services cannot be setup cleanly and Univa
+       Grid Engine communication daemons running on different hosts are unable
+       to automatically determine a unique hostname for one or all hosts which
+       can be used on all hosts. In such situations a Univa Grid  Engine  host
+       aliases  file  can  be used to provide the communication daemons with a
+       private and consistent hostname resolution database.
+
+       The location  for  the  host  aliases  file  is  _<_s_g_e___r_o_o_t_>_/_<_c_e_l_l_>_/_c_o_m_-
+       _m_o_n_/_h_o_s_t___a_l_i_a_s_e_s_.
+
+FFOORRMMAATT
+       For  each  host  a  single line must be provided with a blank, comma or
+       semicolon separated list  of  hostname  aliases.  The  first  alias  is
+       defined  to be the uunniiqquuee hostname which will be used by all Univa Grid
+       Engine components using the hostname aliasing service of the communica-
+       tion library.
+
+SSEEEE AALLSSOO
+       _s_g_e___i_n_t_r_o(1),
+
+CCOOPPYYRRIIGGHHTT
+       See _s_g_e___i_n_t_r_o(1) for a full statement of rights and permissions.
+
+
+
+Univa Grid Engine File Formats     UGE 8.4.4                   HOST_ALIASES(5)

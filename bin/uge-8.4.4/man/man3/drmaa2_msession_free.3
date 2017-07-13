@@ -1,0 +1,40 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_MSESSION_FREE" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_msession_free\fR \- drmaa2_msession_free, Frees a monitoring session object
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+void drmaa2_msession_free(drmaa2_msession *monitoring_session);
+.
+.SH "DESCRIPTION"
+Frees the memory of a allocated drmaa2_mession object\. A drmaa2_mession object is returned by drmaa2_open_mession(3)\. After freeing the monitoring session is set to NULL\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_msession ms = drmaa2_open_msession(NULL);
+
+if (ms != NULL) {
+   \.\.\.
+   if (DRMAA2_SUCCESS != drmaa2_close_msession(ms)) {
+      drmaa2_string error = drmaa2_lasterror_text();
+      fprintf(stderr, "Error during closing the monitoring session: %s\en", error);
+      drmaa2_string_free(&error);
+   }
+   drmaa2_msession_free(&ms);
+}
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_open_msession(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

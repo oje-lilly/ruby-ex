@@ -1,0 +1,1174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<TITLE>
+SessionImpl
+</TITLE>
+
+<META NAME="date" CONTENT="2016-11-09">
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="SessionImpl";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/sun/grid/drmaa/SessionFactoryImpl.html" title="class in com.sun.grid.drmaa"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/sun/grid/drmaa/SessionImpl.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SessionImpl.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.sun.grid.drmaa</FONT>
+<BR>
+Class SessionImpl</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>com.sun.grid.drmaa.SessionImpl</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public class <B>SessionImpl</B><DT>extends java.lang.Object<DT>implements <A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></DL>
+</PRE>
+
+<P>
+The SessionImpl class provides a DRMAA interface to Grid Engine.  This
+ interface is built on top of the DRMAA C binding using JNI.  In order to keep
+ the native code as localized as possible, this class also provides native
+ DRMAA services to other classes, such as the JobTemplateImpl.
+
+ <p>This class relies on the version 1.0 <i>drmaa</i> shared library.</p>
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>0.5</DD>
+<DT><B>Version:</B></DT>
+  <DD>1.0</DD>
+<DT><B>See Also:</B><DD><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa"><CODE>Session</CODE></A>, 
+<A HREF="../../../../com/sun/grid/drmaa/JobTemplateImpl.html" title="class in com.sun.grid.drmaa"><CODE>JobTemplateImpl</CODE></A>, 
+<a href="http://gridengine.sunsource.net/unbranded-source/browse/~checkout~/gridengine/doc/htmlman/manuals.html?content-type=text/html">Grid Engine Man Pages</a></DL>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.ggf.drmaa.Session"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from interface org.ggf.drmaa.<A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../org/ggf/drmaa/Session.html#DONE">DONE</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#FAILED">FAILED</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#HOLD">HOLD</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#JOB_IDS_SESSION_ALL">JOB_IDS_SESSION_ALL</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#JOB_IDS_SESSION_ANY">JOB_IDS_SESSION_ANY</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#QUEUED_ACTIVE">QUEUED_ACTIVE</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#RELEASE">RELEASE</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#RESUME">RESUME</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#RUNNING">RUNNING</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#SUSPEND">SUSPEND</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#SYSTEM_ON_HOLD">SYSTEM_ON_HOLD</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#SYSTEM_SUSPENDED">SYSTEM_SUSPENDED</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#TERMINATE">TERMINATE</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#TIMEOUT_NO_WAIT">TIMEOUT_NO_WAIT</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#TIMEOUT_WAIT_FOREVER">TIMEOUT_WAIT_FOREVER</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#UNDETERMINED">UNDETERMINED</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#USER_ON_HOLD">USER_ON_HOLD</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#USER_SUSPENDED">USER_SUSPENDED</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#USER_SYSTEM_ON_HOLD">USER_SYSTEM_ON_HOLD</A>, <A HREF="../../../../org/ggf/drmaa/Session.html#USER_SYSTEM_SUSPENDED">USER_SYSTEM_SUSPENDED</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#control(java.lang.String, int)">control</A></B>(java.lang.String&nbsp;jobId,
+        int&nbsp;action)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Controls a jobs.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#controlAs(com.sun.grid.drmaa.AuthInfo, java.lang.String, int)">controlAs</A></B>(<A HREF="../../../../com/sun/grid/drmaa/AuthInfo.html" title="class in com.sun.grid.drmaa">AuthInfo</A>&nbsp;ai,
+          java.lang.String&nbsp;jobId,
+          int&nbsp;action)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Controls a jobs.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#createJobTemplate()">createJobTemplate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get a new job template.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#deleteJobTemplate(org.ggf.drmaa.JobTemplate)">deleteJobTemplate</A></B>(<A HREF="../../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A>&nbsp;jt)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deallocate a job template.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#exit()">exit</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The exit() method closes the DRMAA session for all threads and must be
+ called before process termination.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#getContact()">getContact</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getContact() returns an opaque string containing contact information
+ related to the current DRMAA session to be used with the init() method.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#getDrmaaImplementation()">getDrmaaImplementation</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The getDrmaaImplementation() method returns a string containing the DRMAA
+ Java language binding implementation version information.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#getDrmSystem()">getDrmSystem</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The getDRMSystem() method returns a string containing the DRM product and
+ version information.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#getJobProgramStatus(java.lang.String)">getJobProgramStatus</A></B>(java.lang.String&nbsp;jobId)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get the job programm status.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../org/ggf/drmaa/Version.html" title="class in org.ggf.drmaa">Version</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#getVersion()">getVersion</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a Version instance containing the major and minor version numbers
+ of the DRMAA library.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#init(java.lang.String)">init</A></B>(java.lang.String&nbsp;contact)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The init() method initializes the Grid Engine DRMAA API library for
+ all threads of the process and creates a new DRMAA Session.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#runBulkJobs(org.ggf.drmaa.JobTemplate, int, int, int)">runBulkJobs</A></B>(<A HREF="../../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A>&nbsp;jt,
+            int&nbsp;start,
+            int&nbsp;end,
+            int&nbsp;incr)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The runBulkJobs() method submits a Grid Engine array job very much as
+ if the qsub option `-t <i>start</i>-<i>end</i>:<i>incr</i>' had been used
+ with the corresponding attributes defined in the DRMAA JobTemplate,
+ <i>jt</i>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#runBulkJobsAs(com.sun.grid.drmaa.AuthInfo, org.ggf.drmaa.JobTemplate, int, int, int)">runBulkJobsAs</A></B>(<A HREF="../../../../com/sun/grid/drmaa/AuthInfo.html" title="class in com.sun.grid.drmaa">AuthInfo</A>&nbsp;ai,
+              <A HREF="../../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A>&nbsp;jt,
+              int&nbsp;start,
+              int&nbsp;end,
+              int&nbsp;incr)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The runBulkJobsAs() method submits a Grid Engine array job very much as
+ if the qsub option `-t <i>start</i>-<i>end</i>:<i>incr</i>' had been used
+ with the corresponding attributes defined in the DRMAA JobTemplate,
+ <i>jt</i>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#runJob(org.ggf.drmaa.JobTemplate)">runJob</A></B>(<A HREF="../../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A>&nbsp;jt)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The runJob() method submits a Grid Engine job with attributes defined in
+ the DRMAA JobTemplate <i>jt</i>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#runJobAs(com.sun.grid.drmaa.AuthInfo, org.ggf.drmaa.JobTemplate)">runJobAs</A></B>(<A HREF="../../../../com/sun/grid/drmaa/AuthInfo.html" title="class in com.sun.grid.drmaa">AuthInfo</A>&nbsp;ai,
+         <A HREF="../../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A>&nbsp;jt)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The runJobAs() method submits a Grid Engine job with attributes defined in
+ the DRMAA JobTemplate <i>jt</i>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#synchronize(java.util.List, long, boolean)">synchronize</A></B>(java.util.List&nbsp;jobIds,
+            long&nbsp;timeout,
+            boolean&nbsp;dispose)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wait until all jobs specified by <i>jobIds</i> have finished
+ execution.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../org/ggf/drmaa/JobInfo.html" title="interface in org.ggf.drmaa">JobInfo</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#wait(java.lang.String, long)">wait</A></B>(java.lang.String&nbsp;jobId,
+     long&nbsp;timeout)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This method will wait for a job with <i>jobId</i> to finish execution
+ or fail.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>equals, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="control(java.lang.String, int)"><!-- --></A><H3>
+control</H3>
+<PRE>
+public void <B>control</B>(java.lang.String&nbsp;jobId,
+                    int&nbsp;action)
+             throws <A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><p>Controls a jobs.</p>
+
+ <p>Hold, release, suspend, resume, or kill the job identified by
+ <i>jobId</i>.  If <i>jobId</i> is <code>JOB_IDS_SESSION_ALL</code>, then
+ this routine acts on all jobs <B>submitted</B> during this DRMAA session
+ up to the moment control() is called.  To avoid thread races conditions
+ in multithreaded applications, the DRMAA implementation user should
+ explicitly synchronize this call with any other job submission or control
+ calls that may change the number of remote jobs.</p>
+
+ <p>The legal values for <i>action</i> and their meanings are:</p>
+
+ <UL>
+ <LI><code>SUSPEND</code>: stop the job,</LI>
+ <LI><code>RESUME</code>: (re)start the job,</LI>
+ <LI><code>HOLD</code>: put the job on-hold,</LI>
+ <LI><code>RELEASE</code>: release the hold on the job, and</LI>
+ <LI><code>TERMINATE</code>: kill the job.</LI>
+ </UL>
+
+ <p>This method returns once the action has been acknowledged by
+ the DRM system, but it does not necessarily wait until the action
+ has been completed.</p>
+
+ <p>Some DRMAA implementations may allow this method to be used to control
+ jobs submitted external to the DRMAA session, such as jobs submitted by
+ other DRMAA sessions or jobs submitted via native utilities.</p>
+
+ <p>If <i>jobId</i> is <code>JOB_IDS_SESSION_ALL</code> and the control
+ action fails for one or more jobs, and InternalException will be thrown,
+ and the state of the jobs in the session will be undefined.</p>
+
+ <p>The DRMAA suspend/resume operations are equivalent to the use of the
+ `-s &lt;jobid&gt;' and `-us &lt;jobid&gt;' options with qmod.  (See the qmod(1) man
+ page.)</p>
+
+ <p>The DRMAA hold/release operations are equivalent to the use of
+ qhold and qrls.  (See the qhold(1) and qrls(1) man pages.)</p>
+
+ <p>The DRMAA terminate operation is equivalent to the use of qdel.  (See
+ the qdel(1) man page.)</p>
+
+ <p>Only user hold and user suspend can be controled via control().  For
+ affecting system hold and system suspend states the appropriate DRM
+ interfaces must be used.</p>
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa/Session.html#control(java.lang.String, int)">control</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>jobId</CODE> - The id of the job to control<DD><CODE>action</CODE> - the control action to be taken
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>ResumeInconsistentStateException -- an attempt was made to resume a
+ job that was not is a suspended state</LI>
+ <LI>SuspendInconsistentStateException -- an attempt was made to suspend a
+ job that was not is a running state</LI>
+ <LI>HoldInconsistentStateException -- an attempt was made to hold a
+ job that was not is a pending state</LI>
+ <LI>ReleaseInconsistentStateException -- an attempt was made to release a
+ job that was not is a held state</LI>
+ <LI>InvalidJobException -- the job identifier does not refer to an active
+ job</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occurred in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman1/qmod.html">qmod(1)</a>, 
+<a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman1/qhold.html">qhold(1)</a>, 
+<a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman1/qrls.html">qrls(1)</a>, 
+<a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman1/qdel.html">qdel(1)</a></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="controlAs(com.sun.grid.drmaa.AuthInfo, java.lang.String, int)"><!-- --></A><H3>
+controlAs</H3>
+<PRE>
+public void <B>controlAs</B>(<A HREF="../../../../com/sun/grid/drmaa/AuthInfo.html" title="class in com.sun.grid.drmaa">AuthInfo</A>&nbsp;ai,
+                      java.lang.String&nbsp;jobId,
+                      int&nbsp;action)
+               throws <A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><p>Controls a jobs.</p>
+
+ 
+
+ <p>The DRMAA suspend/resume operations are equivalent to the use of the
+ `-s &lt;jobid&gt;' and `-us &lt;jobid&gt;' options with qmod.  (See the qmod(1) man
+ page.)</p>
+
+ <p>The DRMAA hold/release operations are equivalent to the use of
+ qhold and qrls.  (See the qhold(1) and qrls(1) man pages.)</p>
+
+ <p>The DRMAA terminate operation is equivalent to the use of qdel.  (See
+ the qdel(1) man page.)</p>
+
+ <p>Only user hold and user suspend can be controled via control().  For
+ affecting system hold and system suspend states the appropriate DRM
+ interfaces must be used.</p>
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ai</CODE> - AuthInfo of delegate<DD><CODE>jobId</CODE> - <DD><CODE>action</CODE> - 
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE><DT><B>See Also:</B><DD><a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman1/qmod.html">qmod(1)</a>, 
+<a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman1/qhold.html">qhold(1)</a>, 
+<a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman1/qrls.html">qrls(1)</a>, 
+<a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman1/qdel.html">qdel(1)</a></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="exit()"><!-- --></A><H3>
+exit</H3>
+<PRE>
+public void <B>exit</B>()
+          throws <A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD>The exit() method closes the DRMAA session for all threads and must be
+ called before process termination.  The exit() method may be called only
+ once by a single thread in the process and may only be called after the
+ init() function has completed.  Any call to exit() before init() returns
+ or after exit() has already been called will result in a
+ NoActiveSessionException.
+
+ <p>The exit() method does neccessary clean up of the DRMAA session state,
+ including unregistering from the qmaster.  If the exit() method is not
+ called, the qmaster will store events for the DRMAA client until the
+ connection times out, causing extra work for the qmaster and comsuming
+ system resources.</p>
+
+ <p>Submitted jobs are not affected by the exit() method.</p>
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa/Session.html#exit()">exit</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>DrmsExitException -- an error occurred while tearing down the
+ session</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occurred in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContact()"><!-- --></A><H3>
+getContact</H3>
+<PRE>
+public java.lang.String <B>getContact</B>()</PRE>
+<DL>
+<DD>getContact() returns an opaque string containing contact information
+ related to the current DRMAA session to be used with the init() method.
+ The contact string takes the form <code>[name=value[;name=value]*]</code>,
+ where <i>name</i> and <i>value</i> are both strings, and the supported
+ values of <i>name</i> are:
+
+ <ul>
+    <li><code>session</code> - if used, indicates to which session id
+        to reconnect.</li>
+ </ul>
+
+ <p>Before the init() method has been called, this method will always
+ return an empty string.  After the init() method has been called, this
+ method will return the set of name=value pairs which represent the
+ currently active session.  The value returned for <code>session</code>
+ can be used with the init() method to reconnect to the current session
+ after exit() has been called.</p>
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa/Session.html#getContact()">getContact</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>current contact information for DRM system or a comma delimited
+ list of possible contact Strings
+ <UL>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occurred in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#init(java.lang.String)"><CODE>init(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDrmSystem()"><!-- --></A><H3>
+getDrmSystem</H3>
+<PRE>
+public java.lang.String <B>getDrmSystem</B>()</PRE>
+<DL>
+<DD>The getDRMSystem() method returns a string containing the DRM product and
+ version information.  The getDRMSystem() function returns the same value
+ before and after init() is called.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa/Session.html#getDrmSystem()">getDrmSystem</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>DRM system implementation information
+ <UL>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occurred in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#init(java.lang.String)"><CODE>init(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDrmaaImplementation()"><!-- --></A><H3>
+getDrmaaImplementation</H3>
+<PRE>
+public java.lang.String <B>getDrmaaImplementation</B>()</PRE>
+<DL>
+<DD>The getDrmaaImplementation() method returns a string containing the DRMAA
+ Java language binding implementation version information.  The
+ getDrmaaImplementation() method returns the same value before and after
+ init() is called.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa/Session.html#getDrmaaImplementation()">getDrmaaImplementation</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>DRMAA implementation information
+ <UL>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occurred in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#init(java.lang.String)"><CODE>init(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getJobProgramStatus(java.lang.String)"><!-- --></A><H3>
+getJobProgramStatus</H3>
+<PRE>
+public int <B>getJobProgramStatus</B>(java.lang.String&nbsp;jobId)
+                        throws <A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><p>Get the job programm status.</p>
+
+ Get the program status of the job identified by jobId. The possible
+ values returned from this method are:
+
+ <UL>
+ <LI><code>UNDETERMINED</code>: process status cannot be determined</LI>
+ <LI><code>QUEUED_ACTIVE</code>: job is queued and active</LI>
+ <LI><code>SYSTEM_ON_HOLD</code>: job is queued and in system hold</LI>
+ <LI><code>USER_ON_HOLD</code>: job is queued and in user hold</LI>
+ <LI><code>USER_SYSTEM_ON_HOLD</code>: job is queued and in user and
+ system hold</LI>
+ <LI><code>RUNNING</code>: job is running</LI>
+ <LI><code>SYSTEM_SUSPENDED</code>: job is system suspended</LI>
+ <LI><code>USER_SUSPENDED</code>: job is user suspended</LI>
+ <LI><code>USER_SYSTEM_SUSPENDED</code>: job is user and system
+ suspended</LI>
+ <LI><code>DONE</code>: job finished normally</LI>
+ <LI><code>FAILED</code>: job finished, but failed.</LI>
+ </UL>
+
+ <p>The DRMAA implementation must always get the status of jobId from DRM
+ system unless the status has already been determined to be
+ <code>FAILED</code> or <code>DONE</code> and the status has been
+ successfully cached. Terminated jobs return a <code>FAILED</code>
+ status.</p>
+
+ <p>The control method can be used to control job submitted outside of the scope
+ of the DRMAA session as long as the job identifier for the job is known.</p>
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa/Session.html#getJobProgramStatus(java.lang.String)">getJobProgramStatus</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>jobId</CODE> - the id of the job whose status is to be retrieved
+<DT><B>Returns:</B><DD>the program status
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidJobException -- the job identifier does not refer to an active
+ job</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occurred in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createJobTemplate()"><!-- --></A><H3>
+createJobTemplate</H3>
+<PRE>
+public <A HREF="../../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A> <B>createJobTemplate</B>()
+                              throws <A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD>Get a new job template.  A job template is used to set the
+ environment for jobs to be submitted.  Once a job template has been
+ created, it should also be deleted (via deleteJobTemplate()) when no
+ longer needed.  Failure to do so may result in a memory leak.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa/Session.html#createJobTemplate()">createJobTemplate</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a blank JobTemplate instance
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occurred in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa"><CODE>JobTemplate</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deleteJobTemplate(org.ggf.drmaa.JobTemplate)"><!-- --></A><H3>
+deleteJobTemplate</H3>
+<PRE>
+public void <B>deleteJobTemplate</B>(<A HREF="../../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A>&nbsp;jt)
+                       throws <A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD>Deallocate a job template. This routine has no effect on jobs which have
+ already been submitted.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa/Session.html#deleteJobTemplate(org.ggf.drmaa.JobTemplate)">deleteJobTemplate</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>jt</CODE> - the JobTemplate to delete
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidJobTemplateException -- the JobTemplate instance does not
+ belong to the current session, was not created with createJobTemplate(),
+ or has already been deleted</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occurred in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getVersion()"><!-- --></A><H3>
+getVersion</H3>
+<PRE>
+public <A HREF="../../../../org/ggf/drmaa/Version.html" title="class in org.ggf.drmaa">Version</A> <B>getVersion</B>()</PRE>
+<DL>
+<DD>Returns a Version instance containing the major and minor version numbers
+ of the DRMAA library.  For DRMAA 0.5, major is 0 and minor is 5.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa/Session.html#getVersion()">getVersion</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the version number as a Version instance<DT><B>See Also:</B><DD><A HREF="../../../../org/ggf/drmaa/Version.html" title="class in org.ggf.drmaa"><CODE><UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occurred in the DRMAA
+ implementation</LI>
+ </UL></CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="init(java.lang.String)"><!-- --></A><H3>
+init</H3>
+<PRE>
+public void <B>init</B>(java.lang.String&nbsp;contact)
+          throws <A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD>The init() method initializes the Grid Engine DRMAA API library for
+ all threads of the process and creates a new DRMAA Session. This routine
+ must be called once before any other DRMAA call, except for
+ getDrmSystem(), getContact(), and getDrmaaImplementation().
+
+ <p><i>contact</i> is an implementation dependent string which may be used
+ to specify which Grid Engine cell to use.  The contact string is composed
+ of a series of name=value pairs separated by semicolons.  The supported
+ name=value pairs are:</p>
+
+ <ul>
+    <li>
+      <code>session</code>: the id of the session to which to reconnect
+    </li>
+ </ul>
+
+ <p>If <i>contact</i> is null or empty, the default Grid Engine cell will
+ be used.</p>
+
+ <p>Except for the above listed methods, no DRMAA methods may be called
+ before the init() function <b>completes</b>.  Any DRMAA method which is
+ called before the init() method completes will throw a
+ NoActiveSessionException.  Any additional call to init() by any thread
+ will throw a SessionAlreadyActiveException.</p>
+
+ <p>Once init() has been called, it is the responsibility of the developer
+ to ensure that the exit() will be called before the program
+ terminates.</p>
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa/Session.html#init(java.lang.String)">init</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>contact</CODE> - implementation-dependent string that may be used to
+ specify which DRM system to use.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be be one of the following:
+ <UL>
+ <LI>DrmsInitException -- the session could not be initialized</LI>
+ <LI>InvalidContactStringException -- the contact string is invalid</LI>
+ <LI>AlreadyActiveSessionException -- the session has already been
+ initialized</LI>
+ <LI>DefaultContactStringException -- no contact string was specified, and
+ the DRMAA implementation was unable to use the default contact
+ information to connect to a DRM</LI>
+ <LI>NoDefaultContactStringSelectedException -- no contact string was
+ specified, and the DRMAA implementation has no default contact
+ information</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occurred in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#getContact()"><CODE>getContact()</CODE></A>, 
+<A HREF="../../../../com/sun/grid/drmaa/SessionImpl.html#exit()"><CODE>exit()</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="runBulkJobs(org.ggf.drmaa.JobTemplate, int, int, int)"><!-- --></A><H3>
+runBulkJobs</H3>
+<PRE>
+public java.util.List <B>runBulkJobs</B>(<A HREF="../../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A>&nbsp;jt,
+                                  int&nbsp;start,
+                                  int&nbsp;end,
+                                  int&nbsp;incr)
+                           throws <A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD>The runBulkJobs() method submits a Grid Engine array job very much as
+ if the qsub option `-t <i>start</i>-<i>end</i>:<i>incr</i>' had been used
+ with the corresponding attributes defined in the DRMAA JobTemplate,
+ <i>jt</i>.  The same constraints regarding qsub -t value ranges also
+ apply to the parameters <i>start</i>, <i>end</i>, and <i>incr</i>.  See
+ the qsub(1) man page for more information.
+
+ <p>On success a String array containing job identifiers for each array
+ job task is returned.</p>
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa/Session.html#runBulkJobs(org.ggf.drmaa.JobTemplate, int, int, int)">runBulkJobs</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>start</CODE> - the starting value for the loop index<DD><CODE>end</CODE> - the terminating value for the loop index<DD><CODE>incr</CODE> - the value by which to increment the loop index each iteration<DD><CODE>jt</CODE> - the job template to be used to create the job
+<DT><B>Returns:</B><DD>job identifier Strings identical to that returned by the
+ underlying DRM system
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>TryLaterException -- the DRM was temporarily unable to fulfill the
+ request, but a retry might succeed</LI>
+ <LI>DeniedByDrmException -- the DRM has rejected the job due to
+ configuration problems either in the DRM or the job template</LI>
+ <LI>InvalidJobTemplateException -- the JobTemplate instance does not
+ belong to the current session, was not created with createJobTemplate(),
+ or has already been deleted</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occurred in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman1/qsub.html">qsub(1)</a></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="runBulkJobsAs(com.sun.grid.drmaa.AuthInfo, org.ggf.drmaa.JobTemplate, int, int, int)"><!-- --></A><H3>
+runBulkJobsAs</H3>
+<PRE>
+public java.util.List <B>runBulkJobsAs</B>(<A HREF="../../../../com/sun/grid/drmaa/AuthInfo.html" title="class in com.sun.grid.drmaa">AuthInfo</A>&nbsp;ai,
+                                    <A HREF="../../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A>&nbsp;jt,
+                                    int&nbsp;start,
+                                    int&nbsp;end,
+                                    int&nbsp;incr)
+                             throws <A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD>The runBulkJobsAs() method submits a Grid Engine array job very much as
+ if the qsub option `-t <i>start</i>-<i>end</i>:<i>incr</i>' had been used
+ with the corresponding attributes defined in the DRMAA JobTemplate,
+ <i>jt</i>.  The same constraints regarding qsub -t value ranges also
+ apply to the parameters <i>start</i>, <i>end</i>, and <i>incr</i>.  See
+ the qsub(1) man page for more information.
+
+ <p>On success a String array containing job identifiers for each array
+ job task is returned.</p>
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ai</CODE> - AuthInfo of delegate<DD><CODE>start</CODE> - <DD><CODE>end</CODE> - <DD><CODE>incr</CODE> - <DD><CODE>jt</CODE> - 
+<DT><B>Returns:</B><DD>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE><DT><B>See Also:</B><DD><a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman1/qsub.html">qsub(1)</a></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="runJob(org.ggf.drmaa.JobTemplate)"><!-- --></A><H3>
+runJob</H3>
+<PRE>
+public java.lang.String <B>runJob</B>(<A HREF="../../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A>&nbsp;jt)
+                        throws <A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD>The runJob() method submits a Grid Engine job with attributes defined in
+ the DRMAA JobTemplate <i>jt</i>. On success, the job identifier is
+ returned.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa/Session.html#runJob(org.ggf.drmaa.JobTemplate)">runJob</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>jt</CODE> - the job template to be used to create the job
+<DT><B>Returns:</B><DD>job identifier String identical to that returned from the
+ underlying DRM system
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>TryLaterException -- the DRM was temporarily unable to fulfill the
+ request, but a retry might succeed</LI>
+ <LI>DeniedByDrmException -- the DRM has rejected the job due to
+ configuration problems either in the DRM or the job template</LI>
+ <LI>InvalidJobTemplateException -- the JobTemplate instance does not
+ belong to the current session, was not created with createJobTemplate(),
+ or has already been deleted</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occurred in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="runJobAs(com.sun.grid.drmaa.AuthInfo, org.ggf.drmaa.JobTemplate)"><!-- --></A><H3>
+runJobAs</H3>
+<PRE>
+public java.lang.String <B>runJobAs</B>(<A HREF="../../../../com/sun/grid/drmaa/AuthInfo.html" title="class in com.sun.grid.drmaa">AuthInfo</A>&nbsp;ai,
+                                 <A HREF="../../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A>&nbsp;jt)
+                          throws <A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD>The runJobAs() method submits a Grid Engine job with attributes defined in
+ the DRMAA JobTemplate <i>jt</i>. On success, the job identifier is
+ returned.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ai</CODE> - AuthInfo of delegate<DD><CODE>jt</CODE> - 
+<DT><B>Returns:</B><DD>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="synchronize(java.util.List, long, boolean)"><!-- --></A><H3>
+synchronize</H3>
+<PRE>
+public void <B>synchronize</B>(java.util.List&nbsp;jobIds,
+                        long&nbsp;timeout,
+                        boolean&nbsp;dispose)
+                 throws <A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD>Wait until all jobs specified by <i>jobIds</i> have finished
+ execution.  If <i>jobIds</i> contains <code>JOB_IDS_SESSION_ALL</code>,
+ then this method waits for all jobs <B>submitted</B> during this DRMAA
+ session up to the moment synchronize() is called.  To avoid thread race
+ conditions in multithreaded applications, the DRMAA implementation user
+ should explicitly synchronize this call with any other job submission
+ or control calls that may change the number of remote jobs.
+
+ <p>To prevent blocking indefinitely in this call, the caller may use a
+ timeout specifying how many seconds to block in this call.  The value
+ <code>TIMEOUT_WAIT_FOREVER</code> may be specified to wait indefinitely
+ for a result.  The value <code>TIMEOUT_NO_WAIT</code> may be specified to
+ return immediately if no result is available. If the call exits before
+ the timeout has elapsed, all the jobs have been waited on or there was an
+ interrupt.  If the invocation exits on timeout, an ExitTimeException is
+ thrown.  The caller should check system time before and after this call
+ in order to be sure of how much time has passed.</p>
+
+ <p>The <i>dispose</i> parameter specifies how to treat the reaping of the
+ remote jobs' internal data records, which includes a record of the jobs'
+ consumption of system resources during their execution and other
+ statistical information.  If this parameter is set to <code>true</code>,
+ the DRM will dispose of the jobs' data records at the end of
+ the synchroniize() call.  If set to <code>false</code>, the data records
+ will be left for future access via the wait() method.</p>
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa/Session.html#synchronize(java.util.List, long, boolean)">synchronize</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>jobIds</CODE> - the ids of the jobs to synchronize<DD><CODE>timeout</CODE> - the maximum number of seconds to wait<DD><CODE>dispose</CODE> - specifies how to treat reaping information
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>ExitTimeoutException -- the operation timed out before
+ completing</LI>
+ <LI>InvalidJobException -- the job identifier does not refer to an active
+ job</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occurred in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../../org/ggf/drmaa/Session.html#wait(java.lang.String, long)"><CODE>Session.wait(java.lang.String, long)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="wait(java.lang.String, long)"><!-- --></A><H3>
+wait</H3>
+<PRE>
+public <A HREF="../../../../org/ggf/drmaa/JobInfo.html" title="interface in org.ggf.drmaa">JobInfo</A> <B>wait</B>(java.lang.String&nbsp;jobId,
+                    long&nbsp;timeout)
+             throws <A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD>This method will wait for a job with <i>jobId</i> to finish execution
+ or fail.  If the special string, <code>JOB_IDS_SESSION_ANY</code>, is
+ provided as the <i>jobId</i>, this routine will wait for any job from the
+ session. This routine is modeled on the wait3 POSIX routine.
+
+ <p>The <i>timeout</i> value is used to specify the desired behavior when
+ a result is not immediately available.  The value,
+ <code>TIMEOUT_WAIT_FOREVER</code>, may be specified to wait indefinitely
+ for a result.  The value, <code>TIMEOUT_NO_WAIT</code>, may be specified
+ to return immediately if no result is available.  Alternatively, a number
+ of seconds may be specified to indicate how long to wait for a result to
+ become available.</p>
+
+ <p>If the call exits before timeout, either the job has been waited on
+ successfully or there was an interrupt. If the invocation exits on
+ timeout, an ExitTimeoutException is thrown.  The caller should check
+ system time before and after this call in order to be sure how much time
+ has passed.</p>
+
+ <p>The routine reaps job data records on a successful call, so any
+ subsequent calls to wait(), synchronize(), control(), or
+ getJobProgramStatus() will fail, throwing an InvalidJobException, meaning
+ that the job's data record has been already reaped. This exception is the
+ same as if the job were unknown.  (The only case where wait() can be
+ successfully called on a single job more than once is when the previous
+ call to wait() timed out before the job finished.)</p>
+
+ <p>When successful, the resource usage information for the job is
+ provided as a Map of usage parameter names and their values in the
+ JobInfo object.  The values contain the amount of resources consumed by
+ the job and are implementation defined.  If no resource usage
+ information is available for the finished job, the resourceUsage
+ property of the returned JobInfo instance will be <code>null</code>.</p>
+
+ <p>In the 0.5 version of this method, a NoResourceUsageException would be
+ thrown if the target job finished with no resource usage information.  In
+ the current implementation, no exception is thrown in that case.
+ Instead, the JobInfo.getResourceUsage() method will return null.</p>
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa/Session.html#wait(java.lang.String, long)">wait</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa/Session.html" title="interface in org.ggf.drmaa">Session</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>jobId</CODE> - the id of the job for which to wait<DD><CODE>timeout</CODE> - the maximum number of seconds to wait
+<DT><B>Returns:</B><DD>the resource usage and status information
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>ExitTimeoutException -- the operation timed out before
+ completing</LI>
+ <LI>InvalidJobException -- the job identifier does not refer to an active
+ job</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occurred in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../../org/ggf/drmaa/JobInfo.html" title="interface in org.ggf.drmaa"><CODE>JobInfo</CODE></A></DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/sun/grid/drmaa/SessionFactoryImpl.html" title="class in com.sun.grid.drmaa"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/sun/grid/drmaa/SessionImpl.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SessionImpl.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+<!--___INFO__MARK_BEGIN__-->
+The contents of this file are licensed under the <a href="http://gridengine.sunsource.net/Gridengine_SISSL_license.html">Sun Industry Standards Source License version 1.2</a>.<br>
+Copyright 2008, Sun Microsystems, Inc.
+<!--___INFO__MARK_END__-->
+</BODY>
+</HTML>

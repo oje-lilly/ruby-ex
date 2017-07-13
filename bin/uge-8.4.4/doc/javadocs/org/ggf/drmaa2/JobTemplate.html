@@ -1,0 +1,1976 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<TITLE>
+JobTemplate
+</TITLE>
+
+<META NAME="date" CONTENT="2016-11-09">
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="JobTemplate";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../org/ggf/drmaa2/JobState.html" title="enum in org.ggf.drmaa2"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../org/ggf/drmaa2/JobTemplatePlaceholder.html" title="enum in org.ggf.drmaa2"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../index.html?org/ggf/drmaa2/JobTemplate.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JobTemplate.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.ggf.drmaa2</FONT>
+<BR>
+Class JobTemplate</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><B>org.ggf.drmaa2.JobTemplate</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public class <B>JobTemplate</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+This class represents a remote job and its attributes. It is used to set up
+ the environment for a job to be submitted.
+
+ <h3>DRMMA Attributes</h3>
+
+ <p>
+ DRMAA job template attributes can be set from six different sources. In order
+ of precedence, from lowest to highest, there are: options set by DRMAA
+ automatically by default, options set in the sge_request file(s), options set
+ in the script file, options set by the jobCategory property, options set by
+ the nativeSpecification property, and options set through other DRMAA
+ properties.</p>
+
+ <p>
+ By default DRMAA sets four options for all jobs. They are &quot;-p 0&quot;,
+ &quot;-b yes&quot;, &quot;-shell no&quot;, and &quot;-w e&quot;. This means
+ that by default, all jobs will have priority 0, all jobs will be treated as
+ binary, i.e. no scripts args will be parsed, all jobs will be executed
+ without a wrapper shell, and jobs which are unschedulable will cause a submit
+ error.</p>
+
+ <p>
+ The sge_request file, found in the $SGE_ROOT/$SGE_CELL/common directory, may
+ contain options to be applied to all jobs. The .sge_request file found in the
+ user's home directory or the current working directory may also contain
+ options to be applied to certain jobs. See the sge_request(5) man page for
+ more information.</p>
+
+ <p>
+ If the sge_request file contains &quot;-b no&quot; or if the
+ nativeSpecification property is set and contains &quot;-b no&quot;, the
+ script file will be parsed for in-line arguments. Otherwise, no script's args
+ will be interpreted. See the qsub(1) man page for more information.</p>
+
+ <p>
+ If the jobCategory property is set, and the category it points to exists in
+ one of the qtask files, the options associated with that category will be
+ applied to the job template. See the qtask(5) man page and
+ <A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setJobCategory(java.lang.String)"><CODE>setJobCategory(String)</CODE></A> below for more information.</p>
+
+ <p>
+ If the nativeSpecification property is set, all options contained therein
+ will be applied to the job template. See
+ <CODE>#setNativeSpecification(String)</CODE> below for more information.</p>
+
+ <p>
+ Other DRMAA attributes will override any previous settings. For example, if
+ the sge_request file contains &quot;-j y&quot;, but the joinFiles property is
+ set to <code>false</code>, the ultimate result is that the input and output
+ files will remain separate.</p>
+
+ <p>
+ For various reasons, some options are silently ignored by DRMAA. Setting any
+ of these options will have no effect. The ignored options are:
+ &quot;-cwd&quot;, &quot;-help&quot;, &quot;-sync&quot;, &quot;-t&quot;,
+ &quot;-verify&quot;, &quot;-w w&quot;, and &quot;-w v&quot;. The
+ &quot;-cwd&quot; option can be reenabled by setting the environment variable,
+ SGE_DRMAA_ALLOW_CWD. However, the &quot;-cwd&quot; option is not thread safe
+ and should not be used in a multi-threaded context.</p>
+
+ <h3>Attribute Correlations</h3>
+
+ <p>
+ The following DRMAA attributes correspond to the following qsub options:</p>
+
+ <table summary="">
+ <tr><th>DRMAA Attribute</th><th>qsub Option</th></tr>
+ <tr><td>remoteCommand</td><td>script file</td>
+ <tr><td>args</td><td>script file arguments</td>
+ <tr><td>jobSubmissionState = HOLD_STATE</td><td>-h</td>
+ <tr><td>jobEnvironment</td><td>-v</td>
+ <tr><td>workingDirectory = $PWD</td><td>-cwd</td>
+ <tr><td>jobCategory</td><td>(qtsch qtask)<sup>*</sup></td>
+ <tr><td>nativeSpecification</td><td>ALL<sup>*</sup></td>
+ <tr><td>emailAddresses</td><td>-M</td>
+ <tr><td>blockEmail = true</td><td>-m n</td>
+ <tr><td>startTime</td><td>-a</td>
+ <tr><td>jobName</td><td>-N</td>
+ <tr><td>inputPath</td><td>-i</td>
+ <tr><td>outputPath</td><td>-o</td>
+ <tr><td>errorPath</td><td>-e</td>
+ <tr><td>joinFiles</td><td>-j</td>
+ <tr><td>transferFiles</td><td>(prolog and epilog)<sup>*</sup></td>
+ </table>
+
+ <p>
+ <sup>*</sup> See the individual attribute setter description below</p>
+
+ <p>
+ The following attributes are unsupported by Grid Engine:</p>
+
+ <ul>
+ <li>deadlineTime</li>
+ <li>hardWallclockTimeLimit</li>
+ <li>softWallclockTimeLimit</li>
+ <li>hardRunDurationTimeLimit</li>
+ <li>softRunDurationTimeLimit</li>
+ </ul>
+
+ <p>
+ Using the accessors for any of these attributes will result in an
+ UnsupportedAttributeException being thrown.</p>
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>0.5</DD>
+<DT><B>Version:</B></DT>
+  <DD>1.0</DD>
+<DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa2/JobTemplate.html" title="class in org.ggf.drmaa2"><CODE>JobTemplate</CODE></A>, 
+<A HREF="../../../org/ggf/drmaa2/JobSession.html" title="interface in org.ggf.drmaa2"><CODE>JobSession</CODE></A>, 
+<A HREF="../../../com/sun/grid/drmaa2/JobSessionImpl.html" title="class in com.sun.grid.drmaa2"><CODE>JobSessionImpl</CODE></A>, 
+<a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman5/sge_request.html">sge_request(5)</a>, 
+<a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman1/qsub.html">qsub(1)</a>, 
+<a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman5/qtask.html">qtask(5)</a></DL>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#JobTemplate()">JobTemplate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getAccountingId()">getAccountingId</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getArgs()">getArgs</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getCandidateMachines()">getCandidateMachines</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../org/ggf/drmaa2/AbsoluteTime.html" title="class in org.ggf.drmaa2">AbsoluteTime</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getDeadlineTime()">getDeadlineTime</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getEmail()">getEmail</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getErrorPath()">getErrorPath</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.String,java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getImplementationSpecificAttributes()">getImplementationSpecificAttributes</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getImplementationSpecificAttributeValue(java.lang.String)">getImplementationSpecificAttributeValue</A></B>(java.lang.String&nbsp;attrName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getInputPath()">getInputPath</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getJobCategory()">getJobCategory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.String,java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getJobEnvironment()">getJobEnvironment</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getJobName()">getJobName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../org/ggf/drmaa2/CpuArchitecture.html" title="enum in org.ggf.drmaa2">CpuArchitecture</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getMachineArch()">getMachineArch</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../org/ggf/drmaa2/OperatingSystem.html" title="enum in org.ggf.drmaa2">OperatingSystem</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getMachineOS()">getMachineOS</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getMaxSlots()">getMaxSlots</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getMinPhysMemory()">getMinPhysMemory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getMinSlots()">getMinSlots</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getOutputPath()">getOutputPath</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getPriority()">getPriority</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getQueueName()">getQueueName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getRemoteCommand()">getRemoteCommand</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getReservationId()">getReservationId</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.String,java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getResourceLimits()">getResourceLimits</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.String,java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getStageInFiles()">getStageInFiles</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.String,java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getStageOutFiles()">getStageOutFiles</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../org/ggf/drmaa2/AbsoluteTime.html" title="class in org.ggf.drmaa2">AbsoluteTime</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getStartTime()">getStartTime</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#getWorkingDirectory()">getWorkingDirectory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#isEmailOnStarted()">isEmailOnStarted</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#isEmailOnTerminated()">isEmailOnTerminated</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#isJoinFiles()">isJoinFiles</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#isRerunnable()">isRerunnable</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#isSubmitAsHold()">isSubmitAsHold</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setAccountingId(java.lang.String)">setAccountingId</A></B>(java.lang.String&nbsp;accountingId)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setArgs(java.util.List)">setArgs</A></B>(java.util.List&lt;java.lang.String&gt;&nbsp;args)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Specifies the arguments to the job.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setCandidateMachines(java.util.List)">setCandidateMachines</A></B>(java.util.List&lt;java.lang.String&gt;&nbsp;candidateMachines)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setDeadlineTime(org.ggf.drmaa2.AbsoluteTime)">setDeadlineTime</A></B>(<A HREF="../../../org/ggf/drmaa2/AbsoluteTime.html" title="class in org.ggf.drmaa2">AbsoluteTime</A>&nbsp;deadlineTime)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setEmail(java.util.List)">setEmail</A></B>(java.util.List&lt;java.lang.String&gt;&nbsp;email)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the list of email addresses used to report the job completion and
+ status.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setEmailOnStarted(boolean)">setEmailOnStarted</A></B>(boolean&nbsp;emailOnStarted)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setEmailOnTerminated(boolean)">setEmailOnTerminated</A></B>(boolean&nbsp;emailOnTerminated)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setErrorPath(java.lang.String)">setErrorPath</A></B>(java.lang.String&nbsp;errorPath)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets how to direct the job's standard error.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setImplementationSpecificAttributes(java.util.Map)">setImplementationSpecificAttributes</A></B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;isa)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setInputPath(java.lang.String)">setInputPath</A></B>(java.lang.String&nbsp;inputPath)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the job's standard input path.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setJobCategory(java.lang.String)">setJobCategory</A></B>(java.lang.String&nbsp;category)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Specifies the DRMAA job category.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setJobEnvironment(java.util.Map)">setJobEnvironment</A></B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;env)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the environment values that define the remote environment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setJobName(java.lang.String)">setJobName</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the name of the job.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setJoinFiles(boolean)">setJoinFiles</A></B>(boolean&nbsp;join)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets whether the error stream should be intermixed with the output
+ stream.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setMachineArch(org.ggf.drmaa2.CpuArchitecture)">setMachineArch</A></B>(<A HREF="../../../org/ggf/drmaa2/CpuArchitecture.html" title="enum in org.ggf.drmaa2">CpuArchitecture</A>&nbsp;machineArch)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setMachineOS(org.ggf.drmaa2.OperatingSystem)">setMachineOS</A></B>(<A HREF="../../../org/ggf/drmaa2/OperatingSystem.html" title="enum in org.ggf.drmaa2">OperatingSystem</A>&nbsp;machineOS)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setMaxSlots(long)">setMaxSlots</A></B>(long&nbsp;maxSlots)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setMinPhysMemory(long)">setMinPhysMemory</A></B>(long&nbsp;minPhysMemory)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setMinSlots(long)">setMinSlots</A></B>(long&nbsp;minSlots)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setOutputPath(java.lang.String)">setOutputPath</A></B>(java.lang.String&nbsp;outputPath)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets how to direct the job's standard output.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setPriority(long)">setPriority</A></B>(long&nbsp;priority)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setQueueName(java.lang.String)">setQueueName</A></B>(java.lang.String&nbsp;queueName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setRemoteCommand(java.lang.String)">setRemoteCommand</A></B>(java.lang.String&nbsp;remoteCommand)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Specifies the remote command to execute.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setRerunnable(boolean)">setRerunnable</A></B>(boolean&nbsp;rerunnable)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setReservationId(java.lang.String)">setReservationId</A></B>(java.lang.String&nbsp;reservationId)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setResourceLimits(java.util.Map)">setResourceLimits</A></B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;resourceLimits)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setStageInFiles(java.util.Map)">setStageInFiles</A></B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;stageInFiles)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setStageOutFiles(java.util.Map)">setStageOutFiles</A></B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;stageOutFiles)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setStartTime(org.ggf.drmaa2.AbsoluteTime)">setStartTime</A></B>(<A HREF="../../../org/ggf/drmaa2/AbsoluteTime.html" title="class in org.ggf.drmaa2">AbsoluteTime</A>&nbsp;startTime)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the earliest time when the job may be eligible to be run.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setSubmitAsHold(boolean)">setSubmitAsHold</A></B>(boolean&nbsp;submitAsHold)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setWorkingDirectory(java.lang.String)">setWorkingDirectory</A></B>(java.lang.String&nbsp;wd)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Specifies the directory name where the job will be executed.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>equals, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="JobTemplate()"><!-- --></A><H3>
+JobTemplate</H3>
+<PRE>
+public <B>JobTemplate</B>()</PRE>
+<DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setRemoteCommand(java.lang.String)"><!-- --></A><H3>
+setRemoteCommand</H3>
+<PRE>
+public void <B>setRemoteCommand</B>(java.lang.String&nbsp;remoteCommand)
+                      throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>Specifies the remote command to execute. The remoteCommand must be the
+ path of an executable that is available at the job's execution host. If
+ the path is relative, it is assumed to be relative to the working
+ directory, usually set through the workingDirectory property. If
+ workingDirectory is not set, the path is assumed to be relative to the
+ user's home directory.
+
+ <p>
+ The file pointed to by remoteCommand may either be an executable binary
+ or an executable script. If a script, it must include the path to the
+ shell in a #! line at the beginning of the script. By default, the remote
+ command will be executed directly, as by exec. (See the exec(2) man
+ page.) To have the remote command executed in a shell, such as to
+ preserve environment settings, use the nativeSpecification property to
+ include the &quot;-shell yes&quot; option. Jobs which are executed by a
+ wrapper shell fail differently from jobs which are executed directly.
+ When a job which contains a user error, such as an invalid path to the
+ executable, is executed by a wrapper shell, the job will execute
+ successfully, but exit with a return code of 1. When a job which contains
+ such an error is executed directly, it will enter the DRMAA_PS_FAILED
+ state upon execution.</p>
+
+ <p>
+ No binary file management is done.</p>
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>remoteCommand</CODE> - 
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRemoteCommand()"><!-- --></A><H3>
+getRemoteCommand</H3>
+<PRE>
+public java.lang.String <B>getRemoteCommand</B>()
+                                  throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setRemoteCommand(java.lang.String)"><CODE>setRemoteCommand(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setArgs(java.util.List)"><!-- --></A><H3>
+setArgs</H3>
+<PRE>
+public void <B>setArgs</B>(java.util.List&lt;java.lang.String&gt;&nbsp;args)
+             throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>Specifies the arguments to the job.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>args</CODE> - 
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getArgs()"><!-- --></A><H3>
+getArgs</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>getArgs</B>()
+                                         throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setArgs(java.util.List)"><CODE>setArgs(List)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setJobEnvironment(java.util.Map)"><!-- --></A><H3>
+setJobEnvironment</H3>
+<PRE>
+public void <B>setJobEnvironment</B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;env)
+                       throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>Sets the environment values that define the remote environment. The
+ values override the remote environment values if there is a collision.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>env</CODE> - 
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getJobEnvironment()"><!-- --></A><H3>
+getJobEnvironment</H3>
+<PRE>
+public java.util.Map&lt;java.lang.String,java.lang.String&gt; <B>getJobEnvironment</B>()
+                                                                   throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setJobEnvironment(java.util.Map)"><CODE>setJobEnvironment(Map)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setWorkingDirectory(java.lang.String)"><!-- --></A><H3>
+setWorkingDirectory</H3>
+<PRE>
+public void <B>setWorkingDirectory</B>(java.lang.String&nbsp;wd)
+                         throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>Specifies the directory name where the job will be executed. A
+ <CODE>HOME_DIRECTORY</CODE> placeholder at the beginning of the directory
+ name denotes that the remaining portion of the directory name is to be
+ resolved relative to the job submiter's home directory on the execution
+ host.
+
+ <p>
+ When the DRMAA job template is used for bulk job submission (see also
+ <CODE>org.ggf.drmaa2.JobSession#runBulkJobs(org.ggf.drmaa2.JobTemplate,int,int,int)</CODE>
+ the <CODE>PARAMETRIC_INDEX</CODE> placeholder can be used at any position
+ within the directory name to cause a substitution with the parametric
+ job's index. The directory name must be specified in a syntax that is
+ common at the host where the job will be executed. If no placeholder is
+ used, an absolute directory specification is recommended. If set to a
+ relative path and no placeholder is used, a path relative to the user's
+ home directory is assumed. If not set, the working directory will default
+ to the user's home directory. If set, and the directory does not exist,
+ the job will enter the state <code>FAILED</code> when the job is run.</p>
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>wd</CODE> - 
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><CODE>org.ggf.drmaa2.JobTemplate#HOME_DIRECTORY</CODE>, 
+<CODE>org.ggf.drmaa2.JobTemplate#PARAMETRIC_INDEX</CODE>, 
+<CODE>org.ggf.drmaa2.JobSession#FAILED</CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWorkingDirectory()"><!-- --></A><H3>
+getWorkingDirectory</H3>
+<PRE>
+public java.lang.String <B>getWorkingDirectory</B>()
+                                     throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setWorkingDirectory(java.lang.String)"><CODE>setWorkingDirectory(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setJobCategory(java.lang.String)"><!-- --></A><H3>
+setJobCategory</H3>
+<PRE>
+public void <B>setJobCategory</B>(java.lang.String&nbsp;category)
+                    throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>Specifies the DRMAA job category. The category string is used by Grid
+ Engine as reference into the qtask file. Certain qsub options used in the
+ referenced qtask file line are applied to the job template before
+ submission to allow site-specific resolving of resources and/or policies.
+ The cluster qtask file, the local qtask file, and the user qtask file are
+ searched. Job settings resulting from job template category are
+ overridden by settings resulting from the job template
+ nativeSpecification property as well as by explict DRMAA job template
+ property settings.
+
+ <p>
+ The options -help, -sync, -t, -verify, and -w w|v are ignored. The -cwd
+ option is ignored unless the $SGE_DRMAA_ALLOW_CWD environment variable is
+ set.</p>
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>category</CODE> - 
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman5/qtask.html">qtask(5)</a>, 
+<a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman1/qsub.html">qsub(1)</a></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getJobCategory()"><!-- --></A><H3>
+getJobCategory</H3>
+<PRE>
+public java.lang.String <B>getJobCategory</B>()
+                                throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setJobCategory(java.lang.String)"><CODE>setJobCategory(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setEmail(java.util.List)"><!-- --></A><H3>
+setEmail</H3>
+<PRE>
+public void <B>setEmail</B>(java.util.List&lt;java.lang.String&gt;&nbsp;email)
+              throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>Set the list of email addresses used to report the job completion and
+ status.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>email</CODE> - 
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEmail()"><!-- --></A><H3>
+getEmail</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>getEmail</B>()
+                                          throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><CODE>#setEmail(java.util.List<String>)</CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setStartTime(org.ggf.drmaa2.AbsoluteTime)"><!-- --></A><H3>
+setStartTime</H3>
+<PRE>
+public void <B>setStartTime</B>(<A HREF="../../../org/ggf/drmaa2/AbsoluteTime.html" title="class in org.ggf.drmaa2">AbsoluteTime</A>&nbsp;startTime)
+                  throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>Set the earliest time when the job may be eligible to be run.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>startTime</CODE> - 
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa2/PartialTimestamp.html" title="class in org.ggf.drmaa2"><CODE>PartialTimestamp</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStartTime()"><!-- --></A><H3>
+getStartTime</H3>
+<PRE>
+public <A HREF="../../../org/ggf/drmaa2/AbsoluteTime.html" title="class in org.ggf.drmaa2">AbsoluteTime</A> <B>getStartTime</B>()
+                          throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setStartTime(org.ggf.drmaa2.AbsoluteTime)"><CODE>setStartTime(org.ggf.drmaa2.AbsoluteTime)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setJobName(java.lang.String)"><!-- --></A><H3>
+setJobName</H3>
+<PRE>
+public void <B>setJobName</B>(java.lang.String&nbsp;name)
+                throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>Set the name of the job. A job name will be comprised of alpha-numeric
+ and _ characters. Setting the job name is equivalent to use of the qsub
+ submit option &quot;-N&quot; with <i>name</i> as option argument and has
+ the same restrictions. See the qsub(1) man page.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - 
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><a href="http://gridengine.sunsource.net/nonav/source/browse/~checkout~/gridengine/doc/htmlman/htmlman1/qsub.html">qsub(1)</a></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getJobName()"><!-- --></A><H3>
+getJobName</H3>
+<PRE>
+public java.lang.String <B>getJobName</B>()
+                            throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setJobName(java.lang.String)"><CODE>setJobName(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setInputPath(java.lang.String)"><!-- --></A><H3>
+setInputPath</H3>
+<PRE>
+public void <B>setInputPath</B>(java.lang.String&nbsp;inputPath)
+                  throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>Set the job's standard input path. Unless set elsewhere, if not
+ explicitly set in the job template, the job is started with an empty
+ input stream. If the standard input is set, it specifies the network path
+ of the job's input stream file in the form of
+ <code>[hostname]:file_path</code><br>
+ <p>
+ When the transferFiles property is supported and the set TranferFileMode
+ instance's inputStream property is set to <code>true</code>, the input
+ file will be fetched by Grid Engine from the specified host or from the
+ submit host if no hostname is specified. When the transferFiles property
+ is unsupported or the set TranferFileMode instance's inputStream property
+ is not set or is set to <code>false</code>, the input file is always
+ expected to be at the host where the job is executed, regardless of any
+ hostname specified.</p>
+
+ <p>
+ When the DRMAA job template is used for bulk job submission (see also
+ <CODE>org.ggf.drmaa2.JobSession#runBulkJobs(org.ggf.drmaa2.JobTemplate,int,int,int)</CODE>
+ the <CODE>PARAMETRIC_INDEX</CODE> placeholder can be used at any position
+ within the file name to cause a substitution with the parametric job's
+ index. A <CODE>HOME_DIRECTORY</CODE> placeholder at the beginning of the
+ file path denotes the remaining portion of the file path as a relative
+ file specification to be resolved relative to the job user's home
+ directory at the host where the file is located. A
+ <CODE>WORKING_DIRECTORY</CODE> placeholder at the beginning of file path
+ denotes the remaining portion of the file path as a relative file
+ specification to be resolved relative to the job's working directory at
+ the host where the file is located. The file name must be specified in a
+ syntax that is common at the host where the job will be executed. If no
+ home or working directory placeholder is used, an absolute file
+ specification is recommended. If set to a relative file path and no home
+ or working directory placeholder is used, a path relative to the user's
+ home directory is assumed.</p>
+
+ <p>
+ When the job is run, if this attribute is set, and the file can't be
+ read, the job will enter the state <code>FAILED</code>.</p>
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>inputPath</CODE> - 
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><CODE>org.ggf.drmaa2.JobTemplate#HOME_DIRECTORY</CODE>, 
+<CODE>org.ggf.drmaa2.JobTemplate#WORKING_DIRECTORY</CODE>, 
+<CODE>org.ggf.drmaa2.JobTemplate#PARAMETRIC_INDEX</CODE>, 
+<CODE>org.ggf.drmaa2.JobSession#FAILED</CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInputPath()"><!-- --></A><H3>
+getInputPath</H3>
+<PRE>
+public java.lang.String <B>getInputPath</B>()
+                              throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setInputPath(java.lang.String)"><CODE>setInputPath(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setOutputPath(java.lang.String)"><!-- --></A><H3>
+setOutputPath</H3>
+<PRE>
+public void <B>setOutputPath</B>(java.lang.String&nbsp;outputPath)
+                   throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>Sets how to direct the job's standard output. Unless set elsewhere, if
+ not explicitly set in the job template, the whereabouts of the job's
+ output stream is not defined. If the standard output is set, it specifies
+ the network path of the job's output stream file in the form of
+ <code>[hostname]:file_path</code>
+
+ <p>
+ When the transferFiles property is supported and the set TranferFileMode
+ instance's outputStream property is set to <code>true</code>, the output
+ file will be transferred by Grid Engine to the specified host or to the
+ submit host if no hostname is specified. When the transferFiles property
+ is unsupported or the set TranferFileMode instance's outputStream
+ property is not set or is set to <code>false</code>, the output file is
+ always kept at the host where the job is executed, regardless of any
+ hostname specified.</p>
+
+ <p>
+ When the DRMAA job template is used for bulk job submission (see also
+ <CODE>org.ggf.drmaa2.JobSession#runBulkJobs(org.ggf.drmaa2.JobTemplate,int,int,int)</CODE>
+ the <CODE>PARAMETRIC_INDEX</CODE> placeholder can be used at any position
+ within the file name to cause a substitution with the parametric job's
+ index. A <CODE>HOME_DIRECTORY</CODE> placeholder at the beginning of the
+ file path denotes the remaining portion of the file path as a relative
+ file specification to be resolved relative to the job user's home
+ directory at the host where the file is located. A
+ <CODE>WORKING_DIRECTORY</CODE> placeholder at the beginning of file path
+ denotes the remaining portion of the file path as a relative file
+ specification to be resolved relative to the job's working directory at
+ the host where the file is located. The file name must be specified in a
+ syntax that is common at the host where the job will be executed. If no
+ home or working directory placeholder is used, an absolute file
+ specification is recommended. If set to a relative file path and no home
+ or working directory placeholder is used, a path relative to the user's
+ home directory is assumed.</p>
+
+ <p>
+ When the job is run, if this attribute is set, and the file can't be
+ read, the job will enter the state <code>FAILED</code>.</p>
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>outputPath</CODE> - 
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><CODE>org.ggf.drmaa2.JobTemplate#HOME_DIRECTORY</CODE>, 
+<CODE>org.ggf.drmaa2.JobTemplate#WORKING_DIRECTORY</CODE>, 
+<CODE>org.ggf.drmaa2.JobTemplate#PARAMETRIC_INDEX</CODE>, 
+<CODE>org.ggf.drmaa2.JobSession#FAILED</CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOutputPath()"><!-- --></A><H3>
+getOutputPath</H3>
+<PRE>
+public java.lang.String <B>getOutputPath</B>()
+                               throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setOutputPath(java.lang.String)"><CODE>setOutputPath(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setErrorPath(java.lang.String)"><!-- --></A><H3>
+setErrorPath</H3>
+<PRE>
+public void <B>setErrorPath</B>(java.lang.String&nbsp;errorPath)
+                  throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>Sets how to direct the job's standard error. Unless set elsewhere, if not
+ explicitly set in the job template, the whereabouts of the job's error
+ stream is not defined. If the standard error is set, it specifies the
+ network path of the job's error stream file in the form of
+ <code>[hostname]:file_path</code><br>
+
+ <p>
+ When the transferFiles property is supported and the set TranferFileMode
+ instance's errorStream property is set to <code>true</code>, the error
+ file will be transferred by Grid Engine to the specified host or to the
+ submit host if no hostname is specified. When the transferFiles property
+ is unsupported or the set TranferFileMode instance's errorStream property
+ is not set or is set to <code>false</code>, the error file is always kept
+ at the host where the job is executed, regardless of any hostname
+ specified.</p>
+
+ <p>
+ When the DRMAA job template is used for bulk job submission (see also
+ <CODE>org.ggf.drmaa2.JobSession#runBulkJobs(org.ggf.drmaa2.JobTemplate,int,int,int)</CODE>
+ the <CODE>PARAMETRIC_INDEX</CODE> placeholder can be used at any position
+ within the file name to cause a substitution with the parametric job's
+ index. A <CODE>HOME_DIRECTORY</CODE> placeholder at the beginning of the
+ file path denotes the remaining portion of the file path as a relative
+ file specification to be resolved relative to the job user's home
+ directory at the host where the file is located. A
+ <CODE>WORKING_DIRECTORY</CODE> placeholder at the beginning of file path
+ denotes the remaining portion of the file path as a relative file
+ specification to be resolved relative to the job's working directory at
+ the host where the file is located. The file name must be specified in a
+ syntax that is common at the host where the job will be executed. If no
+ home or working directory placeholder is used, an absolute file
+ specification is recommended. If set to a relative file path and no home
+ or working directory placeholder is used, a path relative to the user's
+ home directory is assumed.</p>
+
+ <p>
+ When the job is run, if this attribute is set, and the file can't be
+ read, the job will enter the state <code>FAILED</code>.</p>
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>errorPath</CODE> - 
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><CODE>org.ggf.drmaa2.JobTemplate#HOME_DIRECTORY</CODE>, 
+<CODE>org.ggf.drmaa2.JobTemplate#WORKING_DIRECTORY</CODE>, 
+<CODE>org.ggf.drmaa2.JobTemplate#PARAMETRIC_INDEX</CODE>, 
+<CODE>org.ggf.drmaa2.JobSession#FAILED</CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getErrorPath()"><!-- --></A><H3>
+getErrorPath</H3>
+<PRE>
+public java.lang.String <B>getErrorPath</B>()
+                              throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setErrorPath(java.lang.String)"><CODE>setErrorPath(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setJoinFiles(boolean)"><!-- --></A><H3>
+setJoinFiles</H3>
+<PRE>
+public void <B>setJoinFiles</B>(boolean&nbsp;join)
+                  throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>Sets whether the error stream should be intermixed with the output
+ stream. If not explicitly set in the job template the attribute defaults
+ to <code>false</code>. If <code>true</code>, the underlying DRM system
+ will ignore the value of the errorPath property and intermix the standard
+ error stream with the standard output stream as specified with
+ outputPath.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>join</CODE> - 
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isJoinFiles()"><!-- --></A><H3>
+isJoinFiles</H3>
+<PRE>
+public boolean <B>isJoinFiles</B>()
+                    throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD>
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa2/JobTemplate.html#setJoinFiles(boolean)"><CODE>setJoinFiles(boolean)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStageInFiles()"><!-- --></A><H3>
+getStageInFiles</H3>
+<PRE>
+public java.util.Map&lt;java.lang.String,java.lang.String&gt; <B>getStageInFiles</B>()
+                                                                 throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setStageInFiles(java.util.Map)"><!-- --></A><H3>
+setStageInFiles</H3>
+<PRE>
+public void <B>setStageInFiles</B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;stageInFiles)
+                     throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStageOutFiles()"><!-- --></A><H3>
+getStageOutFiles</H3>
+<PRE>
+public java.util.Map&lt;java.lang.String,java.lang.String&gt; <B>getStageOutFiles</B>()
+                                                                  throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setStageOutFiles(java.util.Map)"><!-- --></A><H3>
+setStageOutFiles</H3>
+<PRE>
+public void <B>setStageOutFiles</B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;stageOutFiles)
+                      throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getResourceLimits()"><!-- --></A><H3>
+getResourceLimits</H3>
+<PRE>
+public java.util.Map&lt;java.lang.String,java.lang.String&gt; <B>getResourceLimits</B>()
+                                                                   throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setResourceLimits(java.util.Map)"><!-- --></A><H3>
+setResourceLimits</H3>
+<PRE>
+public void <B>setResourceLimits</B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;resourceLimits)
+                       throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isSubmitAsHold()"><!-- --></A><H3>
+isSubmitAsHold</H3>
+<PRE>
+public boolean <B>isSubmitAsHold</B>()
+                       throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setSubmitAsHold(boolean)"><!-- --></A><H3>
+setSubmitAsHold</H3>
+<PRE>
+public void <B>setSubmitAsHold</B>(boolean&nbsp;submitAsHold)
+                     throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isRerunnable()"><!-- --></A><H3>
+isRerunnable</H3>
+<PRE>
+public boolean <B>isRerunnable</B>()
+                     throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setRerunnable(boolean)"><!-- --></A><H3>
+setRerunnable</H3>
+<PRE>
+public void <B>setRerunnable</B>(boolean&nbsp;rerunnable)
+                   throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isEmailOnStarted()"><!-- --></A><H3>
+isEmailOnStarted</H3>
+<PRE>
+public boolean <B>isEmailOnStarted</B>()
+                         throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setEmailOnStarted(boolean)"><!-- --></A><H3>
+setEmailOnStarted</H3>
+<PRE>
+public void <B>setEmailOnStarted</B>(boolean&nbsp;emailOnStarted)
+                       throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isEmailOnTerminated()"><!-- --></A><H3>
+isEmailOnTerminated</H3>
+<PRE>
+public boolean <B>isEmailOnTerminated</B>()
+                            throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setEmailOnTerminated(boolean)"><!-- --></A><H3>
+setEmailOnTerminated</H3>
+<PRE>
+public void <B>setEmailOnTerminated</B>(boolean&nbsp;emailOnTerminated)
+                          throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getReservationId()"><!-- --></A><H3>
+getReservationId</H3>
+<PRE>
+public java.lang.String <B>getReservationId</B>()
+                                  throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setReservationId(java.lang.String)"><!-- --></A><H3>
+setReservationId</H3>
+<PRE>
+public void <B>setReservationId</B>(java.lang.String&nbsp;reservationId)
+                      throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getQueueName()"><!-- --></A><H3>
+getQueueName</H3>
+<PRE>
+public java.lang.String <B>getQueueName</B>()
+                              throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setQueueName(java.lang.String)"><!-- --></A><H3>
+setQueueName</H3>
+<PRE>
+public void <B>setQueueName</B>(java.lang.String&nbsp;queueName)
+                  throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMinSlots()"><!-- --></A><H3>
+getMinSlots</H3>
+<PRE>
+public long <B>getMinSlots</B>()
+                 throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMinSlots(long)"><!-- --></A><H3>
+setMinSlots</H3>
+<PRE>
+public void <B>setMinSlots</B>(long&nbsp;minSlots)
+                 throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxSlots()"><!-- --></A><H3>
+getMaxSlots</H3>
+<PRE>
+public long <B>getMaxSlots</B>()
+                 throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxSlots(long)"><!-- --></A><H3>
+setMaxSlots</H3>
+<PRE>
+public void <B>setMaxSlots</B>(long&nbsp;maxSlots)
+                 throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPriority()"><!-- --></A><H3>
+getPriority</H3>
+<PRE>
+public long <B>getPriority</B>()
+                 throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setPriority(long)"><!-- --></A><H3>
+setPriority</H3>
+<PRE>
+public void <B>setPriority</B>(long&nbsp;priority)
+                 throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCandidateMachines()"><!-- --></A><H3>
+getCandidateMachines</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>getCandidateMachines</B>()
+                                                      throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setCandidateMachines(java.util.List)"><!-- --></A><H3>
+setCandidateMachines</H3>
+<PRE>
+public void <B>setCandidateMachines</B>(java.util.List&lt;java.lang.String&gt;&nbsp;candidateMachines)
+                          throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMinPhysMemory()"><!-- --></A><H3>
+getMinPhysMemory</H3>
+<PRE>
+public long <B>getMinPhysMemory</B>()
+                      throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMinPhysMemory(long)"><!-- --></A><H3>
+setMinPhysMemory</H3>
+<PRE>
+public void <B>setMinPhysMemory</B>(long&nbsp;minPhysMemory)
+                      throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMachineOS()"><!-- --></A><H3>
+getMachineOS</H3>
+<PRE>
+public <A HREF="../../../org/ggf/drmaa2/OperatingSystem.html" title="enum in org.ggf.drmaa2">OperatingSystem</A> <B>getMachineOS</B>()
+                             throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMachineOS(org.ggf.drmaa2.OperatingSystem)"><!-- --></A><H3>
+setMachineOS</H3>
+<PRE>
+public void <B>setMachineOS</B>(<A HREF="../../../org/ggf/drmaa2/OperatingSystem.html" title="enum in org.ggf.drmaa2">OperatingSystem</A>&nbsp;machineOS)
+                  throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMachineArch()"><!-- --></A><H3>
+getMachineArch</H3>
+<PRE>
+public <A HREF="../../../org/ggf/drmaa2/CpuArchitecture.html" title="enum in org.ggf.drmaa2">CpuArchitecture</A> <B>getMachineArch</B>()
+                               throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMachineArch(org.ggf.drmaa2.CpuArchitecture)"><!-- --></A><H3>
+setMachineArch</H3>
+<PRE>
+public void <B>setMachineArch</B>(<A HREF="../../../org/ggf/drmaa2/CpuArchitecture.html" title="enum in org.ggf.drmaa2">CpuArchitecture</A>&nbsp;machineArch)
+                    throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDeadlineTime()"><!-- --></A><H3>
+getDeadlineTime</H3>
+<PRE>
+public <A HREF="../../../org/ggf/drmaa2/AbsoluteTime.html" title="class in org.ggf.drmaa2">AbsoluteTime</A> <B>getDeadlineTime</B>()
+                             throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDeadlineTime(org.ggf.drmaa2.AbsoluteTime)"><!-- --></A><H3>
+setDeadlineTime</H3>
+<PRE>
+public void <B>setDeadlineTime</B>(<A HREF="../../../org/ggf/drmaa2/AbsoluteTime.html" title="class in org.ggf.drmaa2">AbsoluteTime</A>&nbsp;deadlineTime)
+                     throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAccountingId()"><!-- --></A><H3>
+getAccountingId</H3>
+<PRE>
+public java.lang.String <B>getAccountingId</B>()
+                                 throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setAccountingId(java.lang.String)"><!-- --></A><H3>
+setAccountingId</H3>
+<PRE>
+public void <B>setAccountingId</B>(java.lang.String&nbsp;accountingId)
+                     throws <A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setImplementationSpecificAttributes(java.util.Map)"><!-- --></A><H3>
+setImplementationSpecificAttributes</H3>
+<PRE>
+public void <B>setImplementationSpecificAttributes</B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;isa)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getImplementationSpecificAttributes()"><!-- --></A><H3>
+getImplementationSpecificAttributes</H3>
+<PRE>
+public java.util.Map&lt;java.lang.String,java.lang.String&gt; <B>getImplementationSpecificAttributes</B>()</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getImplementationSpecificAttributeValue(java.lang.String)"><!-- --></A><H3>
+getImplementationSpecificAttributeValue</H3>
+<PRE>
+public java.lang.String <B>getImplementationSpecificAttributeValue</B>(java.lang.String&nbsp;attrName)
+                                                         throws <A HREF="../../../org/ggf/drmaa2/UnsupportedAttributeException.html" title="class in org.ggf.drmaa2">UnsupportedAttributeException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa2/UnsupportedAttributeException.html" title="class in org.ggf.drmaa2">UnsupportedAttributeException</A></CODE></DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../org/ggf/drmaa2/JobState.html" title="enum in org.ggf.drmaa2"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../org/ggf/drmaa2/JobTemplatePlaceholder.html" title="enum in org.ggf.drmaa2"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../index.html?org/ggf/drmaa2/JobTemplate.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JobTemplate.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+<!--___INFO__MARK_BEGIN__-->
+The contents of this file are licensed under the <a href="http://gridengine.sunsource.net/Gridengine_SISSL_license.html">Sun Industry Standards Source License version 1.2</a>.<br>
+Copyright 2008, Sun Microsystems, Inc.
+<!--___INFO__MARK_END__-->
+</BODY>
+</HTML>

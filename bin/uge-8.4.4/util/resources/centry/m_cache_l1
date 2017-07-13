@@ -1,0 +1,13 @@
+# Version: Grid Engine 8.1.0
+# 
+# DO NOT MODIFY THIS FILE MANUALLY!
+# 
+name        m_cache_l1
+shortcut    mcache1
+type        MEMORY
+relop       <=
+requestable YES
+consumable  NO
+default     0
+urgency     0
+aapre       FALSE 

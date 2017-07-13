@@ -1,0 +1,119 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_MSESSION_GET_ALL_JOBS" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_msession_get_all_jobs\fR \- drmaa2_msession_get_all_jobs, Returns all visible jobs in the system
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_j_list drmaa2_msession_get_all_jobs(const drmaa2_msession monitoring_session, const drmaa2_jinfo filter);
+.
+.SH "DESCRIPTION"
+Returns a list of all jobs of the user currently stored in Grid Engine\. The job list contains also jobs not submitted in Grid Engine\. Calling this function does not necessarly trigger communication with Grid Engine master since all job related information is sent from Grid Engine master process to the DRMAA2 client as soon as there are job changes in the system\. Hence it is safe to call drmaa2_msession_get_all_jobs(3) in short intervalls\. The monitoring session given as argument must be valid, i\.e\. it must be opened with drmaa2_open_mession(3) before\.
+.
+.P
+The second argument defines a filter for the jobs to be returned\. If NULL is used as filter, all available jobs are returned otherwise only jobs which match the given filter\. The filter is based on a drmaa2_jinfo object\. After allocation with drmaa2_jinfo_create(3) all fields are UNSET, i\.e\. no filtering is applied\. When setting fields with different values than UNSET the semantic for filtering is defined as follows:
+.
+.IP "\(bu" 4
+\fBjobId\fR: The job id to filter for or DRMAA2_UNSET_STRING when all job ids should match\.
+.
+.IP "\(bu" 4
+\fBexitStatus\fR Filter allows only finished jobs with the given exit status\.
+.
+.IP "\(bu" 4
+\fBterminatingSignal\fR Filter allows only finsihed jobs with the given termination signal\.
+.
+.IP "\(bu" 4
+\fBannotation\fR Ignored for filtering\.
+.
+.IP "\(bu" 4
+\fBjobState\fR Filter allows only jobs with the given job state\.
+.
+.IP "\(bu" 4
+\fBjobSubState\fR Currently unsupported by Univa(R) Grid Engine(TM)\.
+.
+.IP "\(bu" 4
+\fBallocatedMachines\fR Filter allows all jobs which have at least one slot allocated on one of the given machines\.
+.
+.IP "\(bu" 4
+\fBsubmissionMachine\fR Filter allows all jobs which are submitted on the given machine\.
+.
+.IP "\(bu" 4
+\fBjobOwner\fR Filter allows all jobs which are owned (i\.e\. submitted) by the given user\.
+.
+.IP "\(bu" 4
+\fBslots\fR Filter allows all jobs which have this amount of slots granted\.
+.
+.IP "\(bu" 4
+\fBqueueName\fR Filter allows only jobs which have at least one part running in the given queue instance\.
+.
+.IP "\(bu" 4
+\fBwallclockTime\fR Filter allows only jobs which are running the given amount of time (in seconds) or longer\.
+.
+.IP "\(bu" 4
+\fBcpuTime\fR Filter allows only jobs which had consumed this amount of cpu time ore more\.
+.
+.IP "\(bu" 4
+\fBsubmissionTime\fR Filter allows only jobs which are submitted at or after the given time\.
+.
+.IP "\(bu" 4
+\fBdispatchTime\fR Filter allows only jobs which are started at or after the given time on the host\.
+.
+.IP "\(bu" 4
+\fBfinishTime\fR Filter allows only jobs which are finshed at or after the given time\.
+.
+.IP "" 0
+.
+.SH "RETURN VALUES"
+Returns a newly allocated list of jobs in a \fBdrmaa2_j_list\fR structure or NULL in case of an error\. The job list was initialized with an appropriate callback function so that drmaa2_list_free(3) frees the complete list with all job objects inside\. In case of an error the error number and error message can be fetched with drmaa2_lasterror(3) and drmaa2_lasterror_text(3)\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_jinfo filter = drmaa2_jinfo_create();
+drmaa2_msession monitoring_session = drmaa2_open_msession(NULL);
+
+/* filter only for jobs which consume one slot */
+filter\->slots = 1;
+
+if (ms != NULL) {
+   drmaa2_j_list job_list = drmaa2_msession_get_all_jobs(monitoring_session, filter);
+
+   if (job_list == NULL) {
+      /* handle error */
+      drmaa2_string error = drmaa2_lasterror_text();
+      fprintf(stderr, "Error during fetching the job list from the monitoring session: %s\en", error);
+      drmaa2_string_free(&error);
+   } else {
+      int i;
+      size_t size = drmaa2_list_size(job_list);
+
+      fprintf(stdout, "There are %lld jobs in the system with 1 slot:\en", size);
+      for (i = 0; i < size; i++) {
+          drmaa2_j job = (drmaa2_j) drmaa2_list_get(job_list, i);
+          if (drmaa2_j_get_id(job) != NULL) {
+             fprintf(stdout, "Job with id %s\.\en", (char *) drmaa2_j_get_id(job));
+          } else {
+             fprintf(stdout, "Job has unknown id\.\en");
+          }
+      }
+      drmaa2_list_free(&job_list);
+   }
+
+   \.\.\.
+}
+
+drmaa2_jinfo_free(&filter);
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_open_msession(3), drmaa2_close_msession(3), drmaa2_msession_free(3), drmaa2_msession_get_all_jobs(3), drmaa2_msession_get_all_queues(3), drmaa2_msession_get_all_machines(3), drmaa2_list_free(3), drmaa2_jinfo_create(3), drmaa2_jinfo_free(3), drmaa2_j_get_id(3) )
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

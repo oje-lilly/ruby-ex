@@ -1,0 +1,281 @@
+Univa Grid Engine SGI MPT Integration
+=====================================
+
+SGI MPT provides an MPI implementation for SGI clusters. This document describes how it can be integrated tightly with Univa Grid Engine. With this integration full accounting (CPU / MEM / IO of all ranks) and control of the MPI application by Univa Grid Engine is possible.
+
+The usual way for doing a so called tight integration is exchanging the ssh (remote connection) call from MPI to the Univa Grid Engine qrsh -inherit call. This allows Univa Grid Engine to track the otherwise hidden calls to the remote hosts and allows accounting and controlling (like cleanup after job completion or job deletion) the activities on the remote host. In case of SGI MPT the remote connection is done using IB (without TCP / IP) which does not allow to use qrsh -inherit (TCP / IP based) directly. Therefore SGI MPT has to make the efficient IB remote connection but then on the remote side a qrsh -inherit call has to be made as first call (connecting to localhost in order to generate a Univa Grid Engine container for accounting and control) starting the MPI application.
+
+Installing the PE
+=================
+
+    qconf -Ap $SGE_ROOT/mpi/SGI/mpt.template
+
+Using the PE
+============
+
+In order to submit a job using the MPT integration it needs to be referenced in the -pe request.
+
+    qsub -pe mpt 8 foo.sh
+
+This means that you request 8 slots. How the slots allocated on the machines is encoded in the allocation_rule of the PE configuration (qconf -mp mpt).
+
+Adapting the PE
+===============
+
+One ore more PEs (with different names) can be created based on this template depending on your needs. Univa Grid Engine can even select a PE (randomly or based on alphabetical ordering) which fits to the resource requirements by using a common prefix and a wildcard PE request (i.e. qsub -pe mpt* 192 …).
+
+Following other settings in the PE for MPT are important:
+
+- control_slave TRUE : Enable tight integration, i.e. accounting of remote tasks.
+- job_is_first_task FALSE: We need an extra slot for the job startup script which is not accounted and just spawns the parallel job.
+
+Parameter which needs to be configured depending on specific needs:
+
+- slots : Restrict the amount of running jobs in PE here
+(usually you restrict it on other places - hence set it to a high
+number a high number and it is recommended not to exceed the maximum
+number of cores in the whole cluster)
+- allocation_rule: How Grid Engine assigns the processes of the parallel job across the cluster ($round_robin, $fill_up, or <int>. For example, if int=4 then you will have 4 slots on each host. Fixed numbers are pretty common).
+- accounting_summary: For big jobs you want to have a combined
+accounting (qacct -j <jobno>) and not for each slave task of the parallel job. Set it to FALSE if you need accounting of every task launched by the parallel job.
+
+For more detailed information see "man sge_pe“.
+
+Further Configurations
+======================
+
+1. Allow to export LD_LIBRARY_PATH to the environment (otherwise note that it would be filtered when doing a qsub):
+
+    qconf -mconf
+
+    ...
+     -> qmaster_params               ENABLE_SUBMIT_LIB_PATH=true
+    ...
+
+2. If you have a SGI MPT version released before 2015, install the Univa Grid Engine enhanced startup script (mpiexec_mpt) in the SGI directory where MPT was installed. Replace the original mpiexec_mpt script by this one. Newer SGI MPT versions contain already the required parts for Univa Grid Engine. Please ask Univa support if you require the modified mpiexec_mpt.
+
+Now a SGI MPT job can be submitted through Univa Grid Engine. Note, that mpivars.sh needs to be sourced on submission host first. The environment variables are transferred through the -V parameter to the execution host.
+
+Example job script:
+
+    $ cat sgi_job.sh
+
+#!/bin/bash
+source /etc/profile.d/modules.sh
+module load mpt
+
+# Enable for debugging:
+# export MPIEXEC_MPT_DEBUG=1
+
+# be sure all is setup properly
+sleep 1
+
+# start the MPI application
+mpiexec_mpt /nfs/MPI/a.out -loops 50000
+
+
+Submission example:
+
+    $ qsub -V -pe mpt 8 /nfs/MPI/sgi_job.sh
+Your job 83 ("sgi_job.sh") has been submitted
+
+    $ qstat
+job-ID  prior   name       user         state submit/start at
+ queue                          jclass
+                     slots ja-task-ID
+------------------------------------------------------------------------------------------------------------------------------------------------
+  83 0.55500 sgi_job.sh daniel       r     02/26/2014 21:25:06
+all.q@cent4                                                       8
+
+    $ qstat -g t
+job-ID  prior   name       user         state submit/start at
+ queue                          jclass
+                     master ja-task-ID
+-------------------------------------------------------------------------------------------------------------------------------------------------
+  83 0.55500 sgi_job.sh daniel       r     02/26/2014 21:25:06
+all.q@cent4
+                                                 MASTER
+                                                               all.q@cent4
+                                               SLAVE
+                                                               all.q@cent4
+                                               SLAVE
+                                                               all.q@cent4
+                                               SLAVE
+                                                               all.q@cent4
+                                               SLAVE
+  83 0.55500 sgi_job.sh daniel       r     02/26/2014 21:25:06
+all.q@cent64                                                  SLAVE
+                                                               all.q@cent64
+                                              SLAVE
+                                                               all.q@cent64
+                                              SLAVE
+                                                               all.q@cent64
+                                              SLAVE
+
+Check online usage while job is running:
+
+    $ qstat -j 83 | grep usage
+usage                 1:    cpu=00:00:00, mem=0.00000 GBs,
+io=0.00000, vmem=N/A, maxvmem=N/A
+
+    $ qstat -j 83 | grep usage
+usage                 1:    cpu=00:01:23, mem=164.92612 GBs,
+io=0.84844, vmem=8.234G, maxvmem=8.234G
+
+    $ qstat -j 83 | grep usage
+usage                 1:    cpu=00:01:23, mem=164.92612 GBs,
+io=0.84844, vmem=8.234G, maxvmem=8.234G
+
+Optional: For a better understanding check the processes on the compute host:
+
+    $ ps -ef | grep qrs
+daniel   27441  1387  0 21:25 ?        00:00:00 /bin/sh
+/nfs/installation/ts_experimental/mpi/qrsh_attach.sh 83 undefined
+/nfs/MPI/a.out -loops 50000
+daniel   27534 27441  0 21:25 ?        00:00:00
+/nfs/installation/ts_experimental/bin/lx-amd64/qrsh -V -inherit
+cent4 /nfs/MPI/a.out -loops 50000
+daniel   27536 27535  0 21:25 ?        00:00:00
+/nfs/installation/ts_experimental/utilbin/lx-amd64/qrsh_starter
+/nfs/installation/ts_experimental/default/spool/cent4/active_jobs/83.1/1.cent4
+
+Note, that mpirun started the qrsh_attach.sh script which got job and task id as well as the program (a.out) as parameter. The qrsh_attach.sh did the qrsh -V -inherit call to it's local hosts starting up the a.out which then uses SGI IB infrastructure for communication.
+
+For a small test environment the accounting_summary was set to FALSE in Univa Grid Engine parallel environment (see point 1). This allows to verify that accounting for all hosts the MPI process was spanning was done. Note, qacct only shows data after the job finished.
+
+    $ qacct -j 83
+==============================================================
+qname        all.q
+hostname     cent4
+group        daniel
+owner        daniel
+project      NONE
+department   defaultdepartment
+jobname      sgi_job.sh
+jobnumber    83
+taskid       undefined
+account      sge
+priority     0
+qsub_time    Wed Feb 26 21:25:08 2014
+start_time   Wed Feb 26 21:25:08 2014
+end_time     Wed Feb 26 21:25:41 2014
+granted_pe   mytestpe
+slots        8
+failed       0
+exit_status  0
+ru_wallclock 33
+ru_utime     89.675
+ru_stime     3.938
+ru_maxrss    47136
+ru_ixrss     0
+ru_ismrss    0
+ru_idrss     0
+ru_isrss     0
+ru_minflt    5961
+ru_majflt    0
+ru_nswap     0
+ru_inblock   0
+ru_oublock   1664216
+ru_msgsnd    0
+ru_msgrcv    0
+ru_nsignals  0
+ru_nvcsw     712
+ru_nivcsw    156
+cpu          93.614
+mem          184.916
+io           1.024
+iow          0.000
+maxvmem      8.196G
+arid         undefined
+jc_name      NONE
+
+==============================================================
+qname        all.q
+hostname     cent64
+group        daniel
+owner        daniel
+project      NONE
+department   defaultdepartment
+jobname      sgi_job.sh
+jobnumber    83
+taskid       undefined
+account      sge
+priority     0
+qsub_time    Wed Feb 26 21:25:08 2014
+start_time   Wed Feb 26 21:25:08 2014
+end_time     Wed Feb 26 21:25:41 2014
+granted_pe   mytestpe
+slots        8
+failed       0
+exit_status  0
+ru_wallclock 33
+ru_utime     122.068
+ru_stime     5.737
+ru_maxrss    47140
+ru_ixrss     0
+ru_ismrss    0
+ru_idrss     0
+ru_isrss     0
+ru_minflt    6155
+ru_majflt    0
+ru_nswap     0
+ru_inblock   0
+ru_oublock   2261048
+ru_msgsnd    0
+ru_msgrcv    0
+ru_nsignals  0
+ru_nvcsw     194
+ru_nivcsw    280
+cpu          127.806
+mem          249.696
+io           1.151
+iow          0.000
+maxvmem      8.234G
+arid         undefined
+jc_name      NONE
+
+==============================================================
+qname        all.q
+hostname     cent4
+group        daniel
+owner        daniel
+project      NONE
+department   defaultdepartment
+jobname      sgi_job.sh
+jobnumber    83
+taskid       undefined
+account      sge
+priority     0
+qsub_time    Wed Feb 26 21:25:06 2014
+start_time   Wed Feb 26 21:25:06 2014
+end_time     Wed Feb 26 21:25:41 2014
+granted_pe   mytestpe
+slots        8
+failed       0
+exit_status  0
+ru_wallclock 35
+ru_utime     0.177
+ru_stime     0.291
+ru_maxrss    3276
+ru_ixrss     0
+ru_ismrss    0
+ru_idrss     0
+ru_isrss     0
+ru_minflt    46140
+ru_majflt    0
+ru_nswap     0
+ru_inblock   0
+ru_oublock   520
+ru_msgsnd    0
+ru_msgrcv    0
+ru_nsignals  0
+ru_nvcsw     720
+ru_nivcsw    109
+cpu          0.468
+mem          0.001
+io           0.009
+iow          0.000
+maxvmem      306.109M
+arid         undefined
+jc_name      NONE
+

@@ -1,0 +1,151 @@
+CHECKPOINT(5)                                                    CHECKPOINT(5)
+
+
+
+NNAAMMEE
+       checkpoint  - Univa Grid Engine checkpointing environment configuration
+       file format
+
+DDEESSCCRRIIPPTTIIOONN
+       Checkpointing is a facility to save the complete status of an executing
+       program  or  job  and to restore and restart from this so called check-
+       point at a later point of time if  the  original  program  or  job  was
+       halted, e.g.  through a system crash.
+
+       Univa Grid Engine provides various levels of checkpointing support (see
+       _s_g_e___c_k_p_t(1)).  The checkpointing environment described here is a  means
+       to configure the different types of checkpointing in use for your Univa
+       Grid Engine cluster or parts thereof. For that purpose you  can  define
+       the  operations  which  have  to be executed in initiating a checkpoint
+       generation, a migration of a checkpoint to another host or a restart of
+       a checkpointed application as well as the list of queues which are eli-
+       gible for a checkpointing method.
+
+       Supporting different operating systems  may  easily  force  Univa  Grid
+       Engine to introduce operating system dependencies for the configuration
+       of the checkpointing configuration file and updates  of  the  supported
+       operating  system  versions may lead to frequently changing implementa-
+       tion details.  Please refer to the <sge_root>/ckpt directory  for  more
+       information.
+
+       Please use the _-_a_c_k_p_t, _-_d_c_k_p_t, _-_m_c_k_p_t or _-_s_c_k_p_t options to the _q_c_o_n_f(1)
+       command to manipulate checkpointing environments from the  command-line
+       or  use the corresponding _q_m_o_n(1) dialogue for X-Windows based interac-
+       tive configuration.
+
+       Note, Univa Grid Engine allows backslashes (\) be used to  escape  new-
+       line  (\newline) characters. The backslash and the newline are replaced
+       with a space (" ") character before any interpretation.
+
+FFOORRMMAATT
+       The format of a _c_h_e_c_k_p_o_i_n_t file is defined as follows:
+
+   cckkpptt__nnaammee
+       The name of the checkpointing environment as defined for  _c_k_p_t___n_a_m_e  in
+       _s_g_e___t_y_p_e_s(1).   _q_s_u_b(1)  --cckkpptt  switch or for the _q_c_o_n_f(1) options men-
+       tioned above.
+
+   iinntteerrffaaccee
+       The type of checkpointing to be used. Currently,  the  following  types
+       are valid:
+
+       _h_i_b_e_r_n_a_t_o_r
+              The Hibernator kernel level checkpointing is interfaced.
+
+       _c_p_r    The SGI kernel level checkpointing is used.
+
+       _c_r_a_y_-_c_k_p_t
+              The Cray kernel level checkpointing is assumed.
+
+       _t_r_a_n_s_p_a_r_e_n_t
+              Univa Grid Engine assumes that the jobs submitted with reference
+              to this checkpointing interface use a checkpointing library such
+              as provided by the public domain package _C_o_n_d_o_r.
+
+       _u_s_e_r_d_e_f_i_n_e_d
+              Univa Grid Engine assumes that the jobs submitted with reference
+              to  this   checkpointing   interface   perform   their   private
+              checkpointing method.
+
+       _a_p_p_l_i_c_a_t_i_o_n_-_l_e_v_e_l
+              Uses all of the interface commands configured in the checkpoint-
+              ing object like in the case of one of the  kernel  level  check-
+              pointing  interfaces  (_c_p_r,  _c_r_a_y_-_c_k_p_t,  etc.)  except  for  the
+              rreessttaarrtt__ccoommmmaanndd (see below), which is not used (even  if  it  is
+              configured)  but  the job script is invoked in case of a restart
+              instead.
+
+   cckkpptt__ccoommmmaanndd
+       A command-line type command string to be executed by Univa Grid  Engine
+       in order to initiate a checkpoint.
+
+   mmiiggrr__ccoommmmaanndd
+       A  command-line type command string to be executed by Univa Grid Engine
+       during a migration of a checkpointing job from one host to another.
+
+   rreessttaarrtt__ccoommmmaanndd
+       A command-line type command string to be executed by Univa Grid  Engine
+       when restarting a previously checkpointed application.
+
+   cclleeaann__ccoommmmaanndd
+       A  command-line type command string to be executed by Univa Grid Engine
+       in order to cleanup after a checkpointed application has finished.
+
+   cckkpptt__ddiirr
+       A file system location to which checkpoints of potentially considerable
+       size should be stored.
+
+   cckkpptt__ssiiggnnaall
+       A  Unix  signal  to be sent to a job by Univa Grid Engine to initiate a
+       checkpoint generation. The value for this field can either  be  a  sym-
+       bolic  name from the list produced by the _-_l option of the _k_i_l_l(1) com-
+       mand or an integer number which must be a valid signal on  the  systems
+       used for checkpointing.
+
+   wwhheenn
+       The  points  of  time  when  checkpoints  are expected to be generated.
+       Valid values for this parameter are composed by the letters _s, _m, _x and
+       _r  and  any  combinations  thereof  without any separating character in
+       between. The same letters are allowed for the _-_c option of the  _q_s_u_b(1)
+       command  which will overwrite the definitions in the used checkpointing
+       environment.  The meaning of the letters is defined as follows:
+
+       _s      A job is checkpointed, aborted and if possible migrated  if  the
+              corresponding _s_g_e___e_x_e_c_d(8) is shut down on the job's machine.
+
+       _m      Checkpoints  are  generated periodically at the _m_i_n___c_p_u___i_n_t_e_r_v_a_l
+              interval defined by the queue (see _q_u_e_u_e___c_o_n_f(5)) in which a job
+              executes.
+
+       _x      A  job is checkpointed, aborted and if possible migrated as soon
+              as the job gets suspended (manually as well as automatically).
+
+       _r      A job will be rescheduled (not checkpointed) when  the  host  on
+              which  the  job  currently  runs went into unknown state and the
+              time interval _r_e_s_c_h_e_d_u_l_e___u_n_k_n_o_w_n (see  _s_g_e___c_o_n_f(5))  defined  in
+              the global/local cluster configuration will be exceeded.
+
+
+RREESSTTRRIICCTTIIOONNSS
+       NNoottee, that the functionality of any checkpointing, migration or restart
+       procedures provided by default with the Univa Grid Engine  distribution
+       as  well as the way how they are invoked in the _c_k_p_t___c_o_m_m_a_n_d, _m_i_g_r___c_o_m_-
+       _m_a_n_d or _r_e_s_t_a_r_t___c_o_m_m_a_n_d parameters of any default  checkpointing  envi-
+       ronments  should  not be changed or otherwise the functionality remains
+       the full responsibility of the  administrator  configuring  the  check-
+       pointing  environment.  Univa Grid Engine will just invoke these proce-
+       dures and evaluate their exit status. If the procedures do not  perform
+       their tasks properly or are not invoked in a proper fashion, the check-
+       pointing mechanism may behave unexpectedly, Univa Grid  Engine  has  no
+       means to detect this.
+
+SSEEEE AALLSSOO
+       _s_g_e___i_n_t_r_o(1),  _s_g_e___c_k_p_t(1),  _s_g_e_____t_y_p_e_s(1), _q_c_o_n_f(1), _q_m_o_d(1), _q_s_u_b(1),
+       _s_g_e___e_x_e_c_d(8).
+
+CCOOPPYYRRIIGGHHTT
+       See _s_g_e___i_n_t_r_o(1) for a full statement of rights and permissions.
+
+
+
+Univa Grid Engine File Formats     UGE 8.4.4                     CHECKPOINT(5)

@@ -1,0 +1,11 @@
+pe_name              mpi
+slots                999999
+user_lists           NONE
+xuser_lists          NONE
+start_proc_args      $sge_root/mpi/startmpi.sh $pe_hostfile
+stop_proc_args       $sge_root/mpi/stopmpi.sh
+allocation_rule      $round_robin
+control_slaves       FALSE
+job_is_first_task    TRUE
+urgency_slots        min
+accounting_summary   TRUE

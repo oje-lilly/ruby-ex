@@ -1,0 +1,5 @@
+name       sessionusers
+type       ACL
+oticket    0
+fshare     0
+entries    NONE

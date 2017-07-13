@@ -1,0 +1,51 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_CREATE_JSESSION" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_create_jsession\fR \- drmaa2_create_jsession, Creates a persistent DRMAA2 job session\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_jsession drmaa2_create_jsession(const char \fIsession_name, const char\fRcontact);
+.
+.SH "DESCRIPTION"
+Creates a new and persistent job session on the Univa(R) Grid Engine(TM) master and opens it\. For a successful creation a session with the name may not exist\. The contact string must be NULL when using Univa(R) Grid Engine(TM)\.
+.
+.P
+Note: In Univa(R) Grid Engine(TM) DRMAA2 job sessions can be listed, created, and deleted also by qconf(3) calls\.
+.
+.SH "RETURN VALUES"
+On success a newly allocated \fBdrmaa2_jsession\fR object is returned\. In case case of an failure NULL is returned and the error code and description is set for the calling thread\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_jsession js = drmaa2_create_jsession("mysession", NULL);
+
+if (js == NULL) {
+   /* an error happend */
+   drmaa2_string error = drmaa2_lasterror_text();
+   fprintf(stderr, "Error during creation of job session with the name %s: %s\en",
+              "mysession", error);
+   drmaa2_string_free(&error);
+} else {
+   /* do something with the job session */
+   \.\.\.
+   /* close jsession */
+   drmaa2_jsession_close(js);
+   /* free jsession */
+   drmaa2_jsession_free(&js);
+}
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_close_jsession(3), drmaa2_open_jsession(3), drmaa2_destroy_jsession(3), drmaa2_jsession_free(3), drmaa2_jsession_get_jobs(3), drmaa_jsession_get_job_categories(3), drmaa2_jsession_run_job(3), drmaa2_jsession_run_bulk_jobs(3), drmaa2_jsession_wait_any_started(3), drmaa2_jsession_wait_any_terminated(3), drmaa2_jsession_get_contact(3), drmaa2_jsession_get_session_name(3), drmaa2_jsession_get_job_array(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

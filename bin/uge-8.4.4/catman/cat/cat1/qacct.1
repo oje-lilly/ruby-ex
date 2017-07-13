@@ -1,0 +1,176 @@
+QACCT(1)                                                              QACCT(1)
+
+
+
+NNAAMMEE
+       qacct - report and account for Univa Grid Engine usage
+
+SSYYNNOOPPSSIISS
+       qqaacccctt [ --aarr [[aarr__iidd]] ] [ --AA aaccccoouunntt__ssttrriinngg ] [ --bb bbeeggiinn__ttiimmee ] [ --dd ddaayyss
+       ] [ --ee eenndd__ttiimmee ] [ --gg [[ggrroouupp__iidd||ggrroouupp__nnaammee]] ]  [  --hh  [[hhoossttnnaammee]]  ]  [
+       --hheellpp  ]  [  --jj  [[jjoobb__iidd||jjoobb__nnaammee||ppaatttteerrnn]]  ] [ --ll aattttrr==vvaall,,......  ] [ --oo
+       [[oowwnneerr]] ] [ --ppee [[ppee__nnaammee]] ] [ --qq [[wwcc__qquueeuuee]] ]  [  --ssii  sseessssiioonn__iidd  ]  [
+       --sslloottss  [[sslloott__nnuummbbeerr]] ] [ --tt ttaasskk__iidd__rraannggee__lliisstt ] [ --PP [[pprroojjeecctt__nnaammee]] ]
+       [ --DD [[ddeeppaarrttmmeenntt__nnaammee]] ] [ --ff _a_c_c_o_u_n_t_i_n_g___f_i_l_e ]
+
+DDEESSCCRRIIPPTTIIOONN
+       The _q_a_c_c_t utility scans the accounting data  file  (see  _a_c_c_o_u_n_t_i_n_g(5))
+       and  produces  a  summary of information for wall-clock time, cpu-time,
+       and system time for the categories of hostname, queue-name, group-name,
+       owner-name,  job-name,  job-ID  and for the queues meeting the resource
+       requirements as specified with the --ll  switch.   Combinations  of  each
+       category  are  permitted.  Alternatively,  all  or specific jobs can be
+       listed with the --jj switch.   For  example  the  search  criteria  could
+       include summarizing for a queue and an owner, but not for two queues in
+       the same request.
+
+OOPPTTIIOONNSS
+       --aarr [aarr__iidd]
+              The ID of the advance reservation for which usage is summarized.
+              If  aarr__iidd  is  not  given,  accounting  data  is listed for each
+              advance reservation separately.
+
+       --AA aaccccoouunntt__ssttrriinngg
+              The account for jobs to be summarized.
+
+       --bb bbeeggiinn__ttiimmee
+              The earliest start time for jobs to be summarized, in the format
+              [[CC]YY]MMDDhhmm[.SS].  See  also --dd option. If CC is not speci-
+              fied, a YY of < 70 means 20YY.
+
+       --dd ddaayyss
+              The number of days to summarize and print accounting information
+              on.  If used together with the --bb bbeeggiinn__ttiimmee option (see above),
+              jobs started within bbeeggiinn__ttiimmee to bbeeggiinn__ttiimmee + ddaayyss are counted.
+              If  used together with the --ee eenndd__ttiimmee (see below) option, count
+              starts at eenndd__ttiimmee - ddaayyss.
+
+       --ee eenndd__ttiimmee
+              The latest start time for jobs to be summarized, in  the  format
+              [[CC]YY]MMDDhhmm[.SS].  See  also --dd option. If CC is not speci-
+              fied, a YY of < 70 means 20YY.
+
+       [--ff aaccccoouunnttiinngg__ffiillee]
+              The accounting file to be used. If omitted, the  system  default
+              accounting file is processed.
+
+       --gg [ggrroouupp__iidd|ggrroouupp__nnaammee]
+              The  numeric  system  group id or the group alphanumeric name of
+              the  job  owners  to  be  included   in   the   accounting.   If
+              ggrroouupp__iidd/ggrroouupp__nnaammee is omitted, all groups are accounted.
+
+       --hh [hhoossttnnaammee]
+              The  case-insensitive  name  of  the  host upon which accounting
+              information is requested. If the name  is  omitted,  totals  for
+              each host are listed separately.
+
+       --hheellpp  Display help information for the _q_a_c_c_t command.
+
+       --jj [jjoobb__iidd||jjoobb__nnaammee||ppaatttteerrnn]
+              The name, a expression for matching names, or ID of the job dur-
+              ing execution for which accounting information  is  printed.  If
+              neither a name nor an ID is given all jobs are enlisted.
+              This  option  changes  the output format of _q_a_c_c_t. If activated,
+              CPU times are no longer accumulated  but  the  "raw"  accounting
+              information  is  printed  in  a  formatted  form  instead.   See
+              _a_c_c_o_u_n_t_i_n_g(5) for an explanation of the displayed information.
+
+       --ll aattttrr==vvaall,,......
+              A resource requirement specification which must be  met  by  the
+              queues  in  which  the  jobs being accounted were executing. The
+              resource request  is  very  similar  to  the  one  described  in
+              _q_s_u_b(1).
+
+       --oo [oowwnneerr]
+              The  name  of the owner of the jobs for which accounting statis-
+              tics are assembled. If the optional oowwnneerr argument is omitted, a
+              listing  of  the  accounting  statistics of all job owners being
+              present in the accounting file is produced.
+
+       --ppee [ppee__nnaammee]
+              The name of the parallel environment for which usage  is  summa-
+              rized.   If  ppee__nnaammee is not given, accounting data is listed for
+              each parallel environment separately.
+
+       --qq [wwcc__qquueeuuee__nnaammee]
+              A expression for queues for which usage is summarized. All queue
+              instances  matching the expression will be listed. If no expres-
+              sion is specified, a cluster queue summary will be given.
+
+       --ssii sseessssiioonn__iidd
+              Requests sent by this client to the _s_g_e___q_m_a_s_t_e_r(1)  daemon  will
+              be done as part of the specified session. If the switch is omit-
+              ted or if NNOONNEE is specified as  sseessssiioonn__iidd  then  such  requests
+              will be executed outside the control of a session.
+
+              Find more information concerning sessions in _s_e_s_s_i_o_n___c_o_n_f(5).
+
+       --sslloottss [sslloott__nnuummbbeerr]
+              The  number  of  queue  slots for which usage is summarized.  If
+              sslloott__nnuummbbeerr is not given, accounting data  is  listed  for  each
+              number of queue slots separately.
+
+       --tt ttaasskk__iidd__rraannggee__lliisstt
+              Only available together with the --jj option described above.
+
+              The  --tt  switch  specifies  the  array job task range, for which
+              accounting information should be printed. Syntax  and  semantics
+              of  ttaasskk__iidd__rraannggee__lliisstt are identical to that one described under
+              the --tt option to _q_s_u_b(1).  Please see  there  also  for  further
+              information on array jobs.
+
+       --PP [pprroojjeecctt__nnaammee]
+              The  name  of  the  project  for  which usage is summarized.  If
+              pprroojjeecctt__nnaammee is not given, accounting data is  listed  for  each
+              owning project separately.
+
+       --DD [ddeeppaarrttmmeenntt__nnaammee]
+              The  name  of  the department for which usage is summarized.  If
+              ddeeppaarrttmmeenntt__nnaammee is not given, accounting data is listed for each
+              owning department separately.
+
+EENNVVIIRROONNMMEENNTTAALL VVAARRIIAABBLLEESS
+       SSGGEE__RROOOOTT       Specifies the location of the Univa Grid Engine standard
+                      configuration files.
+
+       SSGGEE__CCEELLLL       If set, specifies the default Univa Grid Engine cell. To
+                      address  a  Univa  Grid  Engine  cell _q_a_c_c_t uses (in the
+                      order of precedence):
+
+                             The name of the cell specified in the environment
+                             variable SGE_CELL, if it is set.
+
+                             The name of the default cell, i.e. ddeeffaauulltt.
+
+
+       SSGGEE__DDEEBBUUGG__LLEEVVEELL
+                      If set, specifies that debug information should be writ-
+                      ten to stderr. In addition the level of detail in  which
+                      debug information is generated is defined.
+
+       SSGGEE__QQMMAASSTTEERR__PPOORRTT
+                      If  set,  specifies the tcp port on which _s_g_e___q_m_a_s_t_e_r(8)
+                      is expected to listen for communication requests.   Most
+                      installations will use a services map entry for the ser-
+                      vice "sge_qmaster" instead to define that port.
+
+       SSGGEE__EEXXEECCDD__PPOORRTT If set, specifies the tcp port on which _s_g_e___e_x_e_c_d(8)  is
+                      expected  to  listen  for  communication requests.  Most
+                      installations will use a services map entry for the ser-
+                      vice "sge_execd" instead to define that port.
+
+FFIILLEESS
+       _<_s_g_e___r_o_o_t_>_/_<_c_e_l_l_>_/_c_o_m_m_o_n_/_a_c_c_o_u_n_t_i_n_g
+                       Univa Grid Engine default accounting file
+       _<_x_x_q_s___n_a_m___s_e_x_x___r_o_o_t_>_/_<_c_e_l_l_>_/_c_o_m_m_o_n_/_a_c_t___q_m_a_s_t_e_r
+                       Univa Grid Engine master host file
+
+SSEEEE AALLSSOO
+       _s_g_e___i_n_t_r_o(1), _q_s_u_b(1), _a_c_c_o_u_n_t_i_n_g(5), _s_e_s_s_i_o_n___c_o_n_f(5), _s_g_e___q_m_a_s_t_e_r(8),
+
+CCOOPPYYRRIIGGHHTT
+       See _s_g_e___i_n_t_r_o(1) for a full statement of rights and permissions.
+
+
+
+Univa Grid Engine User Commands    UGE 8.4.4                          QACCT(1)

@@ -1,0 +1,67 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_JSESSION_GET_JOBS" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_jsession_get_jobs\fR \- drmaa2_jsession_get_jobs(3), Returns a list of all jobs of the job session\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_j_list drmaa2_jsession_get_jobs(const drmaa2_jsession jsession, const drmaa2_jinfo filter);
+.
+.SH "DESCRIPTION"
+Returns a list of jobs in a \fBdrmaa2_j_list\fR which belong to the given job session\. The job list contains only jobs which are submitted in the same job session\. If the application was restarted between job submission with drmaa2_jsession_run_job(3) and the drmaa2_jession_get_jobs(3) call the list contains only jobs which are still in \fBUniva(R) Grid Engine(TM)\fR (meaning jobs finshed in between are not part of the job list)\. When a job finishes while the job session is open, the finished job is stored together with its usage in the \fBdrmaa2_jsession\fR until the session is closed by drmaa2_close_jsession(3)\. Depending on the job state the \fBdrmaa2_j\fR objects have varying information available\. Freshly submitted jobs might have just a few of the fields set, while finsihed jobs have full usage information available\. Array jobs are returned as single, separated jobs\.
+.
+.P
+The second argument is a filter for the job list\. If the filter is set to NULL all availble jobs are returned\. If the filter has some UNSET entries only jobs matching the filter are returned\. The filter works in the same way than for drmaa2_msession_get_all_jobs(3)\. For more details about job filtering please consider the drmaa2_msession_get_all_jobs(3) man page\.
+.
+.SH "RETURN VALUES"
+Returns a newly allocated list of jobs which belong to the DRMAA2 job session\. The list has 0 or more entries\. In case of an failure NULL is returned and the error id and error string is set for the calling thread\. An appropriate callback function was set so that drmaa2_list_free(3) removes all allocated memory\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+/* expecting that the session was created before and some jobs are submitted */
+drmaa2_jsession js = drmaa2_open_jsession("mysession");
+
+if (js == NULL) {
+   drmaa2_string error = drmaa2_lasterror_text();
+   fprintf(stderr, "Error during opening of job session with the name %s: %s\en",
+              "mysession", error);
+   drmaa2_string_free(&error);
+} else {
+   drmaa2_j_list jobs = drmaa2_jsession_get_jobs(js, NULL);
+
+   if (jobs == NULL) {
+      drmaa2_string error = drmaa2_lasterror_text();
+      fprintf(stderr, "Error during getting job session job list: %s\en", error);
+      drmaa2_string_free(&error);
+   } else {
+      long size, i;
+
+      size = drmaa2_list_size(jobs);
+      for (i = 0; i < size; i++) {
+         /* do something with the jobs\.\.\.here we just terminate all jobs */
+         drmaa2_j job = (drmaa2_j) drmaa2_list_get(jobs, i);
+         drmaa2_j_terminate(j);
+      }
+      drmaa2_list_free(&categories);
+   }
+
+   /* close jsession */
+   drmaa2_jsession_close(js);
+   /* free jsession */
+   drmaa2_jsession_free(&js);
+}
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_jtemplate_create(3), drmaa2_jsession_get_session_names(3), drmaa2_jsession_get_session_name(3), drmaa2_jsession_get_contact(3), drmaa2_jsession_get_job_array(3), drmaa2_jsession_run_job(3), drmaa2_jsession_run_bulk_jobs(3), drmaa2_jsession_wait_any_started(3), drmaa2_jsession_wait_any_terminated(3), drmaa2_open_jsession(3), drmaa2_list_get(3), drmaa2_list_size(3), drmaa2_list_free(3), drmaa2_j_terminate(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

@@ -1,0 +1,139 @@
+'\" t
+.\"___INFO__MARK_BEGIN__
+.\"
+.\" Copyright: 2004 by Sun Microsystems, Inc.
+.\"
+.\"___INFO__MARK_END__
+.\"
+.de SB		\" small and bold
+.if !"\\$1"" \\s-2\\fB\&\\$1\\s0\\fR\\$2 \\$3 \\$4 \\$5
+..
+.\"
+.de T		\" switch to typewriter font
+.ft CW		\" probably want CW if you don't have TA font
+..
+.\"
+.de TY		\" put $1 in typewriter font
+.if t .T
+.if n ``\c
+\\$1\c
+.if t .ft P
+.if n \&''\c
+\\$2
+..
+.\"
+.de M		\" man page reference
+\\fI\\$1\\fR\\|(\\$2)\\$3
+..
+.TH SGE_PASSWD 1 "UGE 8.4.4" "Univa Grid Engine User Commands"
+.SH NAME
+sgepasswd \- Modify the Univa Grid Engine password file
+.\"
+.\"
+.SH SYNTAX
+.B sgepasswd
+[[
+.B -D domain
+]
+.B -d user
+] 
+.PP
+.B sgepasswd
+[
+.B -D domain
+] [
+.B user
+]
+.\"
+.SH DESCRIPTION
+.I sgepasswd
+modifies the Univa Grid Engine password file 
+.M sgepasswd 5 . 
+.PP
+This file contains a list of usernames and their windows password in 
+encrypted form. 
+.M sge_execd 8
+and
+.M sge_shepherd 8  
+on hosts running Microsoft Windows as operating systems use this 
+information to start jobs for a certain user. 
+.PP
+Each user can use the 
+.I sgepasswd 
+application to add a new entry for the own user account. It is also possible 
+to change the stored password with 
+.I sgepasswd 
+as far as the user knows the old one.
+.PP
+The root user additionally has the permission to change the password entries 
+for other user accounts. Root can also delete existing entries.
+.PP
+The 
+.I sgepasswd
+application is only available on non-Windows hosts. In order to be able to modify the
+.M sgepasswd 5
+file, the
+.I sgepasswd
+application needs to run with the right user ID set (usually the one of root). To achieve
+this, the setuid bit has to be set in the file permissions and the
+.I sgepasswd
+application has to be owned by the right user (usually root). The
+.M sge_qmaster 8
+installation script sets the permissions and owner properly if it is requested.
+
+The "ls -l" output of the
+.I sgepasswd
+application should look like this:
+
+-r-sr-xr-x  1 root root 4136176 Dec 10 15:51 sgepasswd
+
+However, the setuid mechanism does not work if the
+.I sgepasswd
+application resides on a file system that is mounted with the "nosuid" option. If policies
+require the $SGE_ROOT directory to be located on such a file system, copying the
+.I sgepasswd
+application to a different location is a possible workaround for this problem.
+
+.PP
+.\"
+.SH OPTIONS
+.IP "\fB\-D domain\fP"
+Per default 
+.I sgepasswd 
+will add/modify the current Unix username without domain specification.
+This switch can be used to add a domain specification in front of the
+current user name. Consult your Microsoft Windows documentation to get
+more information about domain users. 
+.\"
+.IP "\fB\-d user\fP"
+Only root can use this parameter to delete entries from the
+.M sgepasswd 5 
+file.
+.\"
+.IP "\fB\-help\fP"
+Prints a listing of all options.
+.\"
+.SH "ENVIRONMENTAL VARIABLES"
+.\" 
+.IP "\fBSGE_CERTFILE\fP" 1.5i
+Specifies the location of public key file. Per default 
+.I sgepasswd
+will use the file $SGE_ROOT/$SGE_CELL/common/sgeCA/certs/cert.pem
+.\"
+.IP "\fBSGE_KEYFILE\fP" 1.5i
+If set, specifies the location of the private key file.
+Default is /var/sgeCA/port${SGE_QMASTER_PORT}/${SGE_CELL}/private/key.pem
+.\"
+.IP "\fBSGE_RANDFILE\fP" 1.5i
+If set, specifies the location of the seed used to create encrypted
+versions of user passwords. Default
+is /var/sgeCA/port${SGE_QMASTER_PORT}/${SGE_CELL}/private/rand.seed
+.\"
+.SH "SEE ALSO"
+.M sge_intro 1 ,
+.M sgepasswd 5 
+.\"
+.SH "COPYRIGHT"
+See
+.M sge_intro 1
+for a full statement of rights and permissions.

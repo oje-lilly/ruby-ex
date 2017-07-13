@@ -1,0 +1,47 @@
+#!/bin/sh
+#
+#___INFO__MARK_BEGIN__
+###########################################################################
+#
+#  The contents of this file are made available subject to the terms of the
+#  Apache Software License 2.0 ('The License').
+#  You may not use this file except in compliance with The License.
+#  You may obtain a copy of The License at
+#  http://www.apache.org/licenses/LICENSE-2.0.html
+#
+#  Copyright (c) 2011-2012 Univa Corporation.
+#
+###########################################################################
+#___INFO__MARK_END__
+#
+# this wrapper script starts lamd on the local host under UGE control
+#
+# installation:
+#   cd to the LAM-MPI bin directory
+#   mv lamd lamd_binary
+#   cp $SGE_ROOT/mpi/lam/lamd_wrapper .
+#   ln -s lamd_wrapper lamd
+
+LAMD_BINARY=lamd_binary
+
+# if started within an UGE job start lamd under UGE control for tight integration
+# if started interactively just start lamd
+if [ "$ENVIRONMENT" = "BATCH" -a "x$SGE_ROOT" != "x" ] ; then
+   TRIES=5
+   # wait for lamboot to daemonize its child (this script)
+   while [ $TRIES -gt 0 ]; do
+      if [ `ps -o ppid= -p $$` != 1 ]; then
+         sleep 1
+         TRIES=`expr $TRIES - 1`
+      else
+         # start lamd under UGE control
+         # we inherit the environment set up by lamboot
+         exec $SGE_ROOT/bin/$ARC/qrsh -V -inherit -nostdin $HOSTNAME $LAMD_BINARY "$@"
+      fi
+   done
+else
+   exec $LAMD_BINARY "$@"
+fi
+
+# we should never get here
+exit 1

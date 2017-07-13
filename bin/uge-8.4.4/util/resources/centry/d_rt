@@ -1,0 +1,13 @@
+# Version: Grid Engine 8.1.5
+#
+# DO NOT MODIFY THIS FILE MANUALLY!
+#
+name        d_rt
+shortcut    d_rt
+type        TIME
+relop       <=
+requestable YES
+consumable  NO
+default     0:0:0
+urgency     0
+aapre       FALSE 

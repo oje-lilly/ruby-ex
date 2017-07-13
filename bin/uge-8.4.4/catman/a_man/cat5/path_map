@@ -1,0 +1,66 @@
+PATH_MAP(5)                                                        PATH_MAP(5)
+
+
+
+NNAAMMEE
+       path_map - Univa Grid Engine path mapping file format
+
+DDEESSCCRRIIPPTTIIOONN
+       The _p_a_t_h___m_a_p file is only necessary if a Windows (win-x86) host is part
+       of the Univa Grid Engine cluster. It is used to define how  UNIX  paths
+       shall be converted into Windows paths.
+
+       The  _p_a_t_h___m_a_p  file contains a list of comma separated mappings between
+       UNIX and the corresponding Windows paths.  There  are  two  columns  in
+       each  line.  In  the left column, the UNIX path is listed, in the right
+       column, the corresponding Windows path is listed. The columns are sepa-
+       rated by a comma, which may be followed by a blank to improve readabil-
+       ity.
+
+       The _p_a_t_h___m_a_p file will be used only on Windows and by these Univa  Grid
+       Engine components: _s_g_e___e_x_e_c_d(8), _s_g_e___s_h_e_p_h_e_r_d(8), _u_g_e___j_s___s_e_r_v_i_c_e_._e_x_e(8)
+       and all Univa Grid Engine client commands.
+
+       If these Univa Grid Engine components have to convert a path, they will
+       scan the left column of the _p_a_t_h___m_a_p file from top to bottom until they
+       find a path that matches the beginning of the path  to  convert.   This
+       part will then be replaced by the Windows path from the right column of
+       the same line. After this, all slashes in the path to convert  will  be
+       replaced  by  backslashes.   Because of this, it is not possible to use
+       UNIX paths that contain backslashes for a  Univa  Grid  Engine  cluster
+       that includes a Windows host.
+
+       A  proper  _p_a_t_h___m_a_p file always contains a mapping with the pseudo path
+       "/execd_spool_dir/win-x86/placeholder" in the  left  column.  The  same
+       path  appears  in  the configuration of a Windows execution host. It is
+       just a placeholder that is necessary because it's not possible to  con-
+       figure Windows paths in the global or execution host configuration.
+
+EEXXAAMMPPLLEE
+       If  the  path  to  convert is "/home/jdoe/joboutputs/myjob.o17" and the
+       path_map file looks like this:
+
+       /opt/UGE820, \\server\share\UGE820
+       /execd_spool_dir/win-x86/placeholder, c:\tmp\spool\UGE
+       /var/sgeCA, c:\tmp\var\sgeCA
+       /home, \\homeserver\homeshare
+       /tmp, c:\tmp
+
+       then Univa Grid Engine will scan over the lines in  the  _p_a_t_h___m_a_p  file
+       until  it finds in the left column a path that matches the beginning of
+       the path to convert. In this case, this is the path "/home". It will be
+       replaced  in  the  path  to convert by the content of the right column,
+       resulting in the intermediate path "\\homeserver\homeshare/jdoe/jobout-
+       puts/myjob.o17".  Then,  all  slashes in the path are replaced by back-
+       slashes,   resulting   in   the    final    path    "\\homeserver\home-
+       share\jdoe\joboutputs\myjob.o17".
+
+SSEEEE AALLSSOO
+       _s_g_e___e_x_e_c_d(8), _s_g_e___s_h_e_p_h_e_r_d(8), _u_g_e___j_s___s_e_r_v_i_c_e_._e_x_e(8)
+
+CCOOPPYYRRIIGGHHTT
+       See _s_g_e___i_n_t_r_o(1) for a full statement of rights and permissions.
+
+
+
+Univa Grid Engine File Formats     UGE 8.4.4                       PATH_MAP(5)

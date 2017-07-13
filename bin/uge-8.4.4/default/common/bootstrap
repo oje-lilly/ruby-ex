@@ -1,0 +1,17 @@
+# Version: 8.4.4
+#
+admin_user              sgeadmin
+default_domain          none
+ignore_fqdn             true
+spooling_method         berkeleydb
+spooling_lib            libspoolb
+spooling_params         /opt/uge/uge-8.4.4/default/spool/spooldb
+binary_path             /opt/uge/uge-8.4.4/bin
+qmaster_spool_dir       /opt/uge/uge-8.4.4/default/spool/qmaster
+security_mode           none
+listener_threads        2
+worker_threads          4
+reader_threads          0
+scheduler_threads       1
+jvm_threads             0
+lo_threads              0

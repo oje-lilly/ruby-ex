@@ -1,0 +1,40 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_JARRAY_GET_ID" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_jarray_get_id\fR \- drmaa2_jarray_get_id(3), Returns the id of the job array\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_string drmaa2_jarray_get_id(const drmaa2_jarray jarray)
+.
+.SH "DESCRIPTION"
+Returns a newly allocated \fBdrmaa2_string\fR copy of the id from the array job\.
+.
+.SH "RETURN VALUES"
+Returns a newly allocated \fBdrmaa2_string\fR (char *) or NULL in case of an error\. The \fBdrmaa2_string\fR must be freed from the calling function\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+ drmaa2_string id = drmaa2_jarray_get_id(ja);
+
+ if (id != NULL) {
+    /* \.\.\. do something with the id \.\.\. */
+
+    /* finally free the id again */
+    drmaa2_string_free(&id);
+ }
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_jarray_free(3), drmaa2_jarray_get_job_template(3), drmaa2_jarray_get_jobs(3), drmaa2_jarray_get_id(3), drmaa2_jsession_get_session_names(3), drmaa2_jsession_get_session_name(3), drmaa2_jsession_get_contact(3), drmaa2_jsession_get_job_array(3), drmaa2_jsession_run_job(3), drmaa2_jsession_run_bulk_jobs(3), drmaa2_jsession_wait_any_started(3), drmaa2_jsession_wait_any_terminated(3), drmaa2_open_jsession(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

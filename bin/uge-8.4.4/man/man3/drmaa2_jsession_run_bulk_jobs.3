@@ -1,0 +1,80 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_JSESSION_RUN_BULK_JOBS" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_jsession_run_bulk_jobs\fR \- drmaa2_jsession_run_bulk_jobs, Submits an array job based on a template\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_jarray drmaa2_jsession_run_bulk_jobs(const drmaa2_jsession jsession, const drmaa2_jtemplate jtemplate, long long begin_index, long long end_index, long long step, long long max_parallel);
+.
+.SH "DESCRIPTION"
+This function submits one or more jobs (in \fBUniva(R) Grid Engine(TM)\fR terminology an array job) which is based on the given job template in the given job session\. For a successful array job submission the given job session needs to be open\. The returned array job object can be used for monitoring and controlling the array job by either extracting the single jobs (job tasks) out of the job array or by using the job array functions directly\.
+.
+.P
+A DRMAA2 job array is a set of jobs which are based on the same job template\. It allows an efficient submission and handling of such jobs not only in the DRMAA2 application but also in \fBUniva(R) Grid Engine(TM)\fR itself\. The DRMAA2 job array corresponds to the \fBUniva(R) Grid Engine(TM)\fR array job\. The difference between the jobs is that specific environement variables (\fB$SGE_TASK_ID\fR) are set in order to identify the task number\. The task number is for each job (which is an array job instance) different\. The task ID is usually used to identify the data chunk the job has to work on or to identify which code should be executed\.
+.
+.P
+The task numbers and the amount of jobs which should be part of the array job are determined by the parameters \fBbegin_index\fR, \fBend_index\fR, \fBstep\fR, and \fBmax_parallel\fR\.
+.
+.TP
+\fBbegin_index\fR
+The job task id if the first job array job\. Allowed values are 1 and higher\.
+.
+.TP
+\fBend_index\fR
+The job task id of the last job of the array job\. Allowed values are 1 and higher\. It must be equal or higher than \fBbegin_index\fR\.
+.
+.TP
+\fBstep\fR
+The incrementor / step size of the job task ids\. A common value is 1 that mean that each job task id ranging from \fBbegin_index\fR to \fBend_index is used\. It must be equal or higher than 1\. If a higher value is used the second job task id is\fRbegin_index` + step\.
+.
+.TP
+\fBmax_parallel\fR
+Influences how many job id tasks are allowed to run concurrently in parallel\. Depending on the cluster load also less tasks can run\. If DRMAA2_UNSET_NUM is used as limit, no limit is applied\. Otherwise the number corresponds to the \fBUniva(R) Grid Engine(TM)\fR \fB\-tc\fR parameter\. It must be equal or greater than 1\.
+.
+.P
+Resource limits and general resource requests which are not part of the job template or the \fBUniva(R) Grid Engine(TM)\fR job template enhancements (but which available in \fBUniva(R) Grid Engine(TM)\fR installation with the \fB\-l\fR requests \- like administrator defined resources), can be requested by using the \fBresourceLimits\fR dictionary which is part of the DRMAA2 job template\.
+.
+.SH "RETURN VALUES"
+Returns a newly allocated DRMAA2 job array object or NULL in case any error happend\. In case of an error the error ID and error text is stored in the context of the thread which submitted the job\. The error can be read out by drmaa2_lasterror(3) and drmaa2_lasterror_text(3)\. The returned job object must be freed by drmaa2_jarray_free(3) after usage\. The job array contains a list of DRMAA2 jobs (type \fBdrmaa2_j\fR) which can be used for a fainer grained job control and job status fetching\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+/* Create and open a new job session\. */
+drmaa2_jsession js = drmaa2_create_jsession("test_session", NULL);
+drmaa2_jarray ja = NULL;
+
+if (js != NULL) {
+   /* create a new job template\. */
+   drmaa2_jtemplate jt = drmaa2_jtemplate_create();
+
+   /* add the job characteristics */
+   jt\->jobName = strdup("test_job");
+   jt\->remoteCommand = strdup("sleep");
+   /* since no allocated strings are used we don\'t need to specify a callback */
+   args = drmaa2_list_create(DRMAA2_STRINGLIST, NULL);
+   drmaa2_list_add(args, "60");
+   jt\->args = args;
+
+   /* submit 100 sleeper jobs, limiting to run 10 sleepers at a time in parallel */
+   jarray = drmaa2_jsession_run_bulk_jobs(js, jt, 1, 100, 10);
+}
+
+drmaa2_jarray_free(&jarray);
+drmaa2_jtemplate_free(&jt);
+\.\.\.
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_jtemplate_create(3), drmaa2_jtemplate_free(3), drmaa2_jsession_open(3), drmaa2_jsession_create(3), drmaa2_jsession_close(3), drmaa2_jsession_destroy(3), drmaa2_jsession_run_job(3), drmaa2_jsession_run_bulk_jobs(3), drmaa2_jsession_get_jobs(3), drmaa2_jsession_wait_any_started(3), drmaa2_jsession_wait_any_terminated(3), drmaa2_j_free(3), drmaa2_jarray_get_id(3), drmaa2_jarray_get_jobs(3), drmaa2_jarray_get_session_name(3), drmaa2_jarray_get_job_template(3), drmaa2_jarray_suspend(3), drmaa2_jarray_resume(3), drmaa2_jarray_hold(3), drmaa2_jarray_release(3), drmaa2_jarray_terminate(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 20

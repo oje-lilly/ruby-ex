@@ -1,0 +1,94 @@
+#!/bin/bash
+#___INFO__MARK_BEGIN__
+#############################################################################
+#
+#  This code is the Property, a Trade Secret and the Confidential Information
+#  of Univa Corporation.
+#
+#  Copyright Univa Corporation. All Rights Reserved. Access is Restricted.
+#
+#  It is provided to you under the terms of the
+#  Univa Term Software License Agreement.
+#
+#  If you have any questions, please contact our Support Department.
+#
+#  www.univa.com
+#
+###########################################################################
+#___INFO__MARK_END__
+
+# ----------------------------------------------------------------
+# This script creates user defined host groups for long running
+# parallel jobs, so that they can be tracked with HP Insight CMU.
+# ----------------------------------------------------------------
+
+# adding UGE and CMU into path
+source UGEPATH/util/resources/CMU/scripts/uge_settings.sh 
+
+# -----------------------------------
+# 1. Detect running execution daemons
+# -----------------------------------
+hosts=`qhost | tail -n +4 | awk '{print $1}' | awk -F"." '{print $1}'`
+
+# TODO error detection if qhost does retun 0 hosts or even had
+# a problem
+
+# check if user host group does exist already
+cmu_hosts=`cmu_show_user_groups UGE_execution_hosts`
+if [ $? -eq 1 ]; then
+   # UGE group does not exist: create new group
+   cmu_add_user_group UGE_execution_hosts &> /dev/null
+   cmu_add_to_user_group -t UGE_execution_hosts $hosts &> /dev/null
+elif [ "$cmu_hosts" == "" ]; then
+   # if existing group is empty
+   cmu_add_to_user_group -t UGE_execution_hosts $hosts &> /dev/null
+else
+   # sort for comparison
+   cmu_hosts=`echo $cmu_hosts | sort -u`
+   # add or remove hosts from CMU config depending on their existence
+   short_hosts=`echo $hosts | sort -u`
+   if [ "$hosts" != "$cmu_hosts" ]; then
+      cmu_del_from_user_group -t UGE_execution_hosts $cmu_hosts &> /dev/null
+      cmu_add_to_user_group -t UGE_execution_hosts $hosts &> /dev/null
+   fi
+fi
+
+# ---------------------------------------------------
+# 2. Adding master and shadowd daemon user host group
+# ---------------------------------------------------
+master=`cat $SGE_ROOT/$SGE_CELL/common/act_qmaster`
+master=`echo $master | tr '.' '\n' | head -1`
+cmu_master=`cmu_show_user_groups UGE_master_host`
+if [ $? -eq 1 ]; then
+   cmu_add_user_group UGE_master_host &> /dev/null
+   cmu_add_to_user_group -t UGE_master_host $master &> /dev/null
+else
+   if [ "$master" != "$cmu_master" ]; then
+      cmu_del_from_user_group -t UGE_master_host $cmu_master &> /dev/null
+      cmu_add_to_user_group -t UGE_master_host $master &> /dev/null
+   fi
+fi
+
+if [ -f $SGE_ROOT/$SGE_CELL/common/shadow_masters ]; then 
+   shadows=`cat $SGE_ROOT/$SGE_CELL/common/shadow_masters | awk -F"." '{print $1}'`
+   cmu_shadows=`cmu_show_user_groups UGE_shadow_hosts`
+   if [ $? -eq 1 ]; then
+      cmu_add_user_group UGE_shadow_hosts &> /dev/null
+      cmu_add_to_user_group -t UGE_shadow_hosts $shadows &> /dev/null
+   else
+      short_shadows=`echo $shadows | sort -u`
+      cmu_shadows=`echo $cmu_shadows | sort -u`
+      if [ "$shadows" != "$cmu_shadows" ]; then
+         cmu_del_from_user_group -t UGE_shadow_hosts $cmu_shadows &> /dev/null
+         cmu_add_to_user_group -t UGE_shadow_hosts $shadows &> /dev/null
+      fi
+   fi
+fi
+
+# ------------------------------------------------------
+# 3. Print out job information in format for dynamically
+#    created user groups to stdout in format:
+#    JOB HOST1 HOST2 ... HOSTN
+# ------------------------------------------------------
+UGEPATH/util/resources/CMU/scripts/JobHostList.py
+

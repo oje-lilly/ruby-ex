@@ -1,0 +1,1021 @@
+'\" t
+.\"___INFO__MARK_BEGIN__
+.\"
+.\" This code is the Property, a Trade Secret and the Confidential Information
+.\" of Univa Corporation.
+.\"
+.\" Copyright Univa Corporation. All Rights Reserved. Access is Restricted.
+.\"
+.\" It is provided to you under the terms of the
+.\" Univa Term Software License Agreement.
+.\"
+.\" If you have any questions, please contact our Support Department.
+.\"
+.\" www.univa.com
+.\"
+.\"___INFO__MARK_END__
+.\" 
+.\" Some handy macro definitions [from Tom Christensen's man(1) manual page].
+.\"
+.de SB		\" small and bold
+.if !"\\$1"" \\s-2\\fB\&\\$1\\s0\\fR\\$2 \\$3 \\$4 \\$5
+..
+.\"
+.de T		\" switch to typewriter font
+.ft CW		\" probably want CW if you don't have TA font
+..
+.\"
+.de TY		\" put $1 in typewriter font
+.if t .T
+.if n ``\c
+\\$1\c
+.if t .ft P
+.if n \&''\c
+\\$2
+..
+.\"
+.de M		\" man page reference
+\\fI\\$1\\fR\\|(\\$2)\\$3
+..
+.TH SGE_JOB_CLASS 5 "UGE 8.4.4" "Univa Grid Engine File Formats"
+.\"
+.SH NAME
+job class \- job class entry file format
+.\"
+.SH DESCRIPTION
+.PP
+When Univa Grid Engine jobs are submitted then various submit parameters 
+have to be specified either as switches which are passed to command line 
+applications or through corresponding selections in the graphical user 
+interface. Some of those switches define the essential characteristics 
+of the job, others describe the execution context that is required so 
+that the job can be executed successfully. Another subset of switches 
+needs to be specified only to give Univa Grid Engine the necessary hints 
+on how to handle a job correctly so that it gets passed through the system
+quickly without interfering with other jobs.
+.PP
+In small and medium sized clusters with a limited number of different job 
+types this is not problematic. The number of arguments that have to be 
+specified can either be written into default request files, embedded into 
+the job script, put into an option file (passed with \fI-@\fP of 
+.M qsub 1 ) 
+or they 
+can directly be passed at the command line.
+.PP
+Within larger clusters or when many different classes of jobs should run 
+in the cluster then the situation is more complex and it can be 
+challenging for a user to select the right combination of switches with 
+appropriate values. Cluster managers need to be aware of the details of 
+the different job types that should coexist in the cluster so that they 
+can setup suitable policies in line with the operational goals of the 
+site. They need to instruct the users about the details of the cluster 
+setup so that these users are able to specify the required submission 
+requests for each job they submit.
+.PP
+Job classes have been introduced in Univa Grid Engine 8.1 to be able to:
+.IP "*" 0.3i
+specify job templates that can be used to create new jobs.
+.IP "*" 0.3i
+reduce the learning curve for users submitting jobs.
+.IP "*" 0.3i
+avoid errors during the job submission or jobs which may not fit site requirements.
+.IP "*" 0.3i
+ease the cluster management for system administrators.
+.IP "*" 0.3i
+provide more control to the administrator for ensuring jobs are in line with the cluster set-up.
+.IP "*" 0.3i
+define defaults for all jobs that are submitted into a cluster.
+.IP "*" 0.3i
+improve the performance of the scheduler component and thereby the throughput in the cluster.
+.PP
+Imagine you have users who often make mistakes specifying memory limits 
+for a specific application called memeater. You want to make it easy for 
+them by specifying meaningful defaults but you also want to give them the 
+freedom to modify the memory limit default according to their needs. Then 
+you could use the following job class configuration (only an excerpt of 
+the full configuration is shown):
+.PP
+\fB
+.nf
+   jcname          memeater
+   variant_list    default,short,long
+   owner           NONE
+   user_lists      NONE
+   xuser_lists     NONE
+   ...
+   CMDNAME         /usr/local/bin/memeater
+   ...
+   l_hard          {~}{~}h_vmem=6GB
+   ...
+.fi
+\fP
+.PP
+Without going into the specifics of the job class syntax, the above job 
+class will use a default of 6 GB for the memory limit of the job. It will, 
+however, be feasible for users to modify this limit. Here are two examples 
+for how users would submit a job based on this job class. The first 
+maintaining the default, the second modifying it to 8 GB (again without 
+going into the details of the syntax being used here):
+.IP "1)" 0.3i
+\fBqsub -jc memeater\fP
+.IP "2)" 0.3i
+\fBqsub -jc memeater -l h_vmem=8GB\fP
+.PP
+Now assume a slightly modified scenario where you want to restrict a 
+certain group of users called novice to only use the preset of 6 GB while
+another group of users called expert can either use the default or can 
+modify the memory limit. The following job class example would accomplish 
+this. And the trick is that job classes support so called variants as well 
+as user access lists:
+.PP
+\fB
+.nf
+   jcname          memeater
+   variant_list    default advanced
+   owner           NONE
+   user_lists      novice,[advanced=expert]
+   xuser_lists     NONE
+   ...
+   CMDNAME         /usr/local/bin/memeater
+   ...
+   l_hard          h_vmem=6GB,[{~}advanced={~}h_vmem=6GB]
+.fi
+\fP
+.PP
+With this job class configuration, the novice users would only be able to 
+submit their job using the first command example below while expert users 
+could use both examples:
+.IP "1)" 0.3i
+\fBqsub -jc memeater\fP
+.IP "2)" 0.3i
+\fBqsub -jc memeater.advanced -l h_vmem=8GB\fP
+.PP
+The two use cases for job classes above are only snippets for all the 
+different scenarios to which job classes may be applied and they only provide
+a glimpse onto the features of job classes. The next sections describe all 
+attributes forming a job class object, commands that are used to define job 
+classes as well as how these objects are used during job submission to form 
+new jobs. A set of examples with growing functionality will illustrate further 
+use cases. This will be followed by describing how job classes can be embedded 
+with other parts of a Univa Grid Engine configuration to extract the maximum 
+benefit from job classes. Finally, specific means for monitoring job class 
+jobs will be shown.
+.\"
+.\"
+.SH FORMAT OF JOB CLASS ATTRIBUTES
+A job class is a new object type in Univa Grid Engine 8.1. Objects of this 
+type can be defined by managers and also by users of a Univa Grid Engine cluster 
+to prepare templates for jobs. Those objects can later on be used to create jobs.
+.PP
+Like other configuration objects in Univa Grid Engine each job class is defined 
+by a set of configuration attributes. This set of attributes can be divided into 
+two categories. The first category contains attributes defining a job class 
+itself and the second category all those which form the template which in turn 
+eventually gets instantiated into new jobs.
+.PP
+Following attributes describe characteristics of a job class:
+.PP
+.\"
+.\"
+.SS "\fBjcname\fP" 
+The \fBjcname\fP attribute defines a name that uniquely identifies a job class. 
+Please note that \fBNO_JC\fP and \fBANY_JC\fP are reserved keywords that cannot 
+be used as names for new job classes.
+.PP
+There is one particular job class with the special name \fBtemplate\fP. It acts 
+as template for all other job classes and the configuration of this job class 
+template can only be adjusted by users having the manager role in 
+Univa Grid Engine. This gives manager accounts control about default settings, 
+some of which also can be set so that they must not be changed (see below for 
+more information on how to enforce options).
+.\"
+.\"
+.SS "\fBvariant_list\fP"
+Job classes may, for instance, represent an application type in a cluster. 
+If the same application should be started with various different settings 
+in one cluster or if the possible resource selection applied by 
+Univa Grid Engine system should depend on the mode how the application 
+should be executed then it is possible to define one job class with 
+multiple variants. A job class variant can be seen as a copy of a job class 
+that differs only in some aspects from the original job class.
+.PP
+The \fBvariant_list\fP job class attribute defines the names of all existing 
+job class variants. If the keyword \fBNONE\fP is used or when the list contains 
+only the word default then the job class has only one variant. If multiple 
+names are listed here, that are separated by commas, then the job class 
+will have multiple variants. The default variant always has to exist. If 
+the \fBvariant_list\fP attribute does not contain the word default then it will 
+be automatically added by the Univa Grid Engine system.
+.PP
+Other commands that require a reference of a job class can either use the 
+\fBjcname\fP or \fBjcname.default\fP to refer to the default variant of a 
+job class or they can reference a different variant by combining the \fBjcname\fP with the name of a specific variant. Both names have to be separated by a 
+dot (\fB.\fP) character.
+.\"
+.\"
+.SS "\fBowner\fP"
+The \fBowner\fP attribute denotes the ownership of a job class. As default 
+the user that creates a job class will be the owner. Only this user and 
+all managers are allowed to modify or delete the job class object. 
+Managers and owners can also add additional user names to this list to give 
+these users modify and delete permissions. If a manager creates a job class 
+then the \fBowner\fP will be \fBNONE\fP to express that only managers 
+are allowed to modify or delete the corresponding job class. 
+Even if a job class is owned only by managers it can still be used 
+to create new jobs. The right to derive new jobs from a job class can be 
+restricted with the \fBuser_lists\fP 
+and \fBxuser_lists\fP attributes explained below.
+.\"
+.\"
+.SS "\fBuser_lists\fP"
+The \fBuser_lists\fP job class parameter contains a comma separated list of 
+Univa Grid Engine user access list names and user names. User names have to be 
+prefixed with a percent character (%). Each user referenced in the 
+\fBuser_lists\fP and each user in at least one of the 
+enlisted access lists has the right to derive new jobs from this job class 
+using the \fI-jc\fP switch of one of the submit commands. If the \fBuser_lists\fP 
+parameter is set to \fBNONE\fP (the default) any user can use the job class to 
+create new jobs if access is not explicitly excluded via the \fBxuser_lists\fP 
+parameter described below. If a user is contained both in an access list 
+enlisted in \fBxuser_lists\fP and \fBuser_lists\fP the user is denied access 
+to use the job class.
+.\"
+.\"
+.SS "\fBxuser_lists\fP"
+The \fBxuser_lists\fP job class contains a comma separated list of 
+Univa Grid Engine user access list names and user names. User names have to be prefixed
+with a percent character (%). Each user referenced in the \fBxuser_lists\fP and 
+users in at least one of the 
+enlisted access lists are not allowed to derive new jobs from this job 
+class. If the \fBxuser_lists\fP parameter is set to \fBNONE\fP (the default) 
+any user has access. If a user is contained both in an access list enlisted in 
+\fBxuser_lists\fP and \fBuser_lists\fP the user is denied access to use the 
+job class.
+.\"
+.\"
+.SH FORMAT OF JOB CLASS ATTRIBUTES THAT FORM A JOB TEMPLATE
+Additionally to the attributes mentioned previously each job class has a set 
+of attributes that form a job template. In most cases the names of those 
+additional attributes correspond to the names of command line switches of 
+the 
+.M qsub 1 
+command. The value for all these additional attributes might either 
+be the keyword \fBUNSPECIFIED\fP or it might be the same value that would 
+be passed with the corresponding qsub command line switch.
+.PP
+All these additional job template attributes will be evaluated to form a 
+virtual command line when a job class is used to instantiate a new job. 
+All attributes for which the corresponding value contains the \fBUNSPECIFIED\fP 
+keyword will be ignored whereas all others define the submit arguments for 
+the new job that will be created.
+.PP
+All template attributes can be divided in two groups. There are template 
+attributes that accept simple attribute values (like a character sequence, 
+a number or the value \fByes\fP or \fBno\fP) and there are template 
+attributes that allow to specify a list of values or a list of key/value 
+pairs (like the list of resource requests a job has or the list of queues 
+where a job might get executed).
+.PP
+The sections below explain all available template attributes. The asterisk 
+character (\fB*\fP) tags all attributes that are list based. Within the 
+description the default for each attribute is documented that will be used 
+when the keyword \fBUNSPECIFIED\fP is used in the job class definition.
+.\"
+.\"
+.SS "\fBa\fP"
+Specifies the time and date when a job is eligible for execution. 
+If unspecified the job will be immediately eligible for execution. 
+Format of the character sequence is the same as for the argument that might 
+be passed with 
+.M qsub 1 
+\fI-a\fP.
+.\"
+.\"
+.SS "\fBA\fP"
+Account string. The string \fIsge\fP will be used when there is no account 
+string specified or when it is later on removed from a job template or 
+job specification.
+.\"
+.\"
+.SS "\fBac\fP (*)"
+List parameter defining the name/value pairs that are part of the 
+job context. Default is an empty list.
+.\"
+.\"
+.SS "\fBar\fP"
+Advance reservation identifier used when jobs should be part of 
+an advance reservation. As default no job will be part of an 
+advance reservation.
+.\"
+.\"
+.SS "\fBb\fP"
+\fByes\fP or \fBno\fP to express if the command should be treated as binary or 
+not. The default for this parameter is \fBno\fP, i.e. the job is treated 
+as a script.
+.\"
+.\"
+.SS "\fBbinding\fP"
+Specifies all core binding specific settings that should be applied 
+to a job during execution. Binding is disabled as default.
+.\"
+.\"
+.SS "\fBCMDARG\fP (*)"
+Defines a list of command line arguments that will be passed to 
+\fBCMDNAME\fP when the job is executed. As default this list is empty.
+.\"
+.\"
+.SS "\fBCMDNAME\fP"
+Specified either the job script or the command name when binary 
+submission is enabled (b yes). Please note that script embedded flags
+within specified job scripts will be ignored.
+.\"
+.\"
+.SS "\fBc_interval\fP"
+Defines the time interval when a checkpoint-able job should be 
+checkpointed. The default value is 0.
+.\"
+.\"
+.SS "\fBc_occasion\fP"
+Letter combination that defines the state transitions when a 
+job should be triggered to write a checkpoint. Default is 'n' which 
+will disable checkpointing.
+.\"
+.\"
+.SS "\fBckpt\fP"
+Checkpoint environment name which specifies how to checkpoint the job. 
+No checkpoint object will be referenced as default.
+.\"
+.\"
+.SS "\fBcwd\fP"
+Specifies the working directory for the job. Path aliasing will not be 
+used when this value is specified in a job class. In case of absence 
+the home directory of the submitting user will be used as directory 
+where the job is executed.
+.\"
+.\"
+.SS "\fBdl\fP"
+Specifies the deadline initiation time for a job (see the chapter about 
+deadline urgency in the administrators guide for more information). As default 
+jobs have do defined deadline.
+.\"
+.\"
+.SS "\fBe\fP (*)"
+List parameter that defines the path for the error file for specific 
+execution hosts. As default the file will be stored in the home directory 
+of the submitting user and the filename will be the combination of the job 
+name and the job id.
+.\"
+.\"
+.SS "\fBh\fP"
+\fByes\fP or \fBno\fP to indicate if a job should be initially in hold state. 
+The default is \fBno\fP.
+.\"
+.\"
+.SS "\fBhold_jid\fP (*)"
+List parameter to create initial job dependencies between new jobs 
+and already existing ones. The default is an empty list.
+.\"
+.\"
+.SS "\fBhold_jid_ad\fP (*)"
+List parameter to create initial array job dependencies between new 
+array jobs and already existing ones. The default is an empty list.
+.\"
+.\"
+.SS "\fBi\fP (*)"
+List parameter that defines the path for the input file for 
+specific execution hosts
+.\"
+.\"
+.SS "\fBj\fP"
+\fByes\fP or \fBno\fP to show if error and output stream of the job should be 
+joined into one file. Default is no.
+.\"
+.\"
+.SS "\fBjs\fP"
+Defines the job share of a job relative to other jobs. The default is 0.
+.\"
+.\"
+.SS "\fBl_hard\fP (*)"
+List parameter that defines hard resource requirements of a job in the 
+form of name/value pairs. The default is an empty list.
+.\"
+.\"
+.SS "\fBl_soft\fP (*)"
+List parameter defining soft requests of a job. The default is an empty list.
+.\"
+.\"
+.SS "\fBmbind\fP"
+Specifies memory binding specific settings that should be applied to a job 
+during execution. Memory binding is disabled as default.
+.\"
+.\"
+.SS "\fBm\fP"
+Character sequence that defines the circumstances when mail that is related 
+to the job should be send. The default is \fBn\fP which means no mails should 
+be send.
+.\"
+.\"
+.SS "\fBM\fP (*)"
+List parameter defining the mail addresses that will be used to send job 
+related mail. The default is an empty list.
+.\"
+.\"
+.SS "\fBmasterl\fP (*)"
+List parameter that defines hard resource requirements for the master task
+of a parallel in the form of name/value pairs. The default is an empty list.
+.\"
+.\"
+.SS "\fBmasterq\fP (*)"
+List parameter that defines the queues that might be used as master queues 
+for parallel jobs. The default is an empty list.
+.\"
+.\"
+.SS "\fBN\fP"
+Default name for jobs. For jobs specifying a job script which are submitted 
+with qsub or the graphical user interface the default value will be the name 
+of the job script. When the script is read from the stdin stream of the submit 
+application then it will be \fISTDIN\fP. 
+.M qsh 1 
+and 
+.M qlogin 1 
+jobs will set the job name 
+to INTERACTIVE. 
+.M qrsh 1 
+jobs will use the first characters of the command line 
+up to the first occurrence of a semicolon or space character.
+.\"
+.\"
+.SS "\fBnotify\fP"
+\fByes\fP or \fBno\fP to define if warning signals will be send to a jobs if it
+exceeds any limit. The default is \fBno\fP.
+.\"
+.\"
+.SS "\fBnow\fP"
+\fByes\fP or \fBno\fP to specify if created jobs should be immediate jobs. 
+The default is \fBno\fP.
+.\"
+.\"
+.SS "\fBo\fP (*)"
+List parameter that defines the path for the output file for specific 
+execution hosts.
+.\"
+.\"
+.SS "\fBp\fP"
+Specifies the project to which this job is assigned.
+.\"
+.\"
+.SS "\fBp\fP"
+Priority value that defines the priority of jobs relative to other jobs. 
+The default priority is 0.
+.\"
+.\"
+.SS "\fBpe_name\fP"
+Specifies the name of the parallel environment that will be used for 
+parallel jobs. As default there is no name specified and as a result the 
+job is no parallel job.\"
+.\"
+.SS "\fBpe_range\fP"
+Range list specification that defines the amount of slots that are required 
+to execute parallel jobs. This parameter must be specified when also the 
+pe_name parameter is specified.
+.\"
+.\"
+.SS "\fBq_hard\fP (*)"
+List of queues that can be used to execute the job. The default is an 
+empty list.
+.\"
+.\"
+.SS "\fBq_soft\fP (*)"
+List of queues that are preferred to be used when the job should be 
+executed. The default is an empty list.
+.\"
+.\"
+.SS "\fBR\fP"
+\fByes\fP or \fBno\fP to indicate if a reservation for this job should be done. 
+The default is \fBno\fP.
+.\"
+.\"
+.SS "\fBr\fP"
+\fByes\fP or \fBno\fP to identify if the job will be rerun-able. The default 
+is \fBno\fP.
+.\"
+.\"
+.SS "\fBrou\fP"
+List of online usage variables that shall get written to the reporting file and the reporting database.
+The default is an empty list.
+.\"
+.\"
+.SS "\fBS\fP (*)"
+List parameter that defines the path of the shell for specific execution 
+hosts. The default is an empty list.
+.\"
+.\"
+.SS "\fBshell\fP"
+\fByes\fP or \fBno\fP to specify if a shell should be executed for binary 
+jobs or if the binary job should be directly started. The default is \fByes\fP
+.\"
+.\"
+.SS "\fBt\fP"
+Defines the task ID range for array jobs. Jobs are no array jobs as 
+default.
+.\"
+.\"
+.SS "\fBV\fP"
+\fByes\fP or \fBno\fP. \fByes\fP causes that all environment variables 
+active during the submission of a job will be exported into the environment 
+of the job.
+.\"
+.\"
+.SS "\fBv\fP (*)"
+List of environment variable names and values that will be exported into 
+the environment of the job. If also \fBV yes\fP is specified then the variable 
+values that are active during the submission might be overwritten.
+.\"
+.\"
+.SH ACCESS SPECIFIERS
+Access specifiers are character sequences that can be added to certain 
+places in job class specifications to allow/disallow operations that can 
+be applied to jobs that are derived from that job class. They allow you 
+to express, for instance, that job options defined in the jobs class can 
+be modified, deleted or augmented when submitting a job derived from a 
+job class. This means the job class owner can control how the job class 
+can be used by regular users being allowed to derive jobs from this job 
+class. This makes using job classes simple for the end user (because of 
+a restricted set of modifications). It also avoids errors as well as the 
+need to utilize Job Submission Verifiers for checking on mandatory options.
+.PP
+Per default, if no access specifiers are used, all values within job 
+classes are fixed. This means that jobs that are derived from a job 
+class cannot be changed. Any attempt to adjust a job during the submission 
+or any try to change a job after it has been submitted (e.g. with qalter) 
+will be rejected. Also managers are not allowed to change the specification 
+of defined in a job class when submitting a job derived from the job class.
+.PP
+To soften this restriction, job class owners and users having the manager 
+role in a job class can add access specifiers to the specification of a job 
+class to allow deviation at certain places. Access specifiers might appear 
+before each value of a job template attribute and before each entry in a 
+list of key or key/value pairs. The preceding access specifier defines 
+which operations are allowed with the value that follows.
+.PP
+The full syntax for a job class template attribute is defined as <jc_templ_attr>:
+.IP "<\fIjc_templ_attr\fP>" 1i
+:= <\fItempl_attr\fP> | <\fIlist_templ_attr\fP>
+.IP "<\fItempl_attr\fP>" 1i
+:= <\fIattr_name\fP> ' ' [ <\fIattr_access_specifier\fP> ] ( <\fIattr_value\fP> | '\fBUNSPECIFIED\fP' )
+.IP "<\fIlist_templ_attr\fP>" 1i 
+:= <\fIlist_attr_name\fP> ' ' [ <\fIattr_access_specifier\fP> ] ( <\fIlist_attr_value\fP> | '\fBUNSPECIFIED\fP' )
+.IP "<\fIlist_attr_value\fP>" 1i 
+:= [ <\fIaccess_specifier\fP> ] <\fIlist_entry\fP> [ '\fB,\fP' [ <\fIaccess_specifier\fP> ] <\fIlist_entry\fP>, ...] 
+.IP "<\fIattr_access_specifier\fP>" 
+:= <\fIaccess_specifier\fP>
+.PP
+Please note the distinction between <\fIattr_access_specifier\fP> and 
+<\fIaccess_specifier\fP>. <\fIattr_access_specifier\fP> is also an 
+<\fIaccess_specifier\fP> 
+but it is the first one that appears in the definition of list based job 
+template attributes and it is the reason why two access specifiers might 
+appear one after another. The first access specifier regulates access to 
+the list itself whereas the following ones define access rules for the 
+entries in the list they are preceding.
+These access specifiers (<\fIaccess_specifier\fP>) are available:
+.IP " " 1i
+The absence of an access specifier indicates that the corresponding 
+template attribute (or sublist entry) is fixed. Any attempt to modify 
+or delete a specified value or any attempt to add a value where the 
+keyword \fBUNSPECIFIED\fP was used will be rejected. It is also not allowed to 
+add additional entries to lists of list based attributes if a list is 
+fixed.
+.IP "\fB{-}\fP" 1i 
+Values that are tagged with the \fB{-}\fP access specifier are removable. If 
+this access specifier is used within list based attributes then removal 
+is only allowed if the list itself is also modifiable. If all list 
+entries of a list are removable then also the list itself must be 
+removable so that the operation will be successful.
+Values that are tagged with the \fB{-}\fP access specifier are removable.
+.IP "\fB{~}\fP" 1i 
+Values that are prefixed with the \fB{~}\fP access specifier can be changed. 
+If this access specifier is used within list based attributes then the 
+list itself must also be modifiable.
+.IP "\fB{-~}\fP or \fB{~-}\fP" 1i 
+The combination of the \fB{-}\fP and \fB{~}\fP access specifiers indicates 
+that the value it precedes is modifiable and removable.
+.IP "\fB{+}UNSPECIFIED\fP or \fP{+\fP...\fB}\fP<\fIlist_attr_value\fP>" 1i 
+The \fB{+}\fP access specifier can only appear in combination with the keyword 
+\fBUNSPECIFIED\fP or before list attribute values but not within access 
+specifiers preceding list entries. If it appears before list attribute 
+values it can also be combined with the \fB{~}\fP and \fB{-}\fP access 
+specifiers. 
+This access specifier indicates that something can be added to the 
+specification of a job after it has been submitted. For list based 
+attributes it allows that new list entries can be added to the list.
+.\"
+.\"
+.SH JOB CLASS VARIANTS
+Job classes represent an application type in a cluster. If the same 
+application should be started with various different settings or if the 
+possible resource selection applied by the Univa Grid Engine system should 
+depend on the mode how the application should be executed then it is 
+possible to define one job class with multiple variants. So think of it 
+as a way to use the same template for very similar types of jobs, yet with 
+small variations.
+.PP
+The \fBvariant_list\fP job class attribute defines the names of all existing job 
+class variants. If the keyword \fBNONE\fP is used or when the list contains only 
+the word default then the job class has only one variant. If multiple names 
+are listed here, separated by commas, then the job class will have multiple 
+variants. The default variant always has to exist. If the \fBvariant_list\fP 
+attribute does not contain the word \fBdefault\fP then it will be automatically 
+added by the Univa Grid Engine system upon creating the job class.
+.PP
+Attribute settings for the additional job class variants are specified 
+similar to the attribute settings of queue instances or queue domains of 
+cluster queues. The setting for a variant attribute has to be preceded by 
+the variant name followed by an equal character (\fB=\fP) and enclosed in 
+brackets (\fB[\fP and \fB]\fP).
+The position where access specifiers have to appear is slightly different 
+in this case. The example section of this man page will show this.
+.\"
+.\"
+.SH CLUSTER WIDE REQUESTS WITH THE TEMPLATE JOB CLASS
+After a default installation of Univa Grid Engine 8.1 there exists one job 
+class with the name template. This job class has a special meaning and it 
+cannot be used to create new jobs. Its configuration can only be adjusted 
+by users having the manager role. This jobs class acts as parent job class 
+for all other job classes that are created in the system.
+.PP
+The values of job template attributes in this template job class and the 
+corresponding access specifiers restrict the allowed settings of all 
+corresponding job template attributes of other job classes. As default 
+the \fB{+}UNSPECIFIED\fP add access specifier and keyword is used in the template 
+job class in combination with all job template attributes. Due to that 
+any setting is allowed to other job class attributes after Univa Grid Engine 
+8.1 has been installed.
+.PP
+This parent-child relationship is especially useful when all jobs that 
+are submitted into a cluster are derived from job classes. Managers might 
+then change the settings within the template. All other existing job 
+classes that violate the settings will then switch into the configuration 
+conflict state. The owners of those job classes have to adjust the 
+settings before new jobs can be derived from them. All those users that 
+intend to create a new job class that violates the settings of the 
+template job class will receive an error.
+.PP
+You will also want to use the template job class to enforce restrictions 
+on the access specifiers which can be used in job classes. Since any job 
+class, whether create by a manager account or by regular users, is derived 
+from the template job class those derived job classes are bound to stay 
+within the limits defined by the template job class. So parameters which 
+have been defined as fixed in the template job class, for instance, 
+cannot be modified in any job class created by a manager or user. 
+Likewise, parameters which have a preset value but are configured to 
+allow deletion only cannot be modified in derived job classes. The 
+following table shows the allowed transitions:
+.\"
+.\"
+.IP "AS in Template" 2i
+Allowed AS in Child JC
+.IP "<\fIattr_value\fP>"
+<\fIattr_value\fP>
+.IP "\fBUNSPECIFIED\fP"
+\fBUNSPECIFIED\fP
+.IP "\fB{~}\fP<\fIattr_value\fP>"
+\fB{~}\fP<\fIattr_value\fP>
+.IP "\fB{~}\fP<\fIattr_value>\fP"
+<\fIattr_value\fP>
+.IP "\fB{-}\fP<\fIattr_value\fP>"
+\fB{-}\fP<\fIattr_value\fP>
+.IP "\fB{-}\fP<\fIattr_value\fP>"
+\fB{~}\fP<\fIattr_value\fP>
+.IP "\fB{-}\fP<\fIattr_value\fP>"
+\fBUNSPECIFIED\fP
+.IP "\fB{-}\fP<\fIattr_value\fP>"
+<\fIattr_value\fP>
+.IP "\fB{-~}\fP<\fIattr_value\fP>"
+\fB{-~}\fP<\fIattr_value\fP>
+.IP "\fB{-~}\fP<\fIattr_value\fP>"
+\fB{-}\fP<\fIattr_value\fP>
+.IP "\fB{-~}\fP<\fIattr_value\fP>"
+\fB{~}\fP<\fIattr_value\fP>
+.IP "\fB{-~}\fP<\fIattr_value\fP>"
+\fBUNSPECIFIED\fP
+.IP "\fB{-~}\fP<\fIattr_value\fP>"
+<\fIattr_value\fP>
+.IP "\fB{+}\fP..."
+\fB{+}\fP...
+.IP "\fB{+}\fP..."
+\fB{-~}\fP<\fIattr_value\fP>
+.IP "\fB{+}\fP..."
+\fB{-}\fP<\fIattr_value\fP>
+.IP "\fB{+}\fP..."
+\fB{~}\fP<\fIattr_value\fP>
+.IP "\fB{+}\fP..."
+\fBUNSPECIFIED\fP
+.IP "\fB{+}\fP..."
+<\fIattr_value\fP>
+.\"
+.\"
+.SH RELATIONSHIP TO OTHER OBJECTS
+To fully integrate job classes into the already existing Univa Grid Engine 
+system the possibility is provided to create new relations between current 
+object types (like queues, resource quotas, JSV) and job classes.
+.PP
+RESOURCES AVAILABLE FOR JOB CLASSES
+.PP
+The profile of a job is defined by the resource requirements and other job 
+attributes. Queues and host objects define possible execution environments 
+where jobs can be executed. When a job is eligible for execution then the 
+scheduler component of the Univa Grid Engine system tries to find the 
+execution environment that fits best according to all job specific 
+attributes and the configured policies so that this job can be executed.
+.PP
+This decision making process can be difficult and time consuming especially 
+when certain jobs having special resource requirements should only be 
+allowed to run in a subset of the available execution environments. The 
+use of job classes might help here because job classes will give the 
+scheduler additional information on which execution environments will or 
+will not fit for a job. The need to evaluate all the details about 
+available resources of an execution environment and about the job's 
+requirements will be reduced or can be completely eliminated during the 
+decision making process.
+.PP
+This is achieved by an additional paramter in the queue configuration 
+which provides a direct association between queues and one or multiple 
+job classes. This paramter is called \fBjc_list\fP and might be set to the 
+value \fBNONE\fP or a list of job classes or job class variant names. If a 
+list of names is specified then the special keyword \fBANY_JC\fP and/or 
+\fBNO_JC\fP might be used within the list to filter all those jobs that are in 
+principle allowed to run in this queues. The following combinations 
+are useful:
+.PP
+.IP "\fIValue\fP" 3i
+\fIDescription\fP
+.IP "\fBNONE\fP"
+No job my enter the queue.
+.IP "\fBANY_JC\fP"
+Jobs may enter the queue that were derived from a job class.
+.IP "\fBNO_JC\fP"
+Only jobs may enter the queue that were not derived from a job class.
+.IP "\fBANY_JC, NO_JC\fP"
+Any job, independent if it was derived from a job class or not, may be executed in the queue. This is the default for any queue that is created in a cluster.
+.IP "<\fIlist of JC names\fP>"
+Only those jobs may get scheduled in the queue if they were derived from one of the enlisted job classes.
+.IP "\fBNO_JC\fP, <\fIlist of JC names\fP>"
+Only those jobs that were not derived from a job class or those that were derived from one of the enlisted job classes can be executed here.
+.PP
+This relationship helps the scheduler during the decision making to 
+eliminate queues early without the need to further look at all the 
+details like resource requirements.
+Managers of Grid Engine Clusters may want to take care that there is 
+at least one queue in the cluster available that use the \fBANY_JC\fP keyword. 
+Otherwise jobs of users who have defined their own job class will not 
+get cluster resources. Also at least one queue using the \fBNO_JC\fP keyword 
+may need to be available. Otherwise conventionally submitted jobs will 
+not get scheduled.
+.PP
+.\"
+.\"
+DEFINING JOB CLASS LIMITS
+.PP
+Resource quota sets can be defined to influence the resource selection in the 
+scheduler. The \fBjcs\fP filter within a resource quota rule may contain a comma 
+separated list of job class names. This parameter filters for jobs requesting 
+a job class in the list. Any job class not in the list will not be considered 
+for the resource quota rule. If no \fBjcs\fP filter is used, all job classes and 
+jobs with no job class specification match the rule. To exclude a job class 
+from the rule, the name can be prefixed with the exclamation mark (\fB!\fP). 
+\fB!*\fP means only jobs with no job class specification.
+.PP
+.\"
+.\"
+JSV AND JOB CLASS INTERACTION
+.PP
+During the submission of a job multiple Job Submission Verifiers can be 
+involved that verify and possibly correct or reject a job. With conventional 
+job submission (without job classes) each JSV will see the job specification 
+of a job that was specified at the command line via switches and passed 
+parameters or it will see the job parameters that were chosen within the 
+dialogs of the GUI.
+.PP
+When Jobs are derived from a job class then the process of evaluation via 
+JSV scripts is the same but the job parameters that are visible in client 
+JSVs are different. A client JSV will only see the requested job class via 
+a parameter named \fBjc\fP and it will see all those parameters that 
+were specified at the command line. All parameters that are defined in the 
+job class itself cannot be seen.
+.PP
+Job classes will be resolved within the 
+.M sge_qmaster 8 
+process as soon as a request is received that tries to submit a job that 
+should be derived from a job class. The following steps are taken 
+(simplified process):
+.PP
+.IP "(1)" 0.5i
+Create a new job structure
+.IP "(2)" 
+Fill job structure with defaults values
+.IP "(3)"
+Fill job structure with values defined in the job class. (This might overwrite default values)
+.IP "(4)"
+Fill job structure with values defined at the command line. (This might overwrite default values and values that were defined in the job class)
+.IP "(5)"
+Trigger server JSV to verify and possibly adjust the job. (This might overwrite default values, JC values and values specified at the command line)
+.IP "(6)"
+Check if the job structure violates access specifiers.
+.PP
+If the server JSV changes the \fBjc\fP parameter of the job in step 5 then the submission process restarts from step 1 using the new job class for step 3.
+.PP
+Please note that the violation of the access specifiers is checked in the last step. As result a server JSV is also not allowed to apply modifications to the job that would violate any access specifiers defined in the job class specification.
+.PP
+.\"
+.\"
+ENFORCE THE USE OF JOB CLASSES
+.PP
+The global configuration object of Univa Grid Engine allows to define two attributes (\fBdefault_jc\fP, \fBenforce_jc\fP) to enforce the use of job classes. Find more in formation in
+.M sge_conf 5 .
+.PP
+.\"
+.\"
+.SH STATES OF JOB CLASSES
+Job Classes have a combined state that is the result of following the sub states: \fIenabled\fP/\fIdisabled\fP, \fIno conflict\fP/\fIconfiguration conflict\fP.
+.PP
+The \fIenabled\fP/\fIdisabled\fP state is a manual state. 
+A state change from \fIenabled\fP 
+to \fIdisabled\fP can be triggered with the 
+.M qmod 2 
+\fI-djc\fP <\fIjcname\fP> command. The 
+command 
+.M qmod 2 
+\fI-ejc\fP <\fIjcname\fP> command can be used to trigger a state change 
+from \fIdisabled\fP to \fIenabled\fP. Job Classes in the \fIdisabled\fP 
+state cannot be used to create new jobs.
+.PP
+The \fIno conflict\fP/\fIconfiguration conflict\fP state is an automatic state 
+that cannot be changed manually. Job classes that do not violate the 
+configuration of the \fBtemplate\fP job class are in the \fIno conflict\fP 
+state. A job class in this state can be used to create new jobs (if it is also in 
+\fIenabled\fP state). If the \fBtemplate\fP job class or a derived job class is 
+changed so that either a configuration setting or one of the access 
+specifiers of the \fBtemplate\fP job class is violated then the derived job 
+class will automatically switch from the \fIno conflict\fP into the 
+\fIconfiguration conflict\fP state. This state will also be left automatically
+when the violation is eliminated.
+.PP
+.\"
+.\"
+.SH USING JOB CLASSES TO SUBMIT NEW JOBS
+Job Classes that are in the \fIenabled\fP and \fIno conflict\fP state can be used 
+to create new jobs. To do this a user has to pass the \fI-jc\fP switch in 
+combination with the name of a job class to a submit command like 
+.M qsub 1 . 
+If the user has access to this job class then a new job will be created 
+and all job template attributes that are defined in the job class will 
+be used to initialize the corresponding parameters in the submitted job.
+.PP
+Depending on the access specifiers that are used in the job class it 
+might be allowed to adjust certain parameters during the submission of 
+the job. In this case additional switches and parameters might be passed 
+to the submit command. All these additionally passed parameters will be 
+used to adjust job parameters that where derived from the job class.
+.PP
+Additionally to the typical switches that are used to define job 
+parameters there is a set of switches available that allow to remove 
+parameters or to adjust parts of list based parameters in a job 
+specification. The same set of switches can also be used with the 
+modification command qalter to adjust job parameters after a job has 
+already been created.
+.PP
+.IP "\fIqsub\fP/\fIqalter\fP \fI-clearp\fP <\fIattr_name\fP>" 0.5i
+The \fI-clearp\fP switch allows to remove a job parameter from the 
+specification of a job as if it was never specified. What this means 
+depends on the job parameter that is specified by <\fIattr_name\fP>. 
+For all those attributes that would normally have a default value this 
+default value will be set for all others the corresponding attribute will 
+be empty. Parameter names that can be specified for <\fPattr_name\fP> are 
+all the ones that are specified in the table above showing job template 
+attribute names.
+.IP "\fIqsub\fP/\fIqalter\fP \fI-clears\fP <\fIlist_attr_name\fP> <\fIkey\fP>"
+This switch allows to remove a list entry in a list based attribute of 
+a job specification. <\fPlist_attr_name\fP> might be any name of a 
+job template attribute that is tagged with the asterisk (\fB*\fP) in 
+the the table above. <\fIkey\fP> has to be the name of the key of the 
+sublist entry for key/value pairs or the value itself that should be 
+removed when the list contains only values
+.IP "\fIqsub\fP/\fIqalter\fP \fI-adds\fP <\fIlist_attr_name\fP> <\fIkey\fP> <\fIvalue\fP>"
+\fI-adds\fP adds a new entry to a list based parameter.
+.IP "\fIqsub\fP/\fIqalter\fP \fI-mods\fP <\fIlist_attr_name\fP> <\fIkey\fP> <\fIvalue\fP>"
+The \fI-mods\fP switch allows to modify the value of a key/value pair within a list based job parameter.
+.\"
+.\"
+.SH EXAMPLE
+Assume that the following job class is defined in you cluster:
+.PP
+\fB
+.nf
+   jcname          sleeper
+   variant_list    default,short,long
+   owner           NONE
+   user_lists      NONE
+   xuser_lists     NONE
+   A               UNSPECIFIED
+   a               UNSPECIFIED
+   ar              UNSPECIFIED
+   b               yes
+   binding         UNSPECIFIED
+   c_interval      UNSPECIFIED
+   c_occasion      UNSPECIFIED
+   CMDNAME         /bin/sleep
+   CMDARG          60,[short=5],[long=3600]
+   ckpt            UNSPECIFIED 
+   ac              UNSPECIFIED
+   cwd             UNSPECIFIED 
+   display         UNSPECIFIED
+   dl              UNSPECIFIED
+   e               UNSPECIFIED
+   h               UNSPECIFIED
+   hold_jid        UNSPECIFIED
+   i               UNSPECIFIED
+   j               UNSPECIFIED
+   js              UNSPECIFIED
+   l_hard          {~+}{~}a=true,b=true,{-}c=true
+   l_soft          {+}UNSPECIFIED,[{~+}long={~}d=true]
+   m               UNSPECIFIED
+   M               UNSPECIFIED
+   masterq         UNSPECIFIED
+   masterl         UNSPECIFIED
+   mbind           UNSPECIFIED
+   N               {~-}Sleeper,[{~-}short=ShortSleeper],[{~-}long=LongSleeper]
+   notify          UNSPECIFIED
+   now             UNSPECIFIED
+   o               UNSPECIFIED
+   P               UNSPECIFIED
+   p               UNSPECIFIED
+   pe_name         UNSPECIFIED
+   q_hard          UNSPECIFIED
+   q_soft          UNSPECIFIED
+   R               UNSPECIFIED
+   r               UNSPECIFIED
+   S               /bin/sh
+   shell           UNSPECIFIED 
+   V               UNSPECIFIED
+   v               UNSPECIFIED
+.fi
+\fP
+.PP
+Now it is possible to submit jobs and to adjust the parameters of those jobs during the submission to fit specific needs:
+.PP
+\fB
+.nf
+   1) qsub -jc sleeper -N MySleeper
+   2) qsub -jc sleeper.short -clearp N
+   3) qsub -jc sleeper.short -clears l_hard c -adds l_hard h_vmem 5G
+   4) qsub -jc sleeper.long -soft -l res_x=3
+.fi
+\fP
+.PP
+The first job that is submitted \fB(1)\fP will be derived from the 
+\fBsleeper.default\fP job class variant but this job will get the 
+name \fBMySleeper\fP.
+.PP
+Job \fB(2)\fP uses the \fBsleeper.short\fP job class but the job 
+name is adjusted. The \fI-clearp\fP switch will remove the job name 
+that is specified in the job class. 
+Instead it will get the default job name that would have been assigned 
+without specifying the name in any explicit way. This will be derived from 
+the last part of the script command that will be executed. This script is 
+/bin/sleep. So the job name of the new job will be \fBsleep\fP.
+.PP
+When job \fB(3)\fP is created the list of hard resource requirements is 
+adjusted. The resource request \fBc\fP is removed and the \fBh_vmem=5G\fP 
+resource request is added.
+.PP
+During the submission of job \fB(4)\fP The list of soft resource request is 
+completely redefined. The use of the \fI-l\fP will completely replace already 
+defined soft resource requests if any have been defined.
+Please note that it is not allowed to trigger operations that would violate 
+any access specifiers. In consequence, the following commands would be rejected:
+.PP
+\fB
+.nf
+   5) qsub -jc sleeper -hard -l res_x 3 
+   6) qsub -jc sleeper /bin/my_sleeper 61
+.fi
+\fP
+.PP
+Job \fB(5)\fP would remove the \fBa\fP and \fBb\fP resource 
+requests and job \fB(6)\fP will be rejected because neither \fBCMDNAME\fP 
+nor \fBCMDARGS\fP are modifiable.
+.PP
+.\"
+.\"
+.SH "SEE ALSO"
+.M sge__types 1 ,
+.M qconf 1
+.M qsub 1
+.M qmod 1
+.M qalter 1
+.\"
+.SH "COPYRIGHT"
+See
+.M sge_intro 1
+for a full statement of rights and permissions.

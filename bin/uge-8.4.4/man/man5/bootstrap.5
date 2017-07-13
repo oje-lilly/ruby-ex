@@ -1,0 +1,254 @@
+'\" t
+.\"___INFO__MARK_BEGIN__
+.\"
+.\" Copyright: 2004 by Sun Microsystems, Inc.
+.\"
+.\"___INFO__MARK_END__
+.\"
+.\" Some handy macro definitions [from Tom Christensen's man(1) manual page].
+.\"
+.de SB		\" small and bold
+.if !"\\$1"" \\s-2\\fB\&\\$1\\s0\\fR\\$2 \\$3 \\$4 \\$5
+..
+.\"
+.de T		\" switch to typewriter font
+.ft CW		\" probably want CW if you don't have TA font
+..
+.\"
+.de TY		\" put $1 in typewriter font
+.if t .T
+.if n ``\c
+\\$1\c
+.if t .ft P
+.if n \&''\c
+\\$2
+..
+.\"
+.de M		\" man page reference
+\\fI\\$1\\fR\\|(\\$2)\\$3
+..
+.TH BOOTSTRAP 5 "UGE 8.4.4" "Univa Grid Engine File Formats"
+.\"
+.SH NAME
+bootstrap \- Univa Grid Engine bootstrap file
+.\"
+.\"
+.SH DESCRIPTION
+.I bootstrap
+contains parameters that are needed for the startup of Univa Grid Engine components.
+It is created during the sge_qmaster installation.
+Modifying
+.I bootstrap
+in a running system is not supported.
+.PP
+.\"
+.SH FORMAT
+.\"
+The paragraphs that follow provide brief descriptions of the individual
+parameters that compose the bootstrap configuration for a
+Univa Grid Engine cluster:
+.\"
+.SS "\fBadmin_user\fP"
+Administrative user account used by Univa Grid Engine for all internal file
+handling (status spooling, message logging, etc.). Can be used in cases
+where the root account does not have the corresponding file access
+permissions (e.g. on a shared file system without global root read/write
+access).
+.PP
+Being a parameter set at installation time changing \fBadmin_user\fP in
+a running system is not supported. Changing it manually on a shut-down cluster
+is possible, but if access to the Univa Grid Engine spooling area is interrupted, 
+this will result in unpredictable behavior.
+
+The \fBadmin_user\fP parameter has no default value, but instead it is
+defined during the master installation procedure.
+.\"
+.\"
+.SS "\fBdefault_domain\fP"
+Only needed if your Univa Grid Engine cluster covers hosts belonging to more than
+a single DNS domain. In this case it can be used if your hostname resolving 
+yields both qualified and unqualified hostnames for the hosts in one of the 
+DNS domains. 
+The value of
+.B default_domain
+is appended to the unqualified hostname to define a fully qualified hostname.
+The 
+.B default_domain
+parameter will have no effect if 
+.B ignore_fqdn
+is set to "true".
+.sp 1
+Being a parameter set at installation time changing
+.B default_domain
+in a running system is not supported. The default for
+.B default_domain
+is "none", in which case it will not be used.
+.\"
+.\"
+.SS "\fBignore_fqdn\fP"
+Ignore fully qualified domain name component of hostnames. Should be set 
+if all hosts belonging to a Univa Grid Engine cluster are part of a single DNS 
+domain. It is switched on if set to either "true" or "1". Switching it 
+on may solve problems with load reports due to different hostname 
+resolutions across the cluster.
+.sp 1
+Being a parameter set at installation time changing
+.B ignore_fqdn
+in a running system is not supported. The default for
+.B ignore_fqdn
+is "true".
+.\"
+.\"
+.SS "\fBspooling_method\fP"
+Defines how
+.M sge_qmaster 8
+writes its configuration and the status information of a running cluster.
+.PP
+The available spooling methods are \fIberkeleydb\fP, \fIpostgres\fP and \fIclassic\fP.
+.\"
+.\"
+.SS "\fBspooling_lib\fP"
+The name of a shared library containing the \fBspooling_method\fP to be loaded at
+.M sge_qmaster 8
+initialization time.
+The extension characterizing a shared library (.so, .sl, .dylib etc.) is not contained in \fBspooling_lib\fP.
+.PP
+If \fBspooling_method\fP was set to \fIberkeleydb\fP during installation, \fBspooling_lib\fP is set to \fIlibspoolb\fP,
+if \fIpostgres\fP was chosen as \fBspooling_method\fP, \fBspooling_lib\fP is set to \fIlibspoolp\fP,
+if \fIclassic\fP was chosen as \fBspooling_method\fP, \fBspooling_lib\fP is set to \fIlibspoolc\fP.
+.PP
+Not all operating systems allow the dynamic loading of libraries. On these
+platforms a certain spooling method (default: berkeleydb) is compiled into the binaries and the
+parameter \fBspooling_lib\fP will be ignored.
+.PP
+.\"
+.\"
+.SS "\fBspooling_params\fP"
+Defines parameters to the chosen spooling method.
+.PP
+Parameters that are needed to initialize the spooling framework, e.g. to open database files or to connect to a certain database server.
+.PP
+The spooling parameters value for spooling method \fIberkeleydb\fP is the path to the database directory, e.g. /sge_local/default/spool/qmaster/spooldb for spooling to a local filesystem.
+.PP
+For spooling method \fIpostgres\fP the spooling parameters contain the PostgreSQL connection string in Keyword/Value format documented at
+http://www.postgresql.org/docs/9.3/interactive/libpq-connect.html#LIBPQ-CONNSTRING.
+.PP
+For spooling method \fIclassic\fP the spooling parameters take the form
+<common_dir>;<qmaster spool dir>, e.g.
+/sge/default/common;/sge/default/spool/qmaster
+.\"
+.\"
+.SS "\fBbinary_path\fP"
+The directory path where the Univa Grid Engine binaries reside. It is used within
+Univa Grid Engine components to locate and startup other Univa Grid Engine programs.
+.PP
+The path name given here is searched for binaries as well as any directory
+below with a directory name equal to the current operating system
+architecture. Therefore, /usr/SGE/bin will work for all architectures,
+if the corresponding binaries are located in subdirectories named aix43,
+lx-amd64, lx-x86, hp11, hp11-64, sol-amd64, sol-sparc etc.
+.PP
+The default location for the binary path is
+<sge_root>/bin
+.PP
+.\"
+.\"
+.SS "\fBqmaster_spool_dir\fP"
+The location where the master spool directory resides. Only the
+.M sge_qmaster 8
+and 
+.M sge_shadowd 8
+need to have access to this directory. 
+The master spool directory \- in particular the job_scripts
+directory and the messages
+log file \- may become quite large depending on the size of the
+cluster and the number of jobs. Be sure to allocate enough disk space
+and regularly clean off the log files, e.g. via a
+.M cron 8
+job.
+.PP
+Being a parameter set at installation time changing \fBqmaster_spool_dir\fP
+in a running system is not supported.
+.PP
+The default location for the
+master spool directory is <sge_root>/<cell>/spool/qmaster.
+.PP
+.\"
+.\"
+.SS "\fBsecurity_mode\fP"
+The security mode defines the set of security features the installed cluster is using.
+.PP
+Possible security mode settings are none, afs, dce, kerberos, csp.
+(no additional security, AFS, DCE, KERBEROS, CSP security model).
+.\"
+.\"
+.SS "\fBlistener_threads\fP"
+The default for this parameter will be set to 2 during installation process.
+.PP
+Listener threads are threads that do preliminary work for worker and reader 
+threads running in
+.M sge_qmaster 8 .
+At least two of them are required in a system.
+.\"
+.\"
+.SS "\fBworker_threads\fP"
+The default for this parameter will be set to 4 during installation process.
+.PP
+Defines the number of worker threads that are started during 
+.M sge_qmaster 8
+start. It is not possible to disable the worker thread pool and the number of 
+threads part of that pool cannot be adjusted dynamically. The change of this
+parameter requires a restart of 
+.M sge_qmaster 8 .
+.PP
+The recommended value for this parameter is 4. If no server JSV is configured 
+then it is possible to reduce the value to 2 without performance loss. 
+Starting more than 4 threads will not improve
+.M sge_qmaster 8
+scheduling and execution performance. 
+In rare cases more than 4 threads might improve the cluster submit rate if
+a server JSV is configured that needs much time to verify one job.
+.\"
+.\"
+.SS "\fBreader_threads\fP"
+The default for this parameter will be set during installation process.
+.PP
+The value 0 means that the reader thread pool is completely disabled in the
+.M sge_qmaster 8
+process. If the reader thread pool is disabled then all read-only and read-write 
+requests will be handled by the worker threads.
+.PP
+Values between 1 and 64 will enable the reader thread pool. The corresponding 
+number of reader threads will be part of the initially created read-only thread 
+pool when
+.M sge_qmaster 8
+is started. This thread pool will then handle incoming read-only requests whereas 
+worker threads will then handle read-write requests only. 
+.PP
+During runtime it is not possible to enable/disable the reader thread pool. To do so
+it is required to adjust the bootstrap parameter and to restart
+.M sge_qmaster 8 .
+.PP
+In systems where the reader thread pool is enabled it is possible to dynamically adjust
+the number of reader threads. The 
+.M qconf 1
+-at/-kt switches can be used to start/stop reader threads but any attempt to terminate
+the last 2 reader threads will be rejected as well as the attempt to start more that 
+64 threads.
+.\"
+.\"
+.SS "\fBscheduler_threads\fP"
+The number of scheduler threads (allowed: 0-1, default set by installation: 1, off: 0).
+(see 
+.M qconf 1
+-kt/-at option)
+.\"
+.\"
+.SS "\fBjvm_threads\fP"
+The number of JVM threads (allowed: 0-1, default set by installation, off: 0).
+.\"
+.\"
+.SH "COPYRIGHT"
+See
+.M sge_intro 1
+for a full statement of rights and permissions.

@@ -1,0 +1,45 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_MACHINEINFO_FREE" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_machineinfo_free\fR \- drmaa2_machineinfo_free, Releases memory of a DRMAA2 machineinfo object\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.IP "" 4
+.
+.nf
+
+typedef struct {
+   drmaa2_string   name;
+   drmaa2_bool     available;
+   long long       sockets;
+   long long       coresPerSocket;
+   long long       threadsPerCore;
+   float           load;
+   long long       physMemory;
+   long long       virtMemory;
+   drmaa2_cpu      machineArch;
+   drmaa2_version  machineOSVersion;
+   drmaa2_os       machineOS;
+} drmaa2_machineinfo_s;
+typedef drmaa2_machineinfo_s *drmaa2_machineinfo;
+.
+.fi
+.
+.IP "" 0
+.
+.P
+void drmaa2_machineinfo_free(drmaa2_machineinfo *machineinfo);
+.
+.SH "DESCRIPTION"
+Releases the memory of an allocated \fBdrmaa2_machineinfo\fR object and sets it to NULL\.
+.
+.SH "SEE ALSO"
+drmaa2_mession_get_all_machines(3), drmaa2_machineinfo_impl_spec(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

@@ -1,0 +1,465 @@
+'\" t
+.\"___INFO__MARK_BEGIN__
+.\"
+.\" Copyright: 2004 by Sun Microsystems, Inc.
+.\"
+.\" Portions of this software are Copyright (c) 2014 Univa Corporation
+.\"
+.\"___INFO__MARK_END__
+.\"
+.\" Some handy macro definitions [from Tom Christensen's man(1) manual page].
+.\"
+.de SB		\" small and bold
+.if !"\\$1"" \\s-2\\fB\&\\$1\\s0\\fR\\$2 \\$3 \\$4 \\$5
+..
+.\"
+.de T		\" switch to typewriter font
+.ft CW		\" probably want CW if you don't have TA font
+..
+.\"
+.de TY		\" put $1 in typewriter font
+.if t .T
+.if n ``\c
+\\$1\c
+.if t .ft P
+.if n \&''\c
+\\$2
+..
+.\"
+.de M		\" man page reference
+\\fI\\$1\\fR\\|(\\$2)\\$3
+..
+.TH REPORTING 5 "UGE 8.4.4" "Univa Grid Engine File Formats"
+.\"
+.SH NAME
+reporting \- Univa Grid Engine reporting file format
+.\"
+.SH DESCRIPTION
+A Univa Grid Engine system writes a reporting file to 
+$SGE_ROOT/default/common/reporting.
+The reporting file contains data that can be used for accounting, monitoring and analysis purposes.
+It contains information about the cluster (hosts, queues, load values, consumables, etc.), about the jobs running in the cluster and about sharetree configuration and usage.
+All information is time related, events are dumped to the reporting file in a configurable interval.
+It allows to monitor a "real time" status of the cluster as well as historical analysis.
+.\"
+.\"
+.SH FORMAT
+The reporting file is an ASCII file.
+Each line contains one record, and the fields of a record are separated by a delimiter (:).
+The reporting file contains records of different type. Each record type has a specific record structure. 
+.PP
+The first two fields are common to all reporting records:
+.IP "\fBtime\fP"
+Time (64bit GMT unix timestamp in milliseconds) when the record was created.
+.IP "\fBrecord type\fP"
+Type of the accounting record.
+The different types of records and their structure are described in the following text.
+.SS new_job
+The new_job record is written whenever a new job enters the system (usually by a submitting command). It has the following fields:
+.IP "\fBsubmission_time\fP"
+Time (64bit GMT unix time stamp in milliseconds) when the job was submitted.
+.IP "\fBjob_number\fP"
+The job number.
+.IP "\fBtask_number\fP"
+The array task id. Always has the value -1 for new_job records (as we don't have array tasks yet).
+.IP "\fBpe_taskid\fP"
+The task id of parallel tasks. Always has the value "none" for new_job records.
+.IP "\fBjob_name\fP"
+The job name (from -N submission option)
+.IP "\fBowner\fP"
+The job owner.
+.IP "\fBgroup\fP"
+The unix group of the job owner.
+.IP "\fBproject\fP"
+The project the job is running in.
+.IP "\fBdepartment\fP"
+The department the job owner is in.
+.IP "\fBaccount\fP"
+The account string specified for the job (from -A submission option).
+.IP "\fBpriority\fP"
+The job priority (from -p submission option).
+.IP "\fBjob_class\fP"
+If the job has been submitted into a job class, the name of the job class, otherwise "\fB\fP" .
+.IP "\fBsubmit_host\fP"
+The submit host name.
+.SS "\fBsubmit_cmd\fP"
+The command line used for job submission.
+As the delimiter used by the reporting file (colon ":") can be part of the command line
+all colons in the command line are replaced by ASCII code 255.
+When reading the reporting file characters with ASCII code 255 have to be converted back to colon.
+Line feeds being part of the command line will be replaced by a space character.
+For jobs submitted via the DRMAA interface or via qmon graphical user interface
+the reporting file contains "NONE" as submit_cmd.
+.SS job_log
+The job_log record is written whenever a job, an array task or a pe tasks is changing status. A status change can be the transition from pending to running, but can also be triggered by user actions like suspension of a job.
+It has the following fields:
+.IP "\fBevent_time\fP"
+Time (64bit GMT unix time stamp in milliseconds) when the event was generated.
+.IP "\fBevent\fP"
+A one word description of the event.
+.IP "\fBjob_number\fP"
+The job number.
+.IP "\fBtask_number\fP"
+The array task id. Always has the value -1 for new_job records (as we don't have array tasks yet).
+.IP "\fBpe_taskid\fP"
+The task id of parallel tasks. Always has the value "none" for new_job records.
+.IP "\fBstate\fP"
+The state of the job after the event was processed.
+.IP "\fBuser\fP"
+The user who initiated the event (or special usernames "qmaster", "scheduler"
+and "execd" for actions of the system itself like scheduling jobs, executing jobs etc.).
+.IP "\fBhost\fP"
+The host from which the action was initiated (e.g. the submit host, the qmaster host, etc.).
+.IP "\fBstate_time\fP"
+Reserved field for later use.
+.IP "\fBpriority\fP"
+The job priority (from -p submission option).
+.IP "\fBsubmission_time\fP"
+Time (64bit GMT unix time stamp in milliseconds) when the job was submitted.
+.IP "\fBjob_name\fP"
+The job name (from -N submission option)
+.IP "\fBowner\fP"
+The job owner.
+.IP "\fBgroup\fP"
+The unix group of the job owner.
+.IP "\fBproject\fP"
+The project the job is running in.
+.IP "\fBdepartment\fP"
+The department the job owner is in.
+.IP "\fBaccount\fP"
+The account string specified for the job (from -A submission option).
+.IP "\fBjob_class\fP"
+If the job has been submitted into a job class, the name of the job class, otherwise "\fB\fP" .
+.IP "\fBmessage\fP"
+A message describing the reported action.
+.SS online_usage
+Online usage records are written per array task or pe task of running jobs if online usage reporting
+is configured in the global cluster configuration, see also
+.M sge_conf 5
+or per job via the \fI-rou\fP option, see also
+.M submit 1 .
+An online usage record contains the following fields:
+.IP "\fBreport_time\fP"
+Time (64bit GMT unix time stamp in milliseconds) when the usage values were generated by sge_execd.
+.IP "\fBjob_number\fP"
+The job number.
+.IP "\fBtask_number\fP"
+The array task id.
+.IP "\fBpe_taskid\fP"
+The task id of parallel tasks.
+.IP "\fBusage\fP"
+Comma separated list of name=value tuples.
+.SS acct
+Records of type acct are accounting records. Normally, they are written whenever a job, a task of an array job,
+or the task of a parallel job terminates. However, for long running jobs an intermediate acct record is created once a
+day after a midnight. This results in multiple accounting records for a particular job and allows for a fine-grained
+resource usage monitoring over time.
+Accounting records comprise the following fields:
+.IP "\fBqname\fP"
+Name of the cluster queue in which the job has run.
+.IP "\fBhostname\fP"
+Name of the execution host.
+.IP "\fBgroup\fP"
+The effective group id of the job owner when executing the job.
+.IP "\fBowner\fP"
+Owner of the Univa Grid Engine job.
+.IP "\fBjob_name\fP"
+Job name.
+.IP "\fBjob_number\fP"
+Job identifier - job number.
+.IP "\fBaccount\fP"
+An account string as specified by the
+.M qsub 1
+or
+.M qalter 1
+\fB\-A\fP option.
+.IP "\fBpriority\fP"
+Priority value assigned to the job corresponding to the \fBpriority\fP
+parameter in the queue configuration (see
+.M queue_conf 5 ).
+.IP "\fBsubmission_time\fP"
+Submission time (64bit GMT unix time stamp in milliseconds).
+.IP "\fBstart_time\fP"
+Start time (64bit GMT unix time stamp in milliseconds).
+.IP "\fBend_time\fP"
+End time (64bit GMT unix time stamp in milliseconds).
+.IP "\fBfailed\fP"
+Indicates the problem which occurred in case a job could not be started on 
+the execution host (e.g. because the owner of the job did not have a valid 
+account on that machine). If Univa Grid Engine tries to start a job multiple times, 
+this may lead to multiple entries in the accounting file corresponding to 
+the same job ID.
+.IP "\fBexit_status\fP"
+Exit status of the job script (or Univa Grid Engine specific status in case
+of certain error conditions).
+.IP "\fBru_wallclock\fP"
+Difference between \fBend_time\fP and \fBstart_time\fP (see above).
+.PP
+The remainder of the accounting entries follows the contents of the
+standard UNIX rusage structure as described in
+.M getrusage 2 .
+Depending on the operating system where the job was executed some of the
+fields may be 0.  The following entries are provided:
+.PP
+.nf
+.RS
+.B ru_utime
+.B ru_stime
+.B ru_maxrss
+.B ru_ixrss
+.B ru_ismrss
+.B ru_idrss
+.B ru_isrss
+.B ru_minflt
+.B ru_majflt
+.B ru_nswap
+.B ru_inblock
+.B ru_oublock
+.B ru_msgsnd
+.B ru_msgrcv
+.B ru_nsignals
+.B ru_nvcsw
+.B ru_nivcsw
+.RE
+.fi
+.PP
+
+.IP "\fBproject\fP"
+The project which was assigned to the job.
+.IP "\fBdepartment\fP"
+The department which was assigned to the job.
+.IP "\fBgranted_pe\fP"
+The parallel environment which was selected for that job.
+.IP "\fBslots\fP"
+The number of slots which were dispatched to the job by the scheduler.
+.IP "\fBtask_number\fP"
+Array job task index number.
+.IP "\fBcpu\fP"
+The cpu time usage in seconds.
+.IP "\fBmem\fP"
+The integral memory usage in Gbytes seconds.
+.IP "\fBio\fP"
+The amount of data transferred in Gbytes.
+On Linux data transferred means all bytes read and written by the job through the
+read(), pread(), write() and pwrite() systems calls.
+.IP "\fBcategory\fP"
+A string specifying the job category.
+.IP "\fBiow\fP"
+The io wait time in seconds.
+.IP "\fBioops\fP"
+The number of io operations.
+.IP "\fBpe_taskid\fP"
+If this identifier is set the task was part of a parallel job and was
+passed to Univa Grid Engine via the qrsh -inherit interface.
+.IP "\fBmaxvmem\fP"
+The maximum vmem size in bytes.
+.IP "\fBarid\fP"
+Advance reservation identifier. If the job used resources of an advance
+reservation then this field contains a positive integer identifier otherwise the
+value is "\fB0\fP" .
+.IP "\fBar_submission_time\fP"
+If the job used resources of an advance reservation then this field contains the submission time (64bit GMT unix time stamp in milliseconds) of the advance reservation, otherwise the value is "\fB0\fP" .
+.IP "\fBjob_class\fP"
+If the job has been running in a job class, the name of the job class, otherwise "\fBNONE\fP" .
+.IP "\fBqdel_info\fP"
+If the job (the array task) has been deleted via qdel, "\fB<username>@<hostname>\fP", else "\fBNONE\fP".
+If qdel was called multiple times, every invocation is recorded in a comma separated list.
+.IP "\fBmaxrss\fP"
+The maximum resident set size in bytes.
+.IP "\fBmaxpss\fP"
+The maximum proportional set size in bytes.
+.IP "\fBsubmit_host\fP"
+The submit host name.
+.IP "\fBcwd\fP"
+The working directory the job ran in as specified with qsub / qalter switches -cwd and -wd.
+As the delimiter used by the accounting file (colon ":") can be part of the working directory
+all colons in the working directory are replaced by ASCII code 255.
+.IP "\fBsubmit_cmd\fP"
+The command line used for job submission.
+As the delimiter used by the reporting file (colon ":") can be part of the command line
+all colons in the command line are replaced by ASCII code 255.
+When reading the reporting file characters with ASCII code 255 have to be converted back to colon.
+Line feeds being part of the command line will be replaced by a space character.
+For jobs submitted via the DRMAA interface or via qmon graphical user interface
+the reporting file contains "NONE" as submit_cmd.
+.IP "\fBwallclock\fP"
+The wallclock time the job spent in running state.
+Times during which the job was suspended are not counted as wallclock time.
+For loosely integrated jobs and for tightly integrated jobs with accounting summary enabled
+the wallclock time reported for the master task is the wallclock time multiplied by
+the number of job slots.
+.SS queue
+Records of type queue contain state information for queues (queue instances).
+A queue record has the following fields:
+.IP "\fBqname\fP"
+The cluster queue name.
+.IP "\fBhostname\fP"
+The hostname of a specific queue instance.
+.IP "\fBreport_time\fP"
+The time (64bit GMT unix time stamp in milliseconds) when a state change was triggered.
+.IP "\fBstate\fP"
+The new queue state.
+.SS queue_consumable
+A queue_consumable record contains information about queue consumable values in addition to queue state information:
+.IP "\fBqname\fP"
+The cluster queue name.
+.IP "\fBhostname\fP"
+The hostname of a specific queue instance.
+.IP "\fBreport_time\fP"
+The time (64bit GMT unix time stamp in milliseconds) when a state change was triggered.
+.IP "\fBstate\fP"
+The new queue state.
+.IP "\fBconsumables\fP"
+Description of consumable values. Information about multiple consumables is separated by space.
+A consumable description has the format <name>=<actual_value>=<configured value>.
+.SS host
+A host record contains information about hosts and host load values.
+It contains the following information:
+.IP "\fBhostname\fP"
+The name of the host.
+.IP "\fBreport_time\fP"
+The time (64bit GMT unix time stamp in milliseconds) when the reported information was generated.
+.IP "\fBstate\fP"
+The new host state.
+Currently, Univa Grid Engine doesn't track a host state, the field is reserved for 
+future use. Always contains the value X.
+.IP "\fBload values\fP"
+Description of load values. Information about multiple load values is separated by space.
+A load value description has the format <name>=<actual_value>.
+.\"
+.SS host_consumable
+A host_consumable record contains information about hosts and host consumables.
+Host consumables can for example be licenses.
+It contains the following information:
+.IP "\fBhostname\fP"
+The name of the host.
+.IP "\fBreport_time\fP"
+The time (64bit GMT unix time stamp in milliseconds) when the reported information was generated.
+.IP "\fBstate\fP"
+The new host state.
+Currently, Univa Grid Engine doesn't track a host state, the field is reserved for 
+future use. Always contains the value X.
+.IP "\fBconsumables\fP"
+Description of consumable values. Information about multiple consumables is separated by space.
+A consumable description has the format <name>=<actual_value>=<configured value>.
+.SS sharelog 
+The Univa Grid Engine qmaster can dump information about sharetree configuration and use to the reporting file.
+The parameter \fIsharelog\fP sets an interval in which sharetree information will be dumped.
+It is set in the format HH:MM:SS. A value of 00:00:00 configures qmaster not to
+dump sharetree information. Intervals of several minutes up to hours are sensible values for this parameter.
+The record contains the following fields
+.IP "\fBcurrent time\fP"
+The present time
+.IP "\fBusage time\fP"
+The  time used so far
+.IP "\fBnode name\fP"
+The node name
+.IP "\fBuser name\fP"
+The user name
+.IP "\fBproject name\fP"
+The project name
+.IP "\fBshares \fP"
+The total shares
+.IP "\fBjob count \fP"
+The job  count
+.IP "\fBlevel \fP"
+The percentage of shares used
+.IP "\fBtotal \fP"
+The adjusted percentage of shares used
+.IP "\fBlong target share \fP"
+The long target percentage of resource shares used
+.IP "\fBshort target share \fP"
+The short target percentage of resource shares used
+.IP "\fBactual share \fP"
+The actual percentage of resource shares used
+.IP "\fBusage \fP"
+The combined shares used
+.IP "\fBcpu \fP"
+The cpu used
+.IP "\fBmem \fP"
+The memory used
+.IP "\fBio \fP"
+The IO used
+.IP "\fBlong target cpu \fP"
+The long target cpu used
+.IP "\fBlong target mem \fP"
+The long target memory used
+.IP "\fBlong target io \fP"
+The long target IO used
+.\"
+.SS new_ar
+A new_ar record contains information about advance reservation objects. Entries of this
+type will be added if an advance reservation is created.
+It contains the following information:
+.IP "\fBsubmission_time\fP"
+The time (64bit GMT unix time stamp in milliseconds) when the advance reservation was created.
+.IP "\fBar_number\fP"
+The advance reservation number identifying the reservation.
+.IP "\fBar_owner\fP"
+The owner of the advance reservation.
+.\"
+.SS ar_attribute
+The ar_attribute record is written whenever a new advance reservation was added or the
+attribute of an existing advance reservation has changed. It has following fields.
+.IP "\fBevent_time\fP"
+The time (64bit GMT unix time stamp in milliseconds) when the event was generated.
+.IP "\fBsubmission_time\fP"
+The time (64bit GMT unix time stamp in milliseconds) when the advance reservation was created.
+.IP "\fBar_number\fP"
+The advance reservation number identifying the reservation.
+.IP "\fBar_name\fP"
+Name of the advance reservation.
+.IP "\fBar_account\fP"
+An account string which was specified during the creation of the advance reservation.
+.IP "\fBar_start_time\fP"
+Start time.
+.IP "\fBar_end_time\fP"
+End time.
+.IP "\fBar_granted_pe\fP"
+The parallel environment which was selected for an advance reservation.
+.IP "\fBar_granted_resources\fP"
+The granted resources which were selected for an advance reservation.
+.\"
+.SS ar_log
+The ar_log record is written whenever a advance reservation is changing status. A status
+change can be from pending to active, but can also be triggered by system events like host
+outage. It has following fields.
+.IP "\fBar_state_change_time\fP"
+The time (64bit GMT unix time stamp in milliseconds) when the event occurred which caused a state change.
+.IP "\fBsubmission_time\fP"
+The time (64bit GMT unix time stamp in milliseconds) when the advance reservation was created.
+.IP "\fBar_number\fP"
+The advance reservation number identifying the reservation.
+.IP "\fBar_state\fP"
+The new state.
+.IP "\fBar_event\fP"
+An event id identifying the event which caused the state change.
+.IP "\fBar_message\fP"
+A message describing the event which caused the state change.
+.\"
+.SS ar_acct
+The ar_acct records are accounting records which are written for every queue instance
+whenever a advance reservation terminates. Advance reservation accounting records comprise
+following fields.
+.IP "\fBar_termination_time\fP"
+The time (64bit GMT unix time stamp in milliseconds) when the advance reservation terminated.
+.IP "\fBsubmission_time\fP"
+The time (64bit GMT unix time stamp in milliseconds) when the advance reservation was created.
+.IP "\fBar_number\fP"
+The advance reservation number identifying the reservation.
+.IP "\fBar_qname\fP"
+Cluster queue name which the advance reservation reserved.
+.IP "\fBar_hostname\fP"
+The name of the execution host.
+.IP "\fBar_slots\fP"
+The number of slots which were reserved.
+.\"
+.\"
+.SH "SEE ALSO"
+.M sge_conf 5 .
+.M host_conf 5 .
+.\"
+.SH "COPYRIGHT"
+See
+.M sge_intro 1
+for a full statement of rights and permissions.

@@ -1,0 +1,41 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_LIST_SIZE" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_list_size\fR \- drmaa2_list_size, Determines the size of the list\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+long drmaa2_list_size(const drmaa2_list list)
+.
+.SH "DESCRIPTION"
+Determines the amount of entries in the given list and returns the value\.
+.
+.SH "RETURN VALUES"
+Returns the amount of entries in the given list\. The value is 0 or greater\. In case of any errors (e\.g\. list is NULL), 0 is returned\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_string_list strings = drmaa2_create_list(DRMAA2_STRINGLIST,
+                                   (drmaa2_list_entryfree) drmaa2_string_free);
+
+drmaa2_list_add(strings, strdup("string one"));
+drmaa2_list_add(strings, strdup("string two"));
+
+printf("List size: %ld\en", drmaa2_list_size(strings));
+
+drmaa2_list_free(&strings);
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_list_create(3), drmaa2_list_free(3), drmaa2_list_add(3), drmaa2_list_del(3), drmaa2_list_size(3), drmaa2_list_has(3), drmaa2_lasterror(3), drmaa2_lasterror_text(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

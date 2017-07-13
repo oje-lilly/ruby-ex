@@ -1,0 +1,284 @@
+Preemption in UGE 8.4.4 - sge_diagnoPsrteiecmsp(t)ion in UGE 8.4.4 - sge_diagnostics()
+
+
+
+NNAAMMEE
+       Diagnostics - Diagnostics and Debugging of Univa Grid Engine
+
+DDEESSCCRRIIPPTTIIOONN
+       The sections below describe aspects of diagnosing qmaster behaviour and
+       obtaining more detailed information  about  the  state  of  Univa  Grid
+       Engine.
+
+LLOOGGGGIINNGG
+       Certain  components  as  sge_qmaster(1) or sge_execd(1) create informa-
+       tive, warning, error or debugging messages that are written to  a  mes-
+       sage file of the corresponding component.
+
+       The parameter _l_o_g_l_e_v_e_l of the global configuration of Univa Grid Engine
+       allows to change the level of information that is written to  the  mes-
+       sage  file.   When  the _l_o_g_l_e_v_e_l is set to _l_o_g___d_e_b_u_g then more detailed
+       information is written that allows to see details of the internal state
+       of  the  component  and  to debug certain error scenarios that would be
+       difficult to diagnose otherwise.
+
+   RReecceeiivveedd aanndd SSeenntt MMeessssaaggeess
+       When the _l_o_g_l_e_v_e_l _l_o_g___d_e_b_u_g is activated then Univa Grid Engine  writes
+       log  messages whenever sge_qmaster receives messages or sends messages.
+
+       Message have the following format:  ACTION:  HOSTNAME/COMPROC-NAME/COM-
+       PROC-ID/MESSAGE-ID:MESSAGE-TAG:SIZE
+
+       +o _A_C_T_I_O_N: SEND or RECEIVE
+
+       +o _H_O_S_T_N_A_M_E: Identifies the host were the message was send from.
+
+       +o _C_O_M_P_R_O_C_-_N_A_M_E:  Name  of  the  daemon or command that sent the message
+         (e.g.  qsub, execd, qmon, ...)
+
+       +o _C_O_M_P_R_O_C_-_I_D: Univa Grid Engine internal ID used for communication
+
+       +o _M_E_S_S_A_G_E_-_I_D: Message ID that identifies the request on the  communica-
+         tion layer.
+
+       +o _M_E_S_S_A_G_E_-_T_A_G:   Type  of  message:  TAG_GDI_REQUEST,  TAG_ACK_REQUEST,
+         TAG_REPORT_REQUEST, ...
+
+       +o _S_I_Z_E: Size of the message in bytes
+
+   RReeqquueesstt eexxeeccuuttiioonn
+       When the _l_o_g_l_e_v_e_l _l_o_g___d_e_b_u_g is activated then Univa Grid Engine  writes
+       log messages whenever sge_qmaster accepts new requests from client com-
+       mands (e.g qsub(1), qalter(1), qconf(1), ...), other server  components
+       (e.g.   sge_execd) or qmaster internal threads (lothread when the Univa
+       Grid Engine  cluster  is  connected  to  Univa  License  Orchestrator).
+       Incoming  requests  are stored in qmaster internal queues till a thread
+       is available that is able to handle the request properly.  Log messages
+       will  also  be  written  when one of the internal qmaster threads start
+       executing such a request and when request handling has finished.
+
+       In low performing  clusters  this  allows  to  identify  hosts,  users,
+       requests  types  ...   that  are  the  root  cause  for the performance
+       decrease.
+
+       Messages related to request execution have following format:
+
+
+                 ACTION: HOSTNAME/COMPROC-NAME/COMPROC-ID/MESSAGE-ID:USER:SIZE:INTERFACE:REQUEST-DETAILS[:DURATION]
+
+       +o _A_C_T_I_O_N: QUEUE, FETCHED, STARTED or FINISHED
+
+       +o _H_O_S_T_N_A_M_E: Identifies the host were the request was send from.
+
+       +o _C_O_M_P_R_O_C_-_N_A_M_E: Name of the daemon or command  that  sent  the  request
+         (e.g.  qsub, execd, qmon, ...)
+
+       +o _C_O_M_P_R_O_C_-_I_D: Univa Grid Engine internal ID used for communication
+
+       +o _M_E_S_S_A_G_E_-_I_D:  Message ID that identifies the request on the communica-
+         tion layer.
+
+       +o _U_S_E_R: Name of the user that caused the request to be send to qmaster.
+
+       +o _S_I_Z_E: Size of the request in bytes (the commlib message) when receiv-
+         ing requests from external clients, else 0
+
+       +o _I_N_T_E_R_F_A_C_E: Interface that was used to trigger  the  request  (GDI  or
+         REP)
+
+       +o _R_E_Q_U_E_S_T_-_D_E_T_A_I_L_S:  For  GDI requests this will show the operation type
+         (e.g ADD, MOD, DEL, ...) and the object type (JB for job  object,  CQ
+         for cluster queue object, ...)
+
+       +o _D_U_R_A_T_I_O_N:  optionally:  time  in seconds since the last action on the
+         request, e.g.  time a request was queued, time it took from  fetching
+         a  request  till it can be processed (acquiring locks), time for pro-
+         cessing a request
+
+       Messages related to non GDI  requests  modifying  event  clients  (e.g.
+       acknowledge receipt of an event package) have the following format:
+
+
+                 ACTION(E): REQUEST:ID[:DURATION]
+
+       +o _A_C_T_I_O_N: QUEUE, STARTED or FINISHED
+
+       +o _R_E_Q_U_E_S_T: type of request, e.g.  ACK
+
+       +o _I_D: the event client id, see qconf -secl
+
+       +o _D_U_R_A_T_I_O_N:  optionally:  time  in seconds since the last action on the
+         request, e.g.  time a request  was  queued,  time  for  processing  a
+         request
+
+MMOONNIITTOORRIINNGG
+   MMEESSSSAAGGEE FFIILLEE MMOONNIITTOORRIINNGG
+       Monitoring  output  of  the  sge_qmaster(1)  component  is  disabled by
+       default.  It can be enabled by defining _M_O_N_I_T_O_R___T_I_M_E  as  _q_m_a_s_t_e_r___p_a_r_a_m
+       in  the  global  configuration  of Univa Grid Engine (see sge_conf(5)).
+       _M_O_N_I_T_O_R___T_I_M_E defines the time interval when monitoring  information  is
+       printed.   The  generated output provides information per thread and it
+       is written to the message file or displayed with _q_p_i_n_g_(_1_).
+
+       The messages that are shown start with the name  of  a  qmaster  thread
+       followed by a three digit number and a colon character (:).  The number
+       allows to distinguish monitoring output of different threads  that  are
+       part of the same thread pool.
+
+       All  counters  are  reset when the monitoring output was printed.  This
+       means that all numbers show activity characteristics of about one _M_O_N_I_-
+       _T_O_R___T_I_M_E  interval.  Please note that the _M_O_N_I_T_O_R___T_I_M_E is only a guide-
+       line and not a fixed interval.  The interval that is actually  used  is
+       shown by ttiimmee in the monitoring output.
+
+       For each thread type the output contains following parameters:
+
+       +o rruunnss:  [iterations  per  second] number of cycles per second a thread
+         executed its main loop.  Threads typically handle  one  work  package
+         (message, request) per iteration.
+
+       +o oouutt:  [messages  per  second] number of outgoing TCP/IP communication
+         messages per second.  Only those threads  trigger  outgoing  messages
+         that  handle  requests  that  were  triggered by external commands or
+         interfaces (client commands, DRMAA, ...).
+
+       +o AAPPTT: [cpu time per message] average processing time  per  message  or
+         request.
+
+       +o iiddllee:  [%]  percentage  how  long the thread was idle and waiting for
+         work.
+
+       +o wwaaiitt: [%] percentage how long the thread  was  waiting  for  required
+         resources that where already in use by other threads.
+
+       +o ttiimmee: [seconds] time since last monitoring output for this thread was
+         written.
+
+       Depending on the thread type the output will contain more details:
+
+       LLIISSTTEENNEERR
+
+       Listener threads listen for incoming messages that are send to  qmaster
+       via generic data interface, event client interface, mirror interface or
+       reporting interface.  Requests are unpacked and verified.   For  simple
+       requests  a  response  will also be sent back to the client but in most
+       cases the request will be stored in one of the request queues that  are
+       processed by reader, worker threads or the event master thread.
+
+       +o IN  gg:  [requests  per  second]  number  of requests received via GDI
+         interface.
+
+       +o IN aa: [messages per second] handled ack's for a request response.
+
+       +o IN ee: [requests per  second]  event  client  requests  received  from
+         applications using the event client or mirror interface.
+
+       +o IN  rr:  [requests  per  second] number of reporting requests received
+         from execution hosts.
+
+       +o OTHER wwqqll: [requests] number of pending read-write requests that  can
+         immediately be handled by a worker thread.
+
+       +o OTHER  rrqqll:  [requests] number of pending read-only requests that can
+         immediately be handled by a reader thread.
+
+       +o OTHER wwrrqqll: number of waiting read-only requests.  read-only requests
+         in _w_a_i_t_i_n_g-state have to be executed as part of a GDI session and the
+         data store of the read-only thread pool is not in a state to  execute
+         those requests immediately.
+
+       RREEAADDEERR//WWOORRKKEERR
+
+       Reader  and  worker  threads handle GDI and reporting requests.  Reader
+       threads will handle read-only requests only whereas all  requests  that
+       require read-write access will be processed by worker threads.
+
+       +o EXECD ll: [reports per second] handled load reports per second.
+
+       +o EXECD jj: [reports per second] handled job reports per second.
+
+       +o EXECD cc: [reports per second] handled configuration version requests.
+
+       +o EXECD pp: [reports per second] handled processor reports.
+
+       +o EXECD aa: [messages per second] handled ack's for a request  response.
+
+       +o GDI aa: [requests per second] handled GDI add requests per second.
+
+       +o GDI gg: [requests per second] handled GDI get requests per second.
+
+       +o GDI  mm: [requests per second] handled GDI modify requests per second.
+
+       +o GDI dd: [requests per second] handled GDI delete requests per  second.
+
+       +o GDI cc: [requests per second] handled GDI copy requests per second.
+
+       +o GDI tt: [requests per second] handled GDI trigger requests per second.
+
+       +o GDI pp: [requests per second] handled GDI permission requests per sec-
+         ond.
+
+       EEVVEENNTT MMAASSTTEERR
+
+       The event master thread is responsible for handling activities for reg-
+       istered event clients that either use the event client  or  the  mirror
+       interface.  The interfaces can be used to register and subscribe all or
+       a subset of event types.  Clients will  automatically  receive  updates
+       for  subscribed information as soon as it is added, modified or deleted
+       within qmaster.  Clients using those interfaces don't have the need  to
+       poll required information.
+
+       +o cclliieennttss: [clients] connected event clients.
+
+       +o mmoodd:  [modifications  per second] event client modifications per sec-
+         ond.
+
+       +o aacckk: [messages per second] handled ack's per second.
+
+       +o bblloocckkeedd: [clients] number of event clients blocked during send.
+
+       +o bbuussyy: [clients] number of event clients busy during send.
+
+       +o eevveennttss: [events per second] newly added events per second.
+
+       +o aaddddeedd: [events per second] number of all events per second.
+
+       +o sskkiipptt: [events per second] ignored  events  per  second  (because  no
+         client has subscribed them).
+
+       TTIIMMEEDD EEVVEENNTT
+
+       The timed event thread is used within qmaster to either trigger activi-
+       ties once at a certain point in time or in regular time intervals.
+
+       +o ppeennddiinngg: [events]  number  of  events  waiting  that  start  time  is
+         reached.
+
+       +o eexxeeccuutteedd: [events per second] executed events per second.
+
+QQPPIINNGG MMOONNIITTOORRIINNGG
+       The  qping(1)  command  provides monitoring output of Univa Grid Engine
+       components.
+
+   RREEQQUUEESSTT QQUUEEUUEESS
+       Requests that are accepted by qmaster but that  cannot  be  immediately
+       handled  by  one  of the reader or worker threads are stored in qmaster
+       internal request queues.  qping(1) is able to show details about  those
+       pending  requests  when this is enabled by defining the parameter _M_O_N_I_-
+       _T_O_R___R_E_Q_U_E_S_T___Q_U_E_U_E_S as _q_m_a_s_t_e_r___p_a_r_a_m  in  the  global  configuration  of
+       Univa  Grid  Engine.   The output format of requests is the same as for
+       requests log messages (explained in the section _L_o_g_g_i_n_g -> _R_e_q_u_e_s_t _e_x_e_-
+       _c_u_t_i_o_n above).
+
+SSEEEE AALLSSOO
+       sge_intro(1) sge_qmaster(1) sge_execd(1) qconf(1) qping(1) sge_conf(5)
+
+CCOOPPYYRRIIGGHHTT
+       See sge_intro(1) for a full statement of rights and permissions.
+
+AAUUTTHHOORRSS
+       Copyright (c) 2015 Univa Corporation.
+
+
+
+                               DecemPbreerem2p,ti2o0n15in UGE 8.4.4 - sge_diagnostics()

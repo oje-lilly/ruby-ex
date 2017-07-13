@@ -1,0 +1,182 @@
+'\" t
+.\"___INFO__MARK_BEGIN__
+.\"
+.\" Copyright: 2014 by Copyright Univa Corporation. All Rights Reserved. Access is Restricted. 
+.\"
+.\"___INFO__MARK_END__
+.\"
+.\"
+.\" Some handy macro definitions [from Tom Christensen's man(1) manual page].
+.\"
+.de SB		\" small and bold
+.if !"\\$1"" \\s-2\\fB\&\\$1\\s0\\fR\\$2 \\$3 \\$4 \\$5
+..
+.\"
+.de T		\" switch to typewriter font
+.ft CW		\" probably want CW if you don't have TA font
+..
+.\"
+.de TY		\" put $1 in typewriter font
+.if t .T
+.if n ``\c
+\\$1\c
+.if t .ft P
+.if n \&''\c
+\\$2
+..
+.\"
+.de M		\" man page reference
+\\fI\\$1\\fR\\|(\\$2)\\$3
+..
+.TH SESSION_CONF 5 "UGE 8.4.4" "Univa Grid Engine File Formats"
+.\"
+.SH NAME
+session_conf \- Univa Grid Engine session configuration
+.\"
+.\"
+.SH DESCRIPTION
+When Univa Grid Engine client commands interact with Univa Grid Engine server components (see 
+.M sge_qmaster 1 )
+then this is done by using an interface named GDI (Grid Engine Data Interface). 
+This interface is used to send client requests to the Univa Grid Engine system that are 
+then handled within the server component and answered by a response message that 
+contains the result for the client request.
+.PP
+This GDI interface is also used for internal Univa Grid Engine communication between 
+components running on execution hosts (see 
+.M sge_execd 1 )
+as well as for internal communication between components within the 
+.M sge_master 1 
+component itself.
+.PP
+GDI requests can be divided into two categories: Requests that will change the 
+configuration/state of the Univa Grid Engine system (read-write-requests) and requests that 
+will gather information to display the configuration/state of the Univa Grid Engine system 
+(read-only-requests).
+.PP
+Univa Grid Engine 8.2 has been redesigned so that read-write-requests and 
+read-only-requests can be executed completely independently from each other. 
+Furthermore up to 64 read-only requests can work in parallel which is not 
+possible in Sun Grid Engine, Oracle Grid Engine and other open source versions 
+of Grid Engine. This ensures faster response times for all requests and has a 
+huge positive impact on the cluster throughput. 
+.PP
+The drawback of this approach is that GDI-read-only requests might not see the 
+outcome of recently executed read-write requests in certain situations. E.g. 
+it might happen that a user submits a job (read-write-request) and immediately 
+does a qstat -j <jid> (read-only-request) which responds with an error which says 
+that the previously created job does not exist.
+.PP
+In some cases such behavior may cause problems and it is desired that requests 
+should be executed in sequence and for this reason GDI sessions have been 
+introduced that guarantee a consistent view onto the Univa Grid Engine system. Internally 
+read-only requests that are executed within the control of a session are delayed 
+until they can see all changes that have happened previously within the same 
+session. The maximum delay depends on the Univa Grid Engine system load and the number of 
+threads that are active. This value also can be influenced by the 
+\fBmax_reader_delay\fP parameter which can be defined as \fBqmaster_param\fP 
+in the Univa Grid Engine global configuration (see 
+.M sge_conf 5 )
+.
+.PP
+A GDI session is a new configuration object in Univa Grid Engine 8.2 which can be 
+created, modified and deleted by managers or users that are members of the 
+\fBsessionusers\fP access control list.
+.PP
+.\"
+.\"
+.SH FORMAT
+The sections below describe the format of the template file for session objects. 
+Via the \fI\-asi\fP, \fI\-Asi\fP, \fI\-msi\fP, \fI\-Msi\fP options of the 
+.M qconf 1
+command session can be added and modified. The \fI\-csi\fP switch can be used 
+to create a session with default parameters. Any of these change operations 
+can be rejected by the Univa Grid Engine system, as a result of a failed 
+integrity verification.
+.PP
+.M Qconf 1 
+\fI\-ssil\fP will return a list of all existing sessions in an Univa Grid Engine 
+system. Details of a session are shown with the command 
+.M qconf 1
+\fI\-ssi\fP.
+.PP
+Note, Univa Grid Engine allows backslashes (‘\\’) be used to escape newline 
+(‘\\newline’) characters. The backslash and the newline are replaced with 
+a space (‘ ‘) character before any interpretation.
+.PP
+The following list of parameters specifies the session configuration file content:
+.PP
+.SS "\fBsession_id\fP"
+The session ID of a session. For sessions that should be created the value for this 
+attribute has to be \fBNONE\fP so that the 
+.M sge_qmaster 1 
+process can assign a new unique session ID.
+.\"
+.SS "\fBowner\fP"
+User name of the user that owns the session. If \fBNONE\fP is specified as username 
+during the creation of a new session then the executing user of the configuration 
+command will be the owner of that session.
+.PP
+Only managers and the session owner are allowed to modify or to delete an existing 
+session and if a session gets created by root or a manager account on behalf of 
+a regular user then that user should be a member of the \fBsessionusers\fP access
+control list.
+.\"
+.SS "\fBduration\fP"
+Duration of a session in a format as defined for ‘time’ in 
+.M sge_types 1 . 
+.PP
+The duration influences the lifetime of a session. Lifetime of a session begins 
+when the session is created and it ends when the session is not used for the 
+specified amount of time defined by the duration attribute.
+.PP
+Lifetime of a session is automatically increased by adding duration to the \fBend_time\fP
+of that session when it is used.
+.PP
+The default duration of a session is 900 seconds if this is not specified otherwise 
+in the \fBqmaster_param\fP named \fBgdi_request_session_timeout\fP (see 
+.M sge_conf 5 )
+.
+.PP
+The 
+.M sge_qmaster 1 
+process tries to find sessions where the lifetime ended every 15 minutes and it will 
+delete those sessions automatically. Although unused sessions will be deleted 
+automatically it is recommended to delete sessions manually using the 
+.M qconf 1 
+\fB-dsi\fP command once a session is not needed anymore.
+.\"
+.SS "\fBstart_time\fP"
+Time when the session was created. \fBStart_time\fP of a session cannot be specified. 
+It is shown with 
+.M qconf 1
+\fI-ssi\fP.
+.\"
+.SS "\fBend_time\fP"
+Possible end time of a session. After creation the \fBend_time\fP of a session is set to
+\fBstart_time\fP plus \fBduration\fP. \fBEnd_time\fP is moved forward when the session 
+is used so that it still remains valid for the amount of time specified by \fBduration\fP 
+after use.
+.PP
+If the session was not used then it is tagged for deletion. The 
+.M sge_qmaster 1
+process tries to find unused sessions every 15 minutes and it will delete those 
+sessions automatically. Although unused sessions will be deleted automatically 
+it is recommended to delete sessions manually using the 
+.M qconf 1 
+\fI-dsi\fP command when a session is not needed anymore.
+.PP
+The \fBend_time\fP of a session is shown by the commands 
+.M qconf 1
+\fI-ssi\fP and \fI-ssil\fP.
+.\"
+.\"
+.SH "SEE ALSO"
+.M sge_intro 1 ,
+.M sge__types 1 ,
+.M qconf 1 ,
+.\"
+.SH "COPYRIGHT"
+See
+.M sge_intro 1
+for a full statement of rights and permissions.

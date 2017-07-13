@@ -1,0 +1,95 @@
+'\" t
+.\"___INFO__MARK_BEGIN__
+.\"
+.\" Copyright: 2004 by Sun Microsystems, Inc.
+.\"
+.\" Portions of this software are Copyright (c) 2011 Univa Corporation
+.\"
+.\"___INFO__MARK_END__
+.\"
+.\" Some handy macro definitions [from Tom Christensen's man(1) manual page].
+.\"
+.de SB		\" small and bold
+.if !"\\$1"" \\s-2\\fB\&\\$1\\s0\\fR\\$2 \\$3 \\$4 \\$5
+..
+.\"
+.de T		\" switch to typewriter font
+.ft CW		\" probably want CW if you don't have TA font
+..
+.\"
+.de TY		\" put $1 in typewriter font
+.if t .T
+.if n ``\c
+\\$1\c
+.if t .ft P
+.if n \&''\c
+\\$2
+..
+.\"
+.de M		\" man page reference
+\\fI\\$1\\fR\\|(\\$2)\\$3
+..
+.TH UGE_Starter_Service.exe 8 "UGE 8.4.4" "Univa Grid Engine Administrative Commands"
+.SH NAME
+UGE_Starter_Service.exe \- Univa Grid Engine execution daemon starter service
+.\"
+.\"
+.SH SYNOPSIS
+.B UGE_Starter_Service.exe -help
+[
+.B \-help
+|
+.B \-install [<name> <password>]
+|
+.B \-uninstall
+|
+.B \-add <QMaster port> <cell directory>
+|
+.B \-delete <cell directory>
+]
+.\"
+.\"
+.SH DESCRIPTION
+.PP
+On Windows (win-x86),
+.I UGE_Starter_Service.exe
+starts the
+.M sge_execd 8
+at boot time with appropriate permissions.
+.br
+.\"
+.\"
+.SH OPTIONS
+.\"
+.SS "\fB\-help\fP"
+Prints a listing of all options.
+.SS "\fB\-install [<name> <password>]\fP"
+Installs the service. Only the local Administrator has the permissions to
+install the service. If name and option are not specified, the service is
+installed with "SYSTEM" credentials, which are not sufficient to start the
+.M sge_execd 8
+properly. The local Administrators name and password can still be registered
+to the service by opening the Windows Services dialog and selecting the
+"Log on" tab.
+.\"
+.SS "\fB\-uninstall\fP"
+Uninstalls the service. Only the local Administrator has the permissions to
+uninstall the service. Only a stopped service can be uninstalled. See the
+Windows command net.exe for information on how to stop a service.
+.fi
+.\"
+.SS "\fB\-add <QMaster port> <cell directory>\fP"
+Adds an execution daemon to the list of daemons to start at boot time.
+.\"
+.SS "\fB\-delete <cell directory>\fP"
+Deletes an execution daemon from the list of daemons to start at boot time.
+.\"
+.\"
+.SH "SEE ALSO"
+.M sge_intro 1 ,
+.M sge_execd 8 .
+.\"
+.SH "COPYRIGHT"
+See
+.M sge_intro 1
+for a full statement of rights and permissions.

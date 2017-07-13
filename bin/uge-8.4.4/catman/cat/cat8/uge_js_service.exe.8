@@ -1,0 +1,57 @@
+uge_js_service.exe(8)                                    uge_js_service.exe(8)
+
+
+
+NNAAMMEE
+       uge_js_service.exe - Univa Grid Engine job starter service
+
+SSYYNNOOPPSSIISS
+       uuggee__jjss__sseerrvviiccee..eexxee [ --hheellpp | --iinnssttaallll | --uunniinnssttaallll ]
+
+DDEESSCCRRIIPPTTIIOONN
+       _u_g_e___j_s___s_e_r_v_i_c_e_._e_x_e _c_o_o_p_e_r_a_t_e_s _w_i_t_h _t_h_e _s_g_e___e_x_e_c_d(8) to run jobs on Win-
+       dows hosts. It is a Win32 service that is started at  boot  time  under
+       the  "Local System" account, giving it the permissions to give any pro-
+       cess the permissions to access the visible Desktop in order to let jobs
+       display their GUI there.
+       This  service  runs  independently  of the _s_g_e___e_x_e_c_d(8) (i.e. it is not
+       started and stopped together with the execution daemon) and  there  can
+       be only one _u_g_e___j_s___s_e_r_v_i_c_e_._e_x_e _p_e_r _h_o_s_t_.
+
+       Jobs  can  request  to  be  allowed to display their GUI on the visible
+       desktop by requesting the  resource  "display_win_gui"  (qsub  -l  dis-
+       play_win_gui=1).
+
+       The Windows administrator can operate this service using the usual Win-
+       dows Service Control Manager or the "net" command. The  "start"  method
+       starts  the  service if possible, the "stop" method stops it regardless
+       of any jobs that might be still running. For a graceful shutdown, first
+       run  the "pause" method.  This will start the shutdown procedure of the
+       service and prevent it from accepting any further jobs. After this, the
+       "resume"  (aka  "continue")  method will fail as long as there are jobs
+       running in the _u_g_e___j_s___s_e_r_v_i_c_e_._e_x_e_.  If no job is left in  the  service,
+       the "resume" method will succeed and the service will stop.
+
+OOPPTTIIOONNSS
+   --hheellpp
+       Prints a listing of all options.
+
+   --iinnssttaallll
+       Installs  the service. Only the local Administrator has the permissions
+       to install the service.
+
+   --uunniinnssttaallll
+       Uninstalls the service. Only the local Administrator  has  the  permis-
+       sions  to  uninstall  the  service. Only a stopped service can be unin-
+       stalled. See the Windows command net.exe for information on how to stop
+       a service.
+
+SSEEEE AALLSSOO
+       _s_g_e___i_n_t_r_o(1), _s_g_e___e_x_e_c_d(8).
+
+CCOOPPYYRRIIGGHHTT
+       See _s_g_e___i_n_t_r_o(1) for a full statement of rights and permissions.
+
+
+
+Univa Grid Engine Administrative ComUmGaEnd8s.4.4             uge_js_service.exe(8)

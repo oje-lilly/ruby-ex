@@ -1,0 +1,147 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_MSESSION_GET_ALL_MACHINES" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_msession_get_all_machines\fR \- drmaa2_msession_get_all_machines, Returns all Univa(R) Grid Engine(TM) hosts
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_machineinfo_list drmaa2_msession_get_all_machines(const drmaa2_msession monitoring_session, const drmaa2_string_list filter);
+.
+.SH "DESCRIPTION"
+Returns a list of all execution hosts currently managed by Univa(R) Grid Engine(TM) in a \fBdrmaa2_machineinfo_list\fR\.
+.
+.P
+The second argument defines a filter for the hosts to be returned\. Only hosts with names given by the filter are returned if filter is != NULL\. If filter is NULL all available hosts are returned\.
+.
+.P
+The \fBdrmaa2_machineinfo_list\fR consists of \fBdrmaa2_machineinfo\fR elements which are pointers to the \fBdrmaa2_machineinfo_s\fR struct\. The struct offers at least following elements:
+.
+.IP "" 4
+.
+.nf
+
+typedef struct {
+   drmaa2_string   name;
+   drmaa2_bool     available;
+   long long       sockets;
+   long long       coresPerSocket;
+   long long       threadsPerCore;
+   float           load;
+   long long       physMemory;
+   long long       virtMemory;
+   drmaa2_cpu      machineArch;
+   drmaa2_version  machineOSVersion;
+   drmaa2_os       machineOS;
+} drmaa2_machineinfo_s;
+
+typedef drmaa2_machineinfo_s *drmaa2_machineinfo;
+.
+.fi
+.
+.IP "" 0
+.
+.P
+All values, but especially allocated values like \fBdrmaa2_string name\fR and \fBdrmaa2_version\fR, which can be NULL needs to be tested if they are not UNSET or != NULL before they are used\. The UNSET defines can be found in the \fBdrmaa2\.h\fR file\.
+.
+.P
+The availability of additional values can be queried with the \fBdrmaa2_machineinfo_impl_spec(3)\fR function\.
+.
+.SH "RETURN VALUES"
+Returns a newly allocated list of hosts in a \fBdrmaa2_machineinfo_list\fR structure or NULL in case of an error\. The machine list was initialized with an appropriate callback function so that \fBdrmaa2_list_free(&result)\fR frees the complete list with all \fBdrmaa2_machineinfo\fR objects inside\. In case of an error the error number and error message can be fetched with \fBdrmaa2_lasterror(3)\fR and \fBdrmaa2_lasterror_text()\fR\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_msession monitoring_session = drmaa2_open_msession(NULL);
+
+if (ms != NULL) {
+   drmaa2_machineinfo_list mi_list = drmaa2_msession_get_all_machines(monitoring_session, NULL);
+
+   if (mi_list == NULL) {
+      /* handle error */
+      drmaa2_string error = drmaa2_lasterror_text();
+      fprintf(stderr, "Error during fetching the machineinfo list from the monitoring session: %s\en", error);
+      drmaa2_string_free(&error);
+   } else {
+      int i;
+      size_t size = drmaa2_list_size(mi_list);
+
+      fprintf(stdout, "There are %lld machines in the system:\en", size);
+      for (i = 0; i < size; i++) {
+          drmaa2_machineinfo mi = (drmaa2_machineinfo) drmaa2_list_get(mi_list, i);
+          fprintf(stdout, "machine name: %s\en", (mi\->name==DRMAA2_UNSET_STRING)?"UNSET":mi\->name);
+          fprintf(stdout, "amount of sockets: %lld\en", mi\->sockets);
+          fprintf(stdout, "amount of cores per socket: %lld\en", mi\->coresPerSocket);
+          fprintf(stdout, "amount of threads per core: %lld\en", mi\->threadsPerCore);
+          fprintf(stdout, "1 min\. avg\. load on machine: %f\en", mi\->load);
+          fprintf(stdout, "physical memory in kilobyte: %lld\en", mi\->physMemory);
+          fprintf(stdout, "virtual memory in kilobyte: %lld\en", mi\->virtMemory);
+          fprintf(stdout, "OS: %s\en", drmaa2_os_to_string(mi\->machineOS));
+          fprintf(stdout, "CPU architecture as enum: %d\en", mi\->machineArch);
+      }
+      drmaa2_list_free(&mi_list);
+   }
+
+   \.\.\.
+   drmaa2_close_msession(monitoring_session);
+   drmaa2_msession_free(&monitoring_session);
+}
+\.\.\.
+.
+.fi
+.
+.P
+Example for the convertion from a drmaa2_os object into a string:
+.
+.IP "" 4
+.
+.nf
+
+static char* drmaa2_os_to_string(const drmaa2_os os)
+{
+     switch (os) {
+        case DRMAA2_OTHER_OS:
+           return "DRMAA2_OTHER_OS";
+        case DRMAA2_AIX:
+           return "DRMAA2_AIX";
+        case DRMAA2_BSD:
+           return "DRMAA2_BSD";
+        case DRMAA2_LINUX:
+           return "DRMAA2_LINUX";
+        case DRMAA2_HPUX:
+           return "DRMAA2_HPUX";
+        case DRMAA2_IRIX:
+           return "DRMAA2_IRIX";
+        case DRMAA2_MACOS:
+           return "DRMAA2_MACOS";
+        case DRMAA2_SUNOS:
+           return "DRMAA2_SUNOS";
+        case DRMAA2_TRU64:
+           return "DRMAA2_TRU64";
+        case DRMAA2_UNIXWARE:
+           return "DRMAA2_UNIXWARE";
+        case DRMAA2_WIN:
+           return "DRMAA2_WIN";
+        case DRMAA2_WINNT:
+           return "DRMAA2_WINNT";
+        default:
+           return "UNKNOWN";
+     }
+     return "UNKNOWN";
+}
+.
+.fi
+.
+.IP "" 0
+.
+.SH "SEE ALSO"
+drmaa2_open_msession(3), drmaa2_close_msession(3), drmaa2_msession_free(3), drmaa2_msession_get_all_jobs(3), drmaa2_msession_get_all_queues(3), drmaa2_list_free(3), drmaa2_machineinfo_impl_spec(3) )
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

@@ -1,0 +1,41 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_JINFO_FREE" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_jinfo_free\fR \- drmaa2_jinfo_free, Frees a job info object\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+void drmaa2_jinfo_free(drmaa2_jinfo * jinfo);
+.
+.SH "DESCRIPTION"
+Frees the memory of a \fBdrmaa2_jinfo\fR object and sets it to NULL\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_jinfo filter = drmaa2_jinfo_create();
+drmaa2_j_list running_jobs = NULL;
+
+if (filter != NULL) {
+    filter\->jobState = DRMAA2_RUNNING;
+    running_jobs = drmaa2_msession_get_all_jobs(ms, filter);
+
+    /* do something with the list of running jobs \.\.\. */
+
+    drmaa2_list_free(&running_jobs);
+    drmaa2_jinfo_free(&filter);
+}
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_jinfo_create(3), drmaa2_mession_get_all_jobs(3), drmaa2_jsession_get_jobs(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

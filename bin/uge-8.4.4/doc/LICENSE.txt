@@ -1,0 +1,105 @@
+TERM SOFTWARE LICENSE AND SUPPORT AGREEMENT
+
+This agreement is between the individual or entity agreeing to this agreement and Univa Corporation, a Delaware corporation (Univa) with its registered office at 2300 N Barrington Road, Suite 400, Hoffman Estates, IL 60195. 
+
+1. SCOPE: This agreement governs the licensing of the Univa Software and Support provided to Customer.	
+
+- Univa Software means the Univa software described in the order, all updates and enhancements provided under Support, its software documentation, and license keys (Univa Software), which are licensed under this agreement. This Univa Software is only licensed and is not sold to Company.
+- Third-Party Software/Open Source Software licensing terms are addressed on the bottom of this agreement.
+
+2. LICENSE. Subject to the other terms of this agreement, Univa grants Customer, under an order, a non-exclusive, non-transferable, renewable term license up to the license capacity purchased to: 
+
+(a) Operate the Univa Software in Customer's business operations; and
+(b) Make a reasonable number of copies of the Univa Software for archival and backup purposes.
+
+Customer's contractors and majority owned affiliates are allowed to use and access the Univa Software under the terms of this agreement. Customer is responsible for their compliance with the terms of this agreement. 
+
+The initial term of this license is for a period of one year from date hereof to be automatically renewed at each anniversary unless a written notification of termination has been received 60 days prior to each anniversary.           
+
+3. RESTRICTIONS. Univa reserves all rights not expressly granted. Customer is prohibited from:
+
+(a) assigning, sublicensing, or renting the Univa Software or using it as any type of software service provider or outsourcing environment; or
+(b) causing or permitting the reverse engineering (except to the extent expressly permitted by applicable law despite this limitation), decompiling, disassembly, modification, translation, attempting to discover the source code of the Univa Software or to create derivative works from the Univa Software.
+
+4. PROPRIETARY RIGHTS AND CONFIDENTIALITY.  
+
+(a) Proprietary Rights. The Univa Software, workflow processes, designs, know-how and other technologies provided by Univa as part of the Univa Software are the proprietary property of Univa and its licensors, and all right, title and interest in and to such items, including all associated intellectual property rights, remain only with Univa. The Univa Software is protected by applicable copyright, trade secret, and other intellectual property laws. Customer may not remove any product identification, copyright, trademark or other notice from the Univa Software. (b) Confidentiality. Recipient may not disclose Confidential Information of Discloser to any third party or use the Confidential Information in violation of this agreement.  
+(c) Confidential Information means all proprietary or confidential information that is disclosed to the recipient (Recipient) by the discloser (Discloser), and includes, among other things:
+- any and all information relating to Univa Software or Support provided by a Discloser, its financial information, software code, flow charts, techniques, specifications, development and marketing plans, strategies, and forecasts; 
+- as to Univa the Univa Software and the terms of this agreement (including without limitation, pricing information).  
+	
+(ii) Confidential Information excludes information that: 
+
+- was rightfully in Recipient's possession without any obligation of confidentiality before receipt from the Discloser; 
+- is or becomes a matter of public knowledge through no fault of Recipient; 
+- is rightfully received by Recipient from a third party without violation of a duty of confidentiality; 
+- is independently developed by or for Recipient without use or access to the Confidential Information; or 
+- is licensed under an open source license.  
+
+Customer acknowledges that any misuse or threatened misuse of the Univa Software may cause immediately irreparable harm to Univa for which there is no adequate remedy at law. Univa may seek immediate injunctive relief in such event.  
+
+5. PAYMENT.  Customer will pay all fees due under an order within 30 days of the invoice date, plus applicable sales, use and other similar taxes.  
+
+6. WARRANTY DISCLAIMER. UNIVA DISCLAIMS ALL EXPRESS AND IMPLIED WARRANTIES, INCLUDING WITHOUT LIMITATION THE IMPLIED WARRANTY OF TITLE, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE UNIVA SOFTWARE MAY NOT BE ERROR FREE, AND USE MAY BE INTERRUPTED. 
+
+7. TERMINATION. Either party may terminate this agreement upon a material breach of the other party after a 30 day notice/cure period, if the breach is not cured during such time period. Upon termination of this agreement or expiration of an order, Customer must discontinue using the Univa Software, de-install it and destroy or return the Univa Software and all copies, within 5 days. Upon Univa's request, Customer will provide written certification of such compliance.
+
+8. SUPPORT INCLUDED. Univa's technical support and maintenance services (Support) is included with the fees paid under an order. Univa may change its Support terms, but Support will not materially degrade during any paid term. More details on Support are located at www.univa.com/support
+
+9. LIMITATION OF LIABILITY AND DISCLAIMER OF DAMAGES. There may be situations in which, as a result of material breach or other liability, Customer is entitled to make a claim for damages against Univa. In each situation (regardless of the form of the legal action (e.g. contract or tort claims)), Univa is not responsible beyond:
+
+(a) the amount of any direct damages up to the amount paid by Customer to Univa in the prior 12 months under this agreement; and 
+
+(b) damages for bodily injury (including death), and physical damage to tangible property, to the extent caused by the gross negligence or willful misconduct of Univa employees while at Customer's facility.  
+
+Other than for breach of the Confidentiality section by a party, the infringement indemnity, violation of Univa's intellectual property rights by Customer, or for breach of Section 2 by Customer, in no circumstances is either party responsible for any (even if it knows of the possibility of such damage or loss): 
+
+(a) loss of (including any loss of use), or damage to: data, information or hardware;
+(b) lost profits, business, or goodwill; or
+(c) other special, consequential, or indirect damages
+
+10. INTELLECTUAL PROPERTY INDEMNITY. If a third-party claims that Customer's use of the Univa Software under the terms of this agreement infringes that party's patent, copyright or other proprietary right, Univa will defend Customer against that claim at Univa's expense and pay all costs, damages, and attorney's fees, that a court finally awards or that are included in a settlement approved by Univa, provided that Customer:
+
+(a) promptly notifies Univa in writing of the claim; and
+(b) allows Univa to control, and cooperates with Univa in, the defense and any related settlement.
+
+If such a claim is made, Univa could continue to enable Customer to use the Univa Software or to modify it. If Univa determines that these alternatives are not reasonably available, Univa may terminate the license to the Univa Software and refund any unused fees.
+
+Univa's obligations above do not apply if the infringement claim is based on the use of the Univa Software in combination with products not supplied or approved by Univa in writing or in the Univa Software, or Customer's failure to use any updates within a reasonable time after such updates are made available.  
+
+This section contains Customer's exclusive remedies and UnivaÕ sole liability for infringement claims.
+
+11. GOVERNING LAW AND EXCLUSIVE FORUM. This agreement is governed by the laws of the State of Illinois, without regard to conflict of law principles. Any dispute arising out of or related to this agreement may only be brought in the state of Illinois. Customer consents to the personal jurisdiction of such courts and waives any claim that it is an inconvenient forum. The prevailing party in litigation is entitled to recover its attorney's fees and costs from the other party. 
+
+12. MISCELLANEOUS. 
+
+(a) Inspection. Univa, or its representative, may audit Customer's usage of the Univa Software at any Customer facility. Customer will cooperate with such audit. Customer agrees to pay within 30 days of written notification any fees applicable to Customer's use of the Univa Software in excess of the license.
+(b) Entire Agreement. This agreement, and all orders, constitute the entire agreement between the parties, and supersedes all prior or contemporaneous negotiations, representations or agreements, whether oral or written, related to this subject matter.  
+(c) Modification Only in Writing. No modification or waiver of any term of this agreement is effective unless signed by both parties. 
+(d) Non-Assignment. Neither party may assign or transfer this agreement to a third party, except that the agreement and all orders may be assigned upon notice as part of a merger, or sale of all or substantially all of the business or assets, of a party. 
+(e) Export Compliance. Customer must comply with all applicable export control laws of the United States, foreign jurisdictions and other applicable laws and regulations.  
+(f) US Government Restricted Rights. The Univa Software is provided with RESTRICTED RIGHTS.  Use, duplication, or disclosure by the U.S. government or any agency thereof is subject to restrictions as set forth in subparagraph (c)(I)(ii) of the Rights in Technical Data and Computer Software clause at DFARS 252.227-7013 or subparagraphs (c)(1) and (2) of the Commercial Computer Software Restricted Rights at 48 C.F.R. 52.227-19, as applicable. 
+(g) Independent Contractors. The parties are independent contractors with respect to each other.
+(h) Enforceability. If any term of this agreement is invalid or unenforceable, the other terms remain in effect. 
+(i) No PO Terms. Univa rejects additional or conflicting terms of a Customer's form-purchasing document. 
+(j) No CISG. The United Nations Convention on Contracts for the International Sale of Goods does not apply. 
+(k) Survival. All terms that by their nature survive termination or expiration of this agreement, will survive. 		
+		
+
+Additional software specific licensing terms:
+
+Grid Engine incorporates certain third-party software listed at the URL below. These licenses are accepted by use of the software and may represent license grants with restrictions which Univa is bound to provide. We are hereby notifying you of these licenses.
+
+Unicloud Kits
+
+- Third Party Software means certain third-party software which is provided along with the Univa Software, and such software is licensed under the license terms located at: http://www.univa.com/resources/licenses/ 
+- Open Source Software means certain opens source software which is provided along with the Univa Software, and such software is licensed under the license terms located at: http://www.univa.com/resources/licenses/
+
+Grid Engine
+									
+- Third Party Software means certain third-party software which is provided along with the Univa Software, and such software is licensed under the license terms located at: http://www.univa.com/resources/licenses/ 
+- Open Source Software means certain opens source software which is provided along with the Univa Software, and such software is licensed under the license terms located at: http://www.univa.com/resources/licenses/ 
+
+
+
+Rev: March 2013

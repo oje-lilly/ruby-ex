@@ -1,0 +1,22 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_STRING_FREE" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_string_free\fR \- drmaa2_string_free, Releases memory of a drmaa2_string(3)\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+void drmaa2_string_free(drmaa2_string *string)
+.
+.SH "DESCRIPTION"
+Releases the memory of an allocated \fBdrmaa2_string\fR, which in the \fBUniva(R) Grid Engine(TM)\fR implementation is a \fBchar *\fR, and sets the variable to NULL\.
+.
+.SH "SEE ALSO"
+drmaa2_get_drms_name(3), drmaa2_lasterror_text(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

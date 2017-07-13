@@ -1,0 +1,137 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_SUPPORTS" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_supports\fR \- drmaa2_supports, Tests if an optional DRMAA2 functionality is supported\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.IP "" 4
+.
+.nf
+
+typedef enum drmaa2_capability {
+   DRMAA2_ADVANCE_RESERVATION         =  0,
+   DRMAA2_RESERVE_SLOTS               =  1,
+   DRMAA2_CALLBACK                    =  2,
+   DRMAA2_BULK_JOBS_MAXPARALLEL       =  3,
+   DRMAA2_JT_EMAIL                    =  4,
+   DRMAA2_JT_STAGING                  =  5,
+   DRMAA2_JT_DEADLINE                 =  6,
+   DRMAA2_JT_MAXSLOTS                 =  7,
+   DRMAA2_JT_ACCOUNTINGID             =  8,
+   DRMAA2_RT_STARTNOW                 =  9,
+   DRMAA2_RT_DURATION                 = 10,
+   DRMAA2_RT_MACHINEOS                = 11,
+   DRMAA2_RT_MACHINEARCH              = 12
+} drmaa2_capability;
+.
+.fi
+.
+.IP "" 0
+.
+.P
+drmaa2_bool drmaa2_supports(const drmaa2_capability capability);
+.
+.SH "DESCRIPTION"
+Allows a DRMAA2 application to check during runtime whether a specific (non\-mandatory) DRMAA2 functionality is supported by the \fBUniva(R) Grid Engine(TM)\fR DRMAA2 implementation or not\. Optionally implementable functionality is denoted \fBcapability\fR\. Following capabilities are defined by the DRMAA2 standard:
+.
+.TP
+\fBDRMAA2_ADVANCE_RESERVATION\fR
+Describes whether the reservation session functionality is supported or not\. In \fBUniva(R) Grid Engine(TM)\fR reservation sessions are currently not supported\.
+.
+.TP
+\fBDRMAA2_RESERVE_SLOTS\fR
+The granularity level for reservation session (slots versus whole machines)\. In \fBUniva(R) Grid Engine(TM)\fR reservation sessions are currently not supported\.
+.
+.TP
+\fBDRMAA2_CALLBACK\fR
+Describes if event notification via the \fBdrmaa2_callback\fR is supported (drmaa2_register_event_notification(3)) or not\.
+.
+.TP
+\fBDMRAA2_BULK_JOBS_MAXPARALLEL\fR
+Describes if the max_parallel parameter for drmaa2_jsession_run_bulk_jobs(3) is supported or not\. In \fBUniva(R) Grid Engine(TM)\fR it is supported\.
+.
+.TP
+\fBDRMAA2_JT_EMAIL\fR
+Describes if the job template attributes emailOnStarted and emailOnTerminated are supported or not\. In \fBUniva(R) Grid Engine(TM)\fR sending emails on job start and job end is supported\.
+.
+.TP
+\fBDRMAA2_JT_STAGING\fR
+Describes if file staging with the job template dictionaries stageInFiles and stageOutFile are supported or not\. In \fBUniva(R) Grid Engine(TM)\fR file staging as part of the job submission process is not supported\. File staging is usually performed by the job itself or can be optionally configured in the prolog and epilog scripts\.
+.
+.TP
+\fBDRMAA2_JT_DEADLINE\fR
+Describes if the deadlineTime attribute of the job template is supported\. \fBUniva(R) Grid Engine(TM)\fR has a different semantic as the DRMAA2 specified deadline time hence it is not supported\.
+.
+.TP
+\fBDRMAA2_JT_MAXSLOTS\fR
+Describes if the maxSlots job template attribute is supported\.
+.
+.TP
+\fBDRMAA2_JT_ACCOUNTINGID\fR
+Describes if the accountingId job template attribute is supported or not\. In \fBUniva(R) Grid Engine(TM)\fR it is equivalent to the \fB\-A\fR qsub(3) parameter\.
+.
+.TP
+\fBDRMAA2_RT_STARTNOW\fR
+Reservation template attributes are not supported because DRMAA2_ADVANCE_RESERVATION is not supported\.
+.
+.TP
+\fBDRMAA2_RT_DURATION\fR
+Reservation template attributes are not supported because DRMAA2_ADVANCE_RESERVATION is not supported\.
+.
+.TP
+\fBDRMAA2_RT_MACHINEOS\fR
+Reservation template attributes are not supported because DRMAA2_ADVANCE_RESERVATION is not supported\.
+.
+.TP
+\fBDRMAA2_RT_MACHINEARCH\fR
+Reservation template attributes are not supported because DRMAA2_ADVANCE_RESERVATION is not supported\.
+.
+.SH "RETURN VALUES"
+Returns \fBDRMAA2_TRUE\fR or \fBDRMAA2_FALSE\fR depending if the capability is supported or not\. An application should use this information to create DRMAA2 compatible code which can run on systems with or without the specific functionality\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+/* Create and open a new job session\. */
+drmaa2_jsession js = drmaa2_create_jsession("test_session", NULL);
+drmaa2_j job = NULL;
+
+if (js != NULL) {
+   /* create a new job template\. */
+   drmaa2_jtemplate jt = drmaa2_jtemplate_create();
+
+   /* add the job characteristics */
+   jt\->jobName = strdup("test_job");
+   jt\->remoteCommand = strdup("sleep");
+   /* since no allocated strings are used we don\'t need to specify a callback */
+   args = drmaa2_list_create(DRMAA2_STRINGLIST, NULL);
+   drmaa2_list_add(args, "60");
+   jt\->args = args;
+
+   /* only add the accounting string if the DRM supports it */
+   if (drmaa2_supports(DRMAA2_JT_ACCOUNTINGID) == DRMAA2_TRUE) {
+     jt\->accountingId = strdup("ProjectX");
+   }
+
+   /* submit the jobs */
+   job = drmaa2_jsession_run_job(js, jt);
+}
+
+drmaa2_j_free(&job);
+drmaa2_jtemplate_free(&jt);
+
+\.\.\.
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_jtemplate_create(3), drmaa2_rtemplate_create(3), drmaa2_jtemplate_impl_spec(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

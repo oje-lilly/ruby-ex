@@ -1,0 +1,38 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_LIST_FREE" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_list_free\fR \- drmaa2_list_free, Frees a DRMAA2 list and its elements\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+void drmaa2_list_free(drmaa2_list * l);
+.
+.SH "DESCRIPTION"
+Frees the memory of the given \fBdrmaa2_list\fR (independent of its type) and sets it to NULL\. If the list was created by using a callback function (see drmaa2_list_create(3)) then the callback function is called for each element in the list\. Usually the callback function frees an element\. Lists returned by function of the \fBUniva(R) Grid Engine(TM)\fR DRMAA2 C implementation are initialized with appropriate callback functions so that the list and its entries are completely freed\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_string_list strings = drmaa2_create_list(DRMAA2_STRINGLIST, (drmaa2_list_entryfree) drmaa2_string_free);
+
+drmaa2_list_add(strings, strdup("string one"));
+drmaa2_list_add(strings, strdup("string two"));
+drmaa2_list_del(strings, "string one"));
+
+printf("Size of list %ld", drmaa2_list_size(strings));
+
+drmaa2_list_free(&strings);
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_list_create(3), drmaa2_list_add(3), drmaa2_list_del(3), drmaa2_list_size(3), drmaa2_list_get(3), drmaa2_list_has(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

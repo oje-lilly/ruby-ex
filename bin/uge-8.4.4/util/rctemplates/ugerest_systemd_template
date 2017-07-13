@@ -1,0 +1,12 @@
+[Unit]
+Description=Univa Grid Engine UGERest Service
+After=network.target remote-fs.target
+
+[Service]
+Type=forking
+ExecStart=GENROOT/GENCELL/common/ugerest start
+ExecStop=GENROOT/GENCELL/common/ugerest stop
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,28 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_J_SUSPEND" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_j_suspend\fR \- drmaa2_j_suspend, Suspends a job from execution\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_error drmaa2_j_suspend(drmaa2_j job);
+.
+.SH "DESCRIPTION"
+Suspends a job given as argument\. The job must be valid and the job session the job was submitted in must be open\.
+.
+.P
+Note that triggering suspension is asynchronous\. That means that the call does not block until the job state transistion is reported back from the \fBUniva(R) Grid Engine(TM)\fR master process\. Hence a following drmaa2_j_get_state(3) can still see the job as running\. The state change is visiable as soon as the \fBUniva(R) Grid Engine(TM)\fR master process reports the new state to the application in the background of a job or monitoring session\.
+.
+.SH "RETURN VALUES"
+Returns DRMAA2_SUCCESS in case of success otherwise the error ID indicating the problem is returnd\. In case of an error the text description of the error is stored in the context of the calling thread and can be read out with the drmaa2_geterror_text(3) function\.
+.
+.SH "SEE ALSO"
+drmaa2_geterror_text(3), drmaa2_j_suspend(3), drmaa2_j_resume(3), drmaa2_j_hold(3), drmaa2_j_release(3), drmaa2_j_terminate(3), drmaa2_j_get_id(3), drmaa2_j_get_session_name(3), drmaa2_j_get_jt(3), drmaa2_j_get_state(3), drmaa2_j_get_info(3), drmaa2_j_wait_started(3), drmaa2_j_wait_terminated(3), drmaa2_jsession_run_job(3), drmaa2_j_free(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

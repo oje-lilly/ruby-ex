@@ -1,0 +1,61 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_MSESSION_GET_ALL_QUEUES" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_msession_get_all_queues\fR \- drmaa2_msession_get_all_queues, Returns all Univa(R) Grid Engine(TM) queues
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_queueinfo_list drmaa2_msession_get_all_queues(const drmaa2_msession monitoring_session, const drmaa2_string_list filter);
+.
+.SH "DESCRIPTION"
+Returns a list of all queues currently stored in Grid Engine\. The queue list might also contain queues which are not available for the user\.
+.
+.P
+The second argument defines a filter for the queues to be returned\. Only queues with names given by the filter are returned if filter is != NULL\. If filter is NULL all queues are returned\.
+.
+.SH "RETURN VALUES"
+Returns a newly allocated list of queues in a \fBdrmaa2_queueinfo_list structure\fR or NULL in case of an error\. The queue list was initialized with an appropriate callback function so that \fBdrmaa2_list_free(&result)\fR frees the complete list with all \fBdrmaa2_queueinfo\fR objects inside\. In case of an error the error number and error message can be fetched with \fBdrmaa2_lasterror(3)\fR and \fBdrmaa2_lasterror_text()\fR\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_msession monitoring_session = drmaa2_open_msession(NULL);
+
+if (ms != NULL) {
+   drmaa2_queueinfo_list qi_list = drmaa2_msession_get_all_queues(monitoring_session, NULL);
+
+   if (qi_list == NULL) {
+      /* handle error */
+      drmaa2_string error = drmaa2_lasterror_text();
+      fprintf(stderr, "Error during fetching the queueinfo list from the monitoring session: %s\en", error);
+      drmaa2_string_free(&error);
+   } else {
+      int i;
+      size_t size = drmaa2_list_size(qi_list);
+
+      fprintf(stdout, "There are %lld queues in the system:\en", size);
+      for (i = 0; i < size; i++) {
+          drmaa2_queueinfo qi = (drmaa2_queueinfo) drmaa2_list_get(qi_list, i);
+          fprintf(stdout, "Queue name is %s\.\en", (char *) qi\->name);
+      }
+      drmaa2_list_free(&qi_list);
+   }
+
+   \.\.\.
+   drmaa2_close_msession(monitoring_session);
+   drmaa2_msession_free(&monitoring_session);
+}
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_open_msession(3), drmaa2_close_msession(3), drmaa2_msession_free(3), drmaa2_msession_get_all_jobs(3), drmaa2_msession_get_all_machines(3), drmaa2_list_free(3) )
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

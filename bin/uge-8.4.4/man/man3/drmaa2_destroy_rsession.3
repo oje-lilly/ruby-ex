@@ -1,0 +1,25 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_DESTROY_RSESSION" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_destroy_rsession\fR \- drmaa2_destroy_rsession, Destroys a DRMAA2 reservation session\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_error drmaa2_destroy_rjsession(const char * session_name);
+.
+.SH "DESCRIPTION"
+Reservations sessions are currently not supported in the \fBUniva(R) Grid Engine(TM)\fR DRMAA2 implemenation\.
+.
+.SH "RETURN VALUES"
+Returns \fBDRMAA2_UNSUPPORTED_OPERATION\fR\.
+.
+.SH "SEE ALSO"
+drmaa2_create_rsession(3), drmaa2_get_rsession_names(3), drmaa2_msession_get_all_reservations(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

@@ -1,0 +1,44 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_LIST_DEL" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_list_del\fR \- drmaa2_list_del, Removes an existing element from the list\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_error drmaa2_list_del(const drmaa2_list list, const long pos)
+.
+.SH "DESCRIPTION"
+Deletes a new element in the given list\. When the list was created with a callback function, the callback is called for the element before it is removed from the list\.
+.
+.SH "RETURN VALUES"
+Returns \fBDRMAA2_SUCCESS\fR in case of success or an \fBdrmaa2_error\fR value in case of an error\. The error condition can be read out by drmaa2_lasterror_text(3)\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_string_list strings = drmaa2_create_list(DRMAA2_STRINGLIST,
+                                   (drmaa2_list_entryfree) drmaa2_string_free);
+
+drmaa2_list_add(strings, strdup("string one"));
+drmaa2_list_add(strings, strdup("string two"));
+drmaa2_list_del(strings, 0);
+
+const drmaa2_string string = (const drmaa2_string) drmaa2_list_get(strings, 0);
+
+printf("First element of the list %s\en", (const char *) string);
+
+drmaa2_list_free(&strings);
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_list_create(3), drmaa2_list_free(3), drmaa2_list_add(3), drmaa2_list_del(3), drmaa2_list_size(3), drmaa2_list_has(3), drmaa2_lasterror(3), drmaa2_lasterror_text(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

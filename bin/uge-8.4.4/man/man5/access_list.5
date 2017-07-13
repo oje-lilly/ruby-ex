@@ -1,0 +1,151 @@
+'\" t
+.\"___INFO__MARK_BEGIN__
+.\"
+.\" Copyright: 2004 by Sun Microsystems, Inc.
+.\"
+.\"___INFO__MARK_END__
+.\"
+.\" Some handy macro definitions [from Tom Christensen's man(1) manual page].
+.\"
+.de SB		\" small and bold
+.if !"\\$1"" \\s-2\\fB\&\\$1\\s0\\fR\\$2 \\$3 \\$4 \\$5
+..
+.\"
+.de T		\" switch to typewriter font
+.ft CW		\" probably want CW if you don't have TA font
+..
+.\"
+.de TY		\" put $1 in typewriter font
+.if t .T
+.if n ``\c
+\\$1\c
+.if t .ft P
+.if n \&''\c
+\\$2
+..
+.\"
+.de M		\" man page reference
+\\fI\\$1\\fR\\|(\\$2)\\$3
+..
+.TH ACCESS_LIST 5 "UGE 8.4.4" "Univa Grid Engine File Formats"
+.\"
+.SH NAME
+access_list \- Univa Grid Engine access list file format
+.\"
+.SH DESCRIPTION
+Access lists are used in Univa Grid Engine to define access permissions of users
+to the cluster via the global configuration (see
+.M sge_conf 5 )
+and job classes (see
+.M sge_job_class 5 ).
+They define
+access permissions to hosts (see
+.M host_conf 5 ),
+queues (see
+.M queue_conf 5 ),
+parallel environments (see
+.M sge_pe 5 ),
+projects (see
+.M project 5)
+and they allow to define limits for multiple users via resource quotas (see
+.M sge_resource_quota 5)
+.PP
+A list of currently configured 
+access lists can be displayed via the
+.M qconf 1
+\fB\-sul\fP option. The contents of each enlisted access list can
+be shown via the \fB\-su\fP switch. The output follows the
+.I access_list
+format description. New access lists can be created and existing can be
+modified via the \fB\-au\fP and \fB\-du\fP options to
+.M qconf 1 .
+.PP
+Departments are a special form of access list that additionally allow
+assignment of functional shares and override tickets. 
+.PP
+Note, Univa Grid Engine allows backslashes (\\) be used to escape newline
+(\\newline) characters. The backslash and the newline are replaced with a
+space (" ") character before any interpretation.
+.PP
+There are several predefined access lists that gain access to certain functionalities 
+of a Univa Grid Engine system:
+.IP \fBarusers\fP
+The access control list allows users that are referenced to submit and control 
+advance reservations (see
+.M qrsub 1 ).
+.IP \fBdeadlineusers\fP
+Users mentioned in this access control list can specify a deadline for jobs either
+during the submission with
+.M qsub 1
+\fB-dl\fP or after submission with the 
+.M qalter 1
+\fB-dl\fP switch.
+.IP \fBsessionusers\fP
+GDI sessions have been introduced with Univa Grid Engine 8.2. Such objects can be 
+created, modified and deleted by managers or users that are members of the
+\fBsessionusers\fP access control list. The list will be defined during a default
+installation of Univa Grid Engine but it will be empty. Either users can be added to give them permissions
+to create, modify and deleted own session objects or the \fBsessionusers\fP 
+access control list can be deleted to give all users permissions.
+.IP \fBsudomasters\fP
+see \fBsudoers\fP below.
+.IP \fBsudoers\fP
+\fBsudomasters\fP and \fBsudoers\fP access lists are used in combination with the 
+Univa Grid Engine Rest Service. Users mentioned in 
+\fBsudomasters\fP can trigger commands on behalf of different users that have to be
+specified in \fBsudoers\fP so that corresponding Univa Grid Engine requests are accepted
+and executed. This functionality is available since Univa Grid Engine 8.3.
+.\"
+.\"
+.SH FORMAT
+The following list of \fIaccess_list\fP parameters specifies the
+.I access_list
+content:
+.SS "\fBname\fP"
+The name of the access list as defined for \fIuserset_name\fP in
+.M sge_types 1 .
+.SS "\fBtype\fP"
+The type of the access list, currently  one  of 
+.I ACL,
+or 
+.I DEPT 
+or a  combination of both in a comma separated list. Depending on this parameter  
+the access list can be used as access list only or as a department. 
+.SS "\fBoticket\fP"
+The amount of override tickets currently assigned to the department.
+.SS "\fBfshare\fP"
+The current functional share of the department.
+.SS "\fBentries\fP"
+The entries parameter contains the comma separated list of 
+those UNIX users (see \fIuser_name\fP in
+.M sge_types 1 )
+or those primary UNIX groups that are assigned to the access list 
+or the department. By default only a user's primary UNIX group is used; secondary groups
+are ignored as long as the \fIqmaster_param\fP \fBENABLE_SUP_GRP_EVAL\fP is not defined. 
+Only symbolic names are allowed.  A group
+is differentiated from a user name by prefixing the group name with a '@' sign. 
+Pure access lists allow enlisting any user or group in any access list.  
+.PP
+When using departments, each user or group enlisted may only be enlisted 
+in one department, in order to ensure a unique assignment of jobs to departments. 
+To jobs whose users do not match with any of the users or groups enlisted under entries the 
+.I defaultdepartment 
+is assigned, if existing. 
+.\"
+.\"
+.SH "SEE ALSO"
+.M host_conf 5 ,
+.M sge_conf 5 ,
+.M sge_intro 1 ,
+.M sge_job_class 5 ,
+.m sge_resource_quota 5 ,
+.M sge_types 1 ,
+.M project 5 ,
+.M qconf 1 ,
+.M sge_pe 5 ,
+.M queue_conf 5 .
+.\"
+.SH "COPYRIGHT"
+See
+.M sge_intro 1
+for a full statement of rights and permissions.

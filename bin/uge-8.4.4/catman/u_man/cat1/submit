@@ -1,0 +1,2483 @@
+SUBMIT(1)                                                            SUBMIT(1)
+
+
+
+NNAAMMEE
+       qsub   -  submit a batch job to Univa Grid Engine.
+
+       qsh    -  submit an interactive X-windows session to Univa Grid Engine.
+
+       qlogin -  submit an interactive login session to Univa Grid Engine.
+
+       qrsh   -  submit an interactive rsh session to Univa Grid Engine.
+
+       qalter -  modify a pending or running batch job of Univa Grid Engine.
+
+       qresub -  submit a copy of an existing Univa Grid Engine job.
+
+SSYYNNTTAAXX
+       qqssuubb [ ooppttiioonnss ] [ ccoommmmaanndd [ ccoommmmaanndd__aarrggss ] | -- [ ccoommmmaanndd__aarrggss ]]
+
+       qqsshh [ ooppttiioonnss ] [ ---- xxtteerrmm__aarrggss ]
+
+       qqllooggiinn [ ooppttiioonnss ]
+
+       qqrrsshh [ ooppttiioonnss ] [ ccoommmmaanndd [ ccoommmmaanndd__aarrggss ]]
+
+       qqaalltteerr [ ooppttiioonnss ] wwcc__jjoobb__rraannggee__lliisstt [ ---- [ ccoommmmaanndd__aarrggss ]]
+
+       qqaalltteerr [ ooppttiioonnss ] --uu uusseerr__lliisstt || --uuaallll [ ---- [ ccoommmmaanndd__aarrggss ]]
+
+       qqrreessuubb [ ooppttiioonnss ] jjoobb__iidd__lliisstt
+
+DDEESSCCRRIIPPTTIIOONN
+       _Q_s_u_b submits batch jobs to the Univa Grid Engine queuing system.  Univa
+       Grid  Engine  supports single- and multiple-node jobs. CCoommmmaanndd can be a
+       path to a binary or a script (see --bb below) which contains the commands
+       to  be  run  by  the  job using a shell (for example, _s_h(1) or _c_s_h(1)).
+       Arguments to the command are given as ccoommmmaanndd__aarrggss to _q_s_u_b _.   If  ccoomm--
+       mmaanndd  is  handled as a script then it is possible to embed flags in the
+       script.  If the first two characters of a script line either match '#$'
+       or  are equal to the prefix string defined with the --CC option described
+       below, the line is parsed for embedded command flags.
+
+       _Q_s_h submits an interactive X-windows session to Univa Grid  Engine.  An
+       _x_t_e_r_m(1)  is  brought  up  from  the executing machine with the display
+       directed either to the X-server indicated by  the  DISPLAY  environment
+       variable or as specified with the _-_d_i_s_p_l_a_y _q_s_h option. Interactive jobs
+       are not spooled if no resource is available to execute them.  They  are
+       either  dispatched  to  a suitable machine for execution immediately or
+       the user submitting  the  job  is  notified  by  _q_s_h  that  appropriate
+       resources  to execute the job are not available.  xxtteerrmm__aarrggss are passed
+       to the _x_t_e_r_m(1) executable.  Note, however, that the _-_e and  _-_l_s  xterm
+       options do not work with _q_s_h _.
+
+       _Q_l_o_g_i_n  is  similar to _q_s_h in that it submits an interactive job to the
+       queuing system. It does not open an _x_t_e_r_m(1) window on the  X  display,
+       but uses the current terminal for user I/O. Usually, _q_l_o_g_i_n establishes
+       a _t_e_l_n_e_t(1) connection with the remote host, using standard client- and
+       server-side  commands.  These  commands can be configured with the qqlloo--
+       ggiinn__ddaaeemmoonn (server-side, Univa Grid Engine _t_e_l_n_e_t_d if not  set,  other-
+       wise  something  like /usr/sbin/in.telnetd) and qqllooggiinn__ccoommmmaanndd (client-
+       side, Univa Grid Engine _t_e_l_n_e_t if not  set,  otherwise  something  like
+       /usr/bin/telnet)  parameters in the global and local configuration set-
+       tings of _s_g_e___c_o_n_f(5).  The client side command is automatically parame-
+       terized  with the remote host name and port number to which to connect,
+       resulting in an invocation like
+
+              /usr/bin/telnet my_exec_host 2442
+
+       for example.  _Q_l_o_g_i_n is invoked exactly like _q_s_h and its jobs can  only
+       run  on  INTERACTIVE  queues.   _Q_l_o_g_i_n  jobs  can  only  be used if the
+       _s_g_e___e_x_e_c_d(8) is running under the root account.
+
+       _Q_r_s_h is similar to _q_l_o_g_i_n in that it submits an interactive job to  the
+       queuing  system.   It uses the current terminal for user I/O.  Usually,
+       _q_r_s_h establishes a _r_s_h(1) connection with the remote host. If  no  com-
+       mand is given to _q_r_s_h, an _r_l_o_g_i_n(1) session is established. It inherits
+       all SGE_ environment variables plus SHELL, HOME, TERM, LOGNAME, TZ, HZ,
+       PATH  and  LANG.   The server-side commands used can be configured with
+       the rrsshh__ddaaeemmoonn and rrllooggiinn__ddaaeemmoonn parameters in  the  global  and  local
+       configuration  settings  of  _s_g_e___c_o_n_f(5).  An Univa Grid Engine _r_s_h_d or
+       _r_l_o_g_i_n_d is used if the parameters are not set. If  the  parameters  are
+       set,  they  should  be  set  to  something  like  /usr/sbin/in.rshd  or
+       /usr/sbin/in.rlogind.   On  the  client-side,   the   rrsshh__ccoommmmaanndd   and
+       rrllooggiinn__ccoommmmaanndd parameters can be set in the global and local configura-
+       tion settings of _s_g_e___c_o_n_f(5).  If they are not set, special Univa  Grid
+       Engine  _r_s_h(1)  and _r_l_o_g_i_n(1) binaries delivered with Univa Grid Engine
+       are used.  Use the cluster configuration parameters to integrate mecha-
+       nisms like _s_s_h or the _r_s_h(1) and _r_l_o_g_i_n(1) facilities supplied with the
+       operating system.
+
+       _Q_r_s_h jobs can only run in INTERACTIVE queues unless the option --nnooww  nnoo
+       is used (see below).  They can also only be run, if the _s_g_e___e_x_e_c_d(8) is
+       running under the root account.
+
+       _Q_r_s_h provides an additional useful feature for integrating with  inter-
+       active  tools  providing  a  specific command shell. If the environment
+       variable QQRRSSHH__WWRRAAPPPPEERR is set when _q_r_s_h is invoked, the  command  inter-
+       preter pointed to by QQRRSSHH__WWRRAAPPPPEERR will be executed to run _q_r_s_h commands
+       instead of the users login shell or any shell  specified  in  the  _q_r_s_h
+       command-line.   The options --ccwwdd,  --vv,  --VV,  and --ddiissppllaayy only apply to
+       batch jobs.
+
+       _Q_a_l_t_e_r can be used to change the attributes of pending jobs. For  array
+       jobs with a mix of running and pending tasks (see the --tt option below),
+       modification with _q_a_l_t_e_r only affects the pending  tasks.   _Q_a_l_t_e_r  can
+       change  most  of  the  characteristics  of a job (see the corresponding
+       statements in the OPTIONS section below), including  those  which  were
+       defined  as embedded flags in the script file (see above).  Some submit
+       options, such as the job script, cannot be changed with _q_a_l_t_e_r_.
+
+       _Q_r_e_s_u_b allows the user to create jobs as copies of existing pending  or
+       running  jobs. The copied jobs will have exactly the same attributes as
+       the ones from which they were copied, except with a new job ID and with
+       a  cleared  hold  state.  The only modification to the copied jobs sup-
+       ported by _q_r_e_s_u_b is assignment of a new hold state with the --hh  option.
+       This  option  can  be  used  to  first  copy  a job and then change its
+       attributes via _q_a_l_t_e_r.
+
+       Only a manager can use _q_r_e_s_u_b on jobs submitted by another user.  Regu-
+       lar users can only use _q_r_e_s_u_b on their own jobs.
+
+       For  _q_s_u_b,  _q_s_h,  _q_r_s_h,  and  _q_l_o_g_i_n the administrator and the user may
+       define default request files (see _s_g_e___r_e_q_u_e_s_t(5)) which can contain any
+       of the options described below.  If an option in a default request file
+       is understood by _q_s_u_b and _q_l_o_g_i_n but not by _q_s_h the option is  silently
+       ignored if _q_s_h is invoked. Thus you can maintain shared default request
+       files for both _q_s_u_b and _q_s_h.
+
+       A  cluster  wide   default   request   file   may   be   placed   under
+       $SGE_ROOT/$SGE_CELL/common/sge_request.   User  private default request
+       files  are  processed  under  the  locations   $HOME/.sge_request   and
+       $cwd/.sge_request. The working directory local default request file has
+       the highest precedence, then the home directory located file  and  then
+       the  cluster  global  file.   The option arguments, the embedded script
+       flags and the options in the default request files are processed in the
+       following order:
+
+              left to right in the script line,
+              left to right in the default request files,
+              from top to bottom of the script file (_q_s_u_b only),
+              from top to bottom of default request files,
+              from left to right of the command line.
+
+       In  other  words, the command line can be used to override the embedded
+       flags and the default request settings.  The embedded  flags,  however,
+       will override the default settings.
+
+       NNoottee,  that  the _-_c_l_e_a_r option can be used to discard any previous set-
+       tings at any time in a default request file,  in  the  embedded  script
+       flags,  or in a command-line option. It is, however, not available with
+       _q_a_l_t_e_r.
+
+       The options described below can be requested either hard or  soft.   By
+       default,  all  requests are considered hard until the --ssoofftt option (see
+       below) is encountered. The hard/soft status remains in effect until its
+       counterpart  is  encountered again.  If all the hard requests for a job
+       cannot be met, the job will not be scheduled.  Jobs which cannot be run
+       at the present time remain spooled.
+
+OOPPTTIIOONNSS
+       --@@ ooppttiioonnffiillee
+              Forces  _q_s_u_b,  _q_r_s_h, _q_s_h, or _q_l_o_g_i_n to use the options contained
+              in ooppttiioonnffiillee. The indicated file may contain all valid options.
+              Comment lines must start with a "#" sign.
+
+       --aa ddaattee__ttiimmee
+              Available for _q_s_u_b and _q_a_l_t_e_r only.
+
+              Defines  or redefines the time and date at which a job is eligi-
+              ble for execution. DDaattee__ttiimmee conforms to [[CC]]YY]MMDDhhmm[.SS],
+              for the details, please see ddaattee__ttiimmee in _s_g_e___t_y_p_e_s(1).
+
+              If  this option is used with _q_s_u_b or if a corresponding value is
+              specified in _q_m_o_n then a  parameter  named  aa  with  the  format
+              CCYYMMDDhhmm.SS will be passed to the defined JSV instances (see
+              --jjssvv option below or find more  information  concerning  JSV  in
+              _j_s_v(1)).
+
+       --aacc vvaarriiaabbllee[[==vvaalluuee]],,......
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Adds  the  given  name/value pair(s) to the job's context. VVaalluuee
+              may be omitted. Univa Grid Engine appends the given argument  to
+              the  list  of  context variables for the job. Multiple --aacc, --ddcc,
+              and --sscc options may be given. The order is important  here.  The
+              variable name must not start with the letters "+", "-" or "=".
+
+              The  outcome  of the evaluation of all --aacc, --ddcc, and --sscc options
+              is passed to defined JSV instances as parameter  with  the  name
+              aacc.   (see --jjssvv option below or find more information concerning
+              JSV in _j_s_v(1)).  _Q_A_L_T_E_R allows changing this option  even  while
+              the job executes.
+
+       --aaddddss ppaarraammeetteerr kkeeyy vvaalluuee
+              Available for _q_s_u_b, _q_r_s_h and _q_a_l_t_e_r of Univa Grid Engine only.
+
+              Gives the user the possibility to add additional entries to list
+              based job parameters like resource requests, job context,  envi-
+              ronment  variables and more.  The --mmooddss and --cclleeaarrss switches can
+              be used to modify or remove a single entry of  a  job  parameter
+              list.
+
+              The  parameter  argument specifies the job parameter that should
+              be enhanced.  The names used here  are  names  of  command  line
+              switches that are also used in job classes or JSV to address job
+              parameters. Currently the --aaddddss switch supports following param-
+              eters:  aacc, CCMMDDAARRGG, ccwwdd, ee, hhoolldd__jjiidd, ii, ll__hhaarrdd, ll__ssoofftt, MM, mmaass--
+              tteerrqq, oo, qq__hhaarrdd, qq__hhaarrdd, rroouu, SS and vv.  The same set of  parame-
+              ters  is  also  supported by the --mmooddss and --cclleeaarrss switches. The
+              --cclleeaarrpp switch allows to reset all list  based  parameters  men-
+              tioned  above  and  also  non-list based parameters. Find corre-
+              sponding non-list based parameter names in the  --cclleeaarrpp  section
+              below.
+
+              Please  note  that  the  ccwwdd parameter is a list-based parameter
+              that can be addressed with the --aaddddss, --mmooddss and --cclleeaarrss switches
+              although this list can only have one entry.
+
+              The key argument depends on the used parameter argument. For the
+              aacc and vv parameter it has to specify the name of a variable that
+              should  either  be added to the job context or environment vari-
+              able list.  For the parameters oo, ii, ee or SS it is a hostname. An
+              empty key parameter might be used to define a default value that
+              is not host specific.  The key of ll__hhaarrdd or ll__ssoofftt has to  refer
+              to  a  resource  name  (name of a complex entry) whereas qq__hhaarrdd,
+              qq__ssoofftt and mmaasstteerrqq expect a queue name. CCMMDDAARRGG expects a  string
+              that  should be passed as command line argument, hhoolldd__jjiidd a name
+              or job ID of a job and MM a mail address.
+
+              All parameter/key combinations  expect  a  value  argument.  For
+              CCMMDDAARRGG, qq__hhaarrdd, qq__ssoofftt, hhoolldd__jjiidd, MM and rroouu parameter this value
+              has to be an empty argument. aacc, vv, ll__hhaarrdd and ll__ssoofftt allow also
+              empty values.
+
+              Independent of the position within the command line the switches
+              --aaddddss, --mmooddss and --cclleeaarrss will be evaluated  after  modifications
+              of all other switches that will be passed to q submit command or
+              _q_a_l_t_e_r and the sequence in which they are applied is the same as
+              specified on the command line.
+
+              If the --aaddddss parameter is used to change a list based job param-
+              eter that was derived from a  job  class,  then  this  operation
+              might  be rejected by the Univa Grid Engine system if within the
+              job class access specifiers were used that do not allow  to  add
+              new  elements  to  the list.  (see --jjcc option below or find more
+              information concerning job  classes  and  access  specifiers  in
+              _s_g_e___j_o_b___c_l_a_s_s(5)).
+
+
+       --aarr aarr__iidd
+              Available for _q_s_u_b, _q_a_l_t_e_r, _q_r_s_h, _q_s_h, or _q_l_o_g_i_n only.
+
+              Assigns  the  submitted  job to be a part of an existing Advance
+              Reservation.  The complete list of existing Advance Reservations
+              can be obtained using the _q_r_s_t_a_t(1) command.
+
+              Note  that the --aarr option adds implicitly the --ww ee option if not
+              otherwise requested.
+
+              _Q_a_l_t_e_r allows changing this option even while the job  executes.
+              The modified parameter will only be in effect after a restart or
+              migration of the job however.
+
+              When this option is used for a job or when a corresponding value
+              in  _q_m_o_n  is specified then this value will be passed to defined
+              JSV instances as parameter with the name aarr.  (see  --jjssvv  option
+              below or find more information concerning JSV in _j_s_v(1))
+
+       --AA aaccccoouunntt__ssttrriinngg
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Identifies  the account to which the resource consumption of the
+              job should be charged. The aaccccoouunntt__ssttrriinngg should conform to  the
+              nnaammee definition in _s_g_e___t_y_p_e_s(1).  In the absence of this parame-
+              ter Univa Grid Engine will  place  the  default  account  string
+              "sge" in the accounting record of the job.
+
+              _Q_a_l_t_e_r  allows changing this option even while the job executes.
+
+              If this option or a corresponding value  in  _q_m_o_n  is  specified
+              then  this  value  will  be  passed  to defined JSV instances as
+              parameter with the name AA.  (see --jjssvv option below or find  more
+              information concerning JSV in _j_s_v(1))
+
+       --bbggiioo bbggiioo__ppaarraammss
+              This  option will bypass the problem that the controlling termi-
+              nal will suspend the qrsh process when it is reading from  STDIN
+              or writing to STDOUT/STDERR file descriptors.
+
+              Available  for  _q_r_s_h with builtin interactive job support mecha-
+              nism only.
+
+              Supported if e.g. "&" is used to start the  qrsh  in  the  back-
+              ground  of a terminal. The terminal must support job control and
+              must also have a supported tty assigned.
+
+              Supported bgio_params options  are  nnrr  (no  read),  ffww  (forced
+              write)  and bbww==<<ssiizzee>> (buffered write up to the specified buffer
+              size). The combination of the options is supported by using  the
+              "," character as delimiter (no spaces allowed):
+
+              bgio_params             nr|bw=<size>|fw[,nr|bw=<size>|fw,...]
+
+              nnrr: no read
+              If the user terminal supports job control the qrsh will not read
+              from STDIN when it is running  in  background.   If  a  user  is
+              entering  some  input in the terminal the default behavior often
+              is that the process running in the background is suspended  when
+              it  reads  the user input from STDIN. This is done by the user's
+              terminal for all background jobs which try to read  from  STDIN.
+              By  using  the  "nr" option the qrsh will not read from STDIN as
+              long it is running in the background.
+
+              ffww: force write
+              If the "stty tostop" option is active for  the  user's  terminal
+              any  job  running in the background of the terminal will be sus-
+              pended when it tries to write to  STDOUT  or  STDERR.  The  "fw"
+              option  is  used  to  tell qrsh to ignore this setting and force
+              writing without being suspended.
+
+              bbww==<<ssiizzee>>: buffered write
+              If the user terminal has the "stty  tostop"  option  set  (back-
+              ground  jobs will be suspended when writing to STDOUT or STDERR)
+              it is possible to simply buffer the messages in the qrsh  client
+              to  avoid  being  suspended  by using this option. The qrsh will
+              write to STDOUT or STDERR if one of the following items occur:
+
+                 - When the process is in foreground again
+                 - When the buffer is full
+                 - When the qrsh is terminating
+
+
+       --bbiinnddiinngg [[ bbiinnddiinngg__iinnssttaannccee ]] bbiinnddiinngg__ssttrraatteeggyy
+              A job can request a specific processor core  binding  (processor
+              affinity)  with  this  parameter.  This request is treated since
+              version 8.1 as a hard resource request, i.e.  the  job  is  only
+              dispatched  to  an host which is able to fulfill the request. In
+              contrast to previous versions the request is  now  processed  in
+              the Univa Grid Engine scheduler component.
+
+              To  enforce  Univa  Grid  Engine  to  select a specific hardware
+              architecture please use the --ll switch in  combination  with  the
+              complex attribute mm__ttooppoollooggyy.
+
+              bbiinnddiinngg__iinnssttaannccee  is  an  optional parameter. It might either be
+              eennvv, ppee or sseett depending on which instance should accomplish the
+              job  to  core  binding. If the value for bbiinnddiinngg__iinnssttaannccee is not
+              specified then sseett will be used.
+
+              eennvv means that only the environment variable SSGGEE__BBIINNDDIINNGG will be
+              exported  to  the job environment of the job. This variable con-
+              tains the selected operating system internal processor  numbers.
+              They might be more than selected cores in presence of SMT or CMT
+              because each core could be  represented  by  multiple  processor
+              identifiers.   The  processor  numbers are space separated. This
+              variable is also available in case of real core binding when sseett
+              or ppee was requested.
+
+              ppee  means  that the information about the selected cores appears
+              in the fourth column of the ppee__hhoossttffiillee. Here the  logical  core
+              and  socket  numbers  are  printed  (they start at 0 and have no
+              holes) in colon separated pairs (i.e. 0,0:1,0 which means core 0
+              on socket 0 and core 0 on socket 1).  For more information about
+              the $pe_hostfile check _s_g_e___p_e(5)
+
+              sseett (default if nothing else is specified). The binding strategy
+              is applied by Univa Grid Engine. How this is achieved depends on
+              the underlying operating system of the execution host where  the
+              submitted job will be started.
+
+              On  Solaris  10  hosts a processor set will be created where the
+              job can exclusively run in.  Because of operating system limita-
+              tions at least one core must remain unbound. This resource could
+              of course used by an unbound job.
+
+              On Linux (lx-amd64 or lx-x86) hosts a  processor  affinity  mask
+              will  be  set  to  restrict  the  job  to run exclusively on the
+              selected cores.  The operating system allows other unbound  pro-
+              cesses  to use these cores.  Please note that on Linux the bind-
+              ing requires a Linux kernel version of  2.6.16  or  greater.  It
+              might be even possible to use a kernel with lower version number
+              but in that case additional kernel patches have to  be  applied.
+              The llooaaddcchheecckk tool in the utilbin directory can be used to check
+              if the hosts capabilities.  You can also use the --sseepp in  combi-
+              nation  with  --ccbb  of _q_c_o_n_f(5) command to identify if Univa Grid
+              Engine is able to recognize the hardware topology.
+
+              Possible values for bbiinnddiinngg__ssttrraatteeggyy are as follows:
+
+                  linear:<amount>[:<socket>,<core>]
+                  striding:<amount>:<n>[:<socket>,<core>]
+                  explicit:[<socket>,<core>;...]<socket>,<core>
+
+              For the  binding  strategy  linear  and  striding  there  is  an
+              optional  socket  and  core  pair  attached.  These  denotes the
+              mandatory starting point for the first core to bind on.
+
+              lliinneeaarr means that Univa Grid Engine tries to  bind  the  job  on
+              aammoouunntt  successive  cores.  If  ssoocckkeett  and ccoorree is omitted then
+              Univa Grid Engine first allocates successive cores on the  first
+              empty socket found.  Empty means that there are no jobs bound to
+              the socket by Univa Grid Engine.  If this is not  possible or is
+              not  sufficient  Univa Grid Engine tries to find (further) cores
+              on the socket with the most unbound cores and  so  on.   If  the
+              amount  of  allocated  cores  is  lower than requested cores, no
+              binding is done for the job. If ssoocckkeett  and  ccoorree  is  specified
+              then  Univa  Grid  Engine  tries  to  find amount of empty cores
+              beginning with this starting point. If this is not possible then
+              binding is not done.
+
+              In  order to force a job to be scheduled to at most one socket a
+              special complex value needs to be requested  together  with  the
+              lliinneeaarr  request.  Please  note  that  if there is no host, which
+              offers at least the requested amount of cores  per  socket,  the
+              job  is  never  going  to be scheduled. For such jobs always the
+              socket with the highest number of free cores per socket is used.
+              The  special complex needs to be created in the complex configu-
+              ration and needs to have the name: sscchheedd__bbiinnddiinngg__ppeerr__ssoocckkeett  The
+              configuration  of  the  complex is meaningless for this feature,
+              i.e.  it can be freely adapted. Please also note that  the  com-
+              plex  needs  to  be initialized in order to be usable, either on
+              global, host local, or on  queue  level  in  the  ccoommpplleexx__vvaalluueess
+              field.
+
+              ssttrriiddiinngg means that Univa Grid Engine tries to find cores with a
+              certain offset.  It will select aammoouunntt of  empty  cores  with  a
+              offset  of  nn  -1  cores  in between. Start point for the search
+              algorithm is socket 0 core 0. As soon as aammoouunntt cores are  found
+              they  will  be  used  to  do  the job binding.  If there are not
+              enough empty cores or if correct offset cannot be achieved  then
+              there will be no binding done.
+
+              eexxpplliicciitt  binds  the  specified  sockets and cores that are men-
+              tioned in the provided socket/core list. Each  socket/core  pair
+              has  to be specified only once. If a socket/core pair is already
+              in use by a different job the  whole  binding  request  will  be
+              ignored.
+
+              QQaalltteerr  allows changing this option even while the job executes.
+              The modified parameter will only be in effect after a restart or
+              migration of the job, however.
+
+              If  this  option  or  a corresponding value in qmon is specified
+              then these values will be passed to  defined  JSV  instances  as
+              parameters  with the names bbiinnddiinngg__ssttrraatteeggyy, bbiinnddiinngg__ttyyppee, bbiinndd--
+              iinngg__aammoouunntt, bbiinnddiinngg__sstteepp,  bbiinnddiinngg__ssoocckkeett,  bbiinnddiinngg__ccoorree,  bbiinndd--
+              iinngg__eexxpp__nn, bbiinnddiinngg__eexxpp__ssoocckkeett<<iidd>>, bbiinnddiinngg__eexxpp__ccoorree<<iidd>>.
+
+              Please note that the length of the socket/core value list of the
+              explicit binding is reported  as  bbiinnddiinngg__eexxpp__nn.  <<iidd>>  will  be
+              replaced  by  the  position  of  the socket/core pair within the
+              explicit list (0 <= iidd < bbiinnddiinngg__eexxpp__nn).  The first  socket/core
+              pair of the explicit binding will be reported with the parameter
+              names bbiinnddiinngg__eexxpp__ssoocckkeett00 and binding_exp_core0.
+
+              Following values are possible for bbiinnddiinngg__ssttrraatteeggyy: lliinneeaarr__aauuttoo--
+              mmaattiicc,  lliinneeaarr, ssttrriiddiinngg, ssttrriiddiinngg__aauuttoommaattiicc, and eexxpplliicciitt.  The
+              value lliinneeaarr__aauuttoommaattiicc corresponds to the command  line  request
+              -binding  linear:<N>.   Hence  bbiinnddiinngg__aammoouunntt must be set to the
+              amount of requested cores.  The value lliinneeaarr corresponds to  the
+              command   line  request  "-binding  linear:<N>:<socket>,<core>".
+              Additionally to  the  bbiinnddiinngg__aammoouunntt  the  start  socket  (bbiinndd--
+              iinngg__ssoocckkeett) and start core (bbiinnddiinngg__ccoorree) must be set. Otherwise
+              the request is treated as  "-binding  linear:<N>:0,0"  which  is
+              different  to  "-binding  linear:<N>".   The same rules apply to
+              ssttrriiddiinngg__aauuttoommaattiicc and  ssttrriiddiinngg.  In  the  automatic  case  the
+              scheduler  seeks  free  cores itself while in non-automatic case
+              the scheduler starts to fill up cores at the position given with
+              bbiinnddiinngg__ssoocckkeett  and bbiinnddiinngg__ccoorree if possible (otherwise it skips
+              the host).
+
+              Values that do not apply for the specified binding will  not  be
+              reported  to  JSV.   E.g. bbiinnddiinngg__sstteepp will only be reported for
+              the striding binding and all bbiinnddiinngg__eexxpp__** values will passed to
+              JSV if explicit binding was specified.  (see -jsv  option  below
+              or find more information concerning JSV in jsv(1))
+
+       --bb yy[[eess]]||nn[[oo]]
+              Available for _q_s_u_b, _q_r_s_h only. Univa Grid Engine  also  supports
+              the modification with _q_a_l_t_e_r.
+
+              Gives  the  user  the possibility to indicate explicitly whether
+              ccoommmmaanndd should be treated as binary or script. If the  value  of
+              --bb is 'y', then ccoommmmaanndd  may be a binary or script.  The ccoommmmaanndd
+              might not be  accessible  from  the  submission  host.   Nothing
+              except the path of the ccoommmmaanndd will be transferred from the sub-
+              mission host to  the  execution  host.  Path  aliasing  will  be
+              applied  to the path of ccoommmmaanndd before ccoommmmaanndd will be executed.
+
+              If the value of --bb is 'n' then ccoommmmaanndd needs to be a script  and
+              it will be handled as script. The script file has to be accessi-
+              ble by the submission host. It will be transferred to the execu-
+              tion  host.  _q_s_u_b/_q_r_s_h  will  search  directive  prefixes within
+              script.
+
+              _q_s_u_b will implicitly use --bb nn whereas _q_r_s_h will apply the  --bb  yy
+              option if nothing else is specified.
+
+              _Q_a_l_t_e_r  can  only  be used to change the job type from binary to
+              script when a script is specified additionally with _-_C_M_D_N_A_M_E.
+
+              Please note that submission of ccoommmmaanndd as script (--bb nn) can have
+              a  significant  performance impact, especially for short running
+              jobs and big job scripts.  Script submission adds  a  number  of
+              operations to the submission process: The job script needs to be
+
+                 - parsed at client side (for special comments)
+                 - transferred from submit client to qmaster
+                 - spooled in qmaster
+                 - transferred to execd at job execution
+                 - spooled in execd
+                 - removed from spooling both in execd and qmaster once the job is done
+
+              If job scripts are available on the execution  nodes,  e.g.  via
+              NFS, binary submission can be the better choice.
+
+              The  value specified with this option or the corresponding value
+              specified in _q_m_o_n will only be passed to defined  JSV  instances
+              if  the  value is _y_e_s.  The name of the parameter will be bb. The
+              value will be yy also when then long form yyeess was specified  dur-
+              ing submission.  (see --jjssvv option below or find more information
+              concerning JSV in _j_s_v(1)).
+
+       --CCMMDDNNAAMMEE ccoommmmaanndd
+              Only available in Univa Grid Engine. Available for _q_a_l_t_e_r  only.
+
+              Changes  the command (script or binary) to be run by the job. In
+              combination with the --bb switch it is possible to  change  binary
+              jobs to script jobs and vice versa.
+
+              The  value  specified  as command during the submission of a job
+              will be passed to defined JSV instances as  parameter  with  the
+              name  CCMMDDNNAAMMEE.   (see --jjssvv option below or find more information
+              concerning JSV in _j_s_v(1))
+
+       --cc ooccccaassiioonn__ssppeecciiffiieerr
+              Available for _q_s_u_b and _q_a_l_t_e_r only.
+
+              Defines or redefines whether the job should be checkpointed, and
+              if so, under what circumstances. The specification of the check-
+              pointing occasions with this option overwrites  the  definitions
+              of  the  _w_h_e_n  parameter  in  the checkpointing environment (see
+              _c_h_e_c_k_p_o_i_n_t(5)) referenced by the _q_s_u_b  _-_c_k_p_t  switch.   Possible
+              values for ooccccaassiioonn__ssppeecciiffiieerr are
+
+              n           no checkpoint is performed.
+              s           checkpoint when batch server is shut down.
+              m           checkpoint at minimum CPU interval.
+              x           checkpoint when job gets suspended.
+              <interval>  checkpoint in the specified time interval.
+
+              The  minimum  CPU interval is defined in the queue configuration
+              (see _q_u_e_u_e___c_o_n_f(5) for details).  <interval> has to be specified
+              in  the  format  hh:mm:ss.   The  maximum  of <interval> and the
+              queue's minimum CPU interval is used if <interval> is specified.
+              This  is  done  to  ensure  that  a machine is not overloaded by
+              checkpoints being generated too frequently.
+
+              The value specified with this option or the corresponding  value
+              specified  in _q_m_o_n will be passed to defined JSV instances.  The
+              <interval> will be available as parameter with the name cc__iinntteerr--
+              vvaall.   The  character  sequence  specified  will be available as
+              parameter with the name cc__ooccccaassiioonn.  Please  note  that  if  you
+              change  cc__ooccccaassiioonn  via  JSV then the last setting of cc__iinntteerrvvaall
+              will be overwritten and vice versa.  (see --jjssvv option  below  or
+              find more information concerning JSV in _j_s_v(1))
+
+
+       --cckkpptt cckkpptt__nnaammee
+              Available for _q_s_u_b and _q_a_l_t_e_r only.
+
+              Selects  the checkpointing environment (see _c_h_e_c_k_p_o_i_n_t(5)) to be
+              used for checkpointing the job. Also declares the job  to  be  a
+              checkpointing job.
+
+              If  this  option  or  a corresponding value in _q_m_o_n is specified
+              then this value will be  passed  to  defined  JSV  instances  as
+              parameter  with  the  name cckkpptt.  (see --jjssvv option below or find
+              more information concerning JSV in _j_s_v(1))
+
+       --cclleeaarr Available for _q_s_u_b, _q_s_h, _q_r_s_h, and _q_l_o_g_i_n only.
+
+              Causes all elements of the  job  to  be  reset  to  the  initial
+              default  status  prior  to  applying  any modifications (if any)
+              appearing in this specific command.
+
+       --cclleeaarrpp ppaarraammeetteerr
+              Available for _q_s_u_b, _q_r_s_h and _q_a_l_t_e_r of Univa Grid Engine only.
+
+              Gives the user the possibility to clear list bases and  non-list
+              based  job  parameters.   As  result the specified job parameter
+              will be reset to the same default value that would also be  used
+              when  a  job  is  submitted  with  the  _q_s_u_b  command without an
+              additional specification of ppaarraammeetteerr (e.g --cclleeaarrpp NN would reset
+              the  job name to the default name. For script based jobs this is
+              the basename of the command script).
+
+              If a job is derived from a job class and if  the  access  speci-
+              fiers  that is defined before (or within a list based attribute)
+              does not allow to delete the  parameter  then  the  use  of  the
+              --cclleeaarrpp  switch  is  forbidden for the corresponding entry. (see
+              --jjcc option below or find more information concerning job classes
+              and access specifiers in _s_g_e___j_o_b___c_l_a_s_s(5)).
+
+              The  ppaarraammeetteerr argument might either be the name of a list based
+              job parameter as explained in the section   --aaddddss  above  or  it
+              might  be a non-list parameter. Non-list parameters names are aa,
+              AA, aarr, bbiinnddiinngg, cckkpptt, cc__ooccccaassiioonn,  cc__iinntteerrvvaall,  ddll,  jj,  jjss,  mm,
+              mmbbiinndd, NN, nnooww, nnoottiiffyy, PP, pp, ppee__nnaammee, ppee__rraannggee, rr  and sshheellll.
+
+       --cclleeaarrss ppaarraammeetteerr kkeeyy
+              Available for _q_s_u_b, _q_r_s_h and _q_a_l_t_e_r of Univa Grid Engine only.
+
+              Gives  the user the possibility to remove single entries of list
+              based job parameters like resource requests, job context,  envi-
+              ronment variables and more.
+
+              The --aaddddss and --mmooddss switches can be used to add or modify a sin-
+              gle entry of a job parameter list.
+
+              If a job is derived from a job class and if the access specifier
+              that is defined before or within a list based attribute does not
+              allow the removal of a specific entry from the list then the use
+              of  the --cclleeaarrss switch is forbidden for the corresponding entry.
+              (see --jjcc option below or find more  information  concerning  job
+              classes and access specifiers in _s_g_e___j_o_b___c_l_a_s_s(5)).
+
+              PPaarraammeetteerr  and kkeeyy arguments are explained in more detail in the
+              --aaddddss section above.
+
+       --ccwwdd   Available for _q_s_u_b, _q_s_h, _q_r_s_h and _q_a_l_t_e_r only.
+
+              Execute the job from the current working directory.  This switch
+              will activate Univa Grid Engine's path aliasing facility, if the
+              corresponding   configuration    files    are    present    (see
+              _s_g_e___a_l_i_a_s_e_s(5)).
+
+              In  the  case  of _q_a_l_t_e_r, the previous definition of the current
+              working directory will be overwritten if _q_a_l_t_e_r is executed from
+              a different directory than the preceding _q_s_u_b or _q_a_l_t_e_r.
+
+              _Q_a_l_t_e_r  allows changing this option even while the job executes.
+              The modified parameter will only be in effect after a restart or
+              migration of the job, however.
+
+              If  this  option  or  a corresponding value in _q_m_o_n is specified
+              then this value will be  passed  to  defined  JSV  instances  as
+              parameter with the name ccwwdd. The value of this parameter will be
+              the absolute path to the  working  directory.  JSV  scripts  can
+              remove  the  path  from  jobs during the verification process by
+              setting the value of this parameter to an  empty  string.  As  a
+              result  the  job behaves as if --ccwwdd was not specified during job
+              submission.  (see --jjssvv option below  or  find  more  information
+              concerning JSV in _j_s_v(1))
+
+
+       --CC pprreeffiixx__ssttrriinngg
+              Available for _q_s_u_b and _q_r_s_h with script submission (--bb nn).
+
+              _P_r_e_f_i_x___s_t_r_i_n_g  defines  the  prefix that declares a directive in
+              the job's command. The  prefix  is  not  a  job  attribute,  but
+              affects  the  behavior  of  _q_s_u_b  and  _q_r_s_h. If pprreeffiixx is a null
+              string, the command will not be scanned for embedded directives.
+              The  directive  prefix  consists  of two ASCII characters which,
+              when appearing in the first two bytes of a script line, indicate
+              that  what follows is an Univa Grid Engine command.  The default
+              is "#$".
+              The user should be aware  that  changing  the  first  delimiting
+              character  can  produce  unforeseen  side effects. If the script
+              file contains anything other than a "#" character in  the  first
+              byte  position of the line, the shell processor for the job will
+              reject the line and may exit the job prematurely.
+              If the -C option is present in the script file, it is ignored.
+
+       --ddcc vvaarriiaabbllee,,......
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Removes the given variable(s) from the job's context.   Multiple
+              --aacc, --ddcc, and --sscc options may be given.  The order is important.
+
+              _Q_a_l_t_e_r allows changing this option even while the job  executes.
+
+              The  outcome  of the evaluation of all --aacc, --ddcc, and --sscc options
+              is passed to defined JSV instances as parameter  with  the  name
+              aacc.   (see --jjssvv option below or find more information concerning
+              JSV in _j_s_v(1)).
+
+       --ddiissppllaayy ddiissppllaayy__ssppeecciiffiieerr
+              Available for _q_s_h and _q_r_s_h _w_i_t_h _c_o_m_m_a_n_d.
+
+              Directs _x_t_e_r_m(1) to use ddiissppllaayy__ssppeecciiffiieerr in  order  to  contact
+              the X server.  The ddiissppllaayy__ssppeecciiffiieerr has to contain the hostname
+              part of the display name (e.g. myhost:1).  Local  display  names
+              (e.g.  :0) cannot be used in grid environments.  Values set with
+              the --ddiissppllaayy option overwrite settings from the submission envi-
+              ronment and from --vv command line options.
+
+              If  this  option  or  a corresponding value in _q_m_o_n is specified
+              then this value will be  passed  to  defined  JSV  instances  as
+              parameter  with the name ddiissppllaayy. This value will also be avail-
+              able in the job environment which might optionally be passed  to
+              JSV  scripts.  The  variable  name  will  be DDIISSPPLLAAYY.  (see --jjssvv
+              option below or find more information concerning JSV in _j_s_v(1))
+
+       --ddll ddaattee__ttiimmee
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Specifies the deadline initiation time in  [[CC]YY]MMDDhhmm[.SS]
+              format  (see  --aa  option above). The deadline initiation time is
+              the time at which a deadline job has to reach top priority to be
+              able  to  complete  within a given deadline. Before the deadline
+              initiation time the priority of a deadline job  will  be  raised
+              steadily until it reaches the maximum as configured by the Univa
+              Grid Engine administrator.
+
+              This option is applicable only for users allowed to submit dead-
+              line jobs.
+
+              If  this  option  or  a corresponding value in _q_m_o_n is specified
+              then this value will be  passed  to  defined  JSV  instances  as
+              parameter  with the name ddll.  The format for the date_time value
+              is CCYYMMDDhhmm.SS (see --jjssvv option below or find more  informa-
+              tion concerning JSV in _j_s_v(1))
+
+       --ee [[[[hhoossttnnaammee]]::]]ppaatthh,,......
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Defines or redefines the path used for the standard error stream
+              of the job. For _q_s_h, _q_r_s_h and _q_l_o_g_i_n  only  the  standard  error
+              stream  of prolog and epilog is redirected.  If the ppaatthh consti-
+              tutes an absolute path name, the error-path attribute of the job
+              is set to ppaatthh, including the hhoossttnnaammee. If the path name is rel-
+              ative, Univa Grid Engine expands ppaatthh either  with  the  current
+              working  directory  path (if the --ccwwdd switch (see above) is also
+              specified) or with the  home  directory  path.  If  hhoossttnnaammee  is
+              present,  the standard error stream will be placed in the corre-
+              sponding location only if the job runs on the specified host. If
+              the path contains a ":" without a hhoossttnnaammee, a leading ":" has to
+              be specified.
+
+              By default the file name for interactive jobs is _/_d_e_v_/_n_u_l_l.  For
+              batch  jobs  the default file name has the form _j_o_b___n_a_m_e_.e_j_o_b___i_d
+              and _j_o_b___n_a_m_e_.e_j_o_b___i_d.ttaasskk__iidd for array job tasks (see --tt  option
+              below).
+
+              If  ppaatthh  is  a  directory, the standard error stream of the job
+              will be put in this directory under the default file  name.   If
+              the  pathname  contains  certain  pseudo  environment variables,
+              their value will be expanded at runtime of the job and  will  be
+              used to constitute the standard error stream path name. The fol-
+              lowing pseudo environment variables are supported currently:
+
+              $HOME       home directory on execution machine
+              $USER       user ID of job owner
+              $JOB_ID     current job ID
+              $JOB_NAME   current job name (see --NN option)
+              $HOSTNAME   name of the execution host
+              $TASK_ID    array job task index number
+
+              Alternatively to $HOME the tilde sign "~" can be used as  common
+              in _c_s_h(1) or _k_s_h(1).  Note, that the "~" sign also works in com-
+              bination with user names, so that "~<user>" expands to the  home
+              directory  of <user>. Using another user ID than that of the job
+              owner requires corresponding permissions, of course.
+
+              If ppaatthh or any component of it does not exist, it will  be  cre-
+              ated  with  the permissions of the current user.  A trailing "/"
+              indicates that the last component of  ppaatthh is a directory.   For
+              example  the  command  "qsub  -e  myjob/error.e  $SGE_ROOT/exam-
+              ples/sleeper.sh" will create the directory "myjob" in  the  cur-
+              rent working directory if it does not exist, and write the stan-
+              dard error stream of the job into the file "error.e".  The  com-
+              mand  "qsub  -e  myotherjob/ $SGE_ROOT/examples/sleeper.sh" will
+              create the directory "myotherjob", and write the standard  error
+              stream  of  the  job  into  a  file  with  the default name (see
+              description above). If it is not possible to create  the  direc-
+              tory  (e.g.  insufficient  permissions),  the job will be put in
+              error state.
+
+              _Q_a_l_t_e_r allows changing this option even while the job  executes.
+              The modified parameter will only be in effect after a restart or
+              migration of the job, however.
+
+              If this option or a corresponding value  in  _q_m_o_n  is  specified
+              then  this  value  will  be  passed  to defined JSV instances as
+              parameter with the name ee.  (see --jjssvv option below or find  more
+              information concerning JSV in _j_s_v(1))
+
+       --hhaarrdd  Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Signifies  that all --qq and --ll resource requirements following in
+              the command line will be hard requirements and must be satisfied
+              in full before a job can be scheduled.
+              As  Univa Grid Engine scans the command line and script file for
+              Univa Grid Engine options and parameters it  builds  a  list  of
+              resources required by a job. All such resource requests are con-
+              sidered as absolutely essential for the job to commence. If  the
+              --ssoofftt option (see below) is encountered during the scan then all
+              following resources are designated as  "soft  requirements"  for
+              execution,  or  "nice-to-have,  but not essential". If the --hhaarrdd
+              flag is encountered at a later stage of the scan,  all  resource
+              requests  following  it once again become "essential". The --hhaarrdd
+              and --ssoofftt options in effect act as "toggles" during the scan.
+
+              If this option or a corresponding value  in  _q_m_o_n  is  specified
+              then  the  corresponding --qq and --ll resource requirements will be
+              passed to defined JSV instances  as  parameter  with  the  names
+              qq__hhaarrdd and ll__hhaarrdd. Find for information in the sections describ-
+              ing --qq and --ll.  (see --jjssvv option below or find more  information
+              concerning JSV in _j_s_v(1))
+
+       --hh || --hh {{uu||ss||oo||nn||UU||OO||SS}}......
+              Available  for  _q_s_u_b  (only  --hh),  _q_r_s_h, _q_a_l_t_e_r and _q_r_e_s_u_b (hold
+              state is removed when not set explicitly).
+
+              List of holds to place on a job, a task or some tasks of a  job.
+
+              `u'  denotes a user hold.
+              `s'  denotes a system hold.
+              `o'  denotes a operator hold.
+              `n'  denotes no hold (requires manager privileges).
+
+              As  long  as  any hold other than `n' is assigned to the job the
+              job is not eligible for execution. Holds  can  be  released  via
+              _q_a_l_t_e_r  and _q_r_l_s(1).  In case of _q_a_l_t_e_r this is supported by the
+              following additional option specifiers for the --hh switch:
+
+              `U'  removes a user hold.
+              `S'  removes a system hold.
+              `O'  removes a operator hold.
+
+              Univa Grid Engine managers can assign and remove all hold types,
+              Univa Grid Engine operators can assign and remove user and oper-
+              ator holds, and users can only assign or remove user holds.
+
+              In the case of _q_s_u_b only user holds can be placed on a  job  and
+              thus  only the first form of the option with the --hh switch alone
+              is allowed.  As opposed to this, _q_a_l_t_e_r requires the second form
+              described above.
+
+              An  alternate  means  to assign hold is provided by the _q_h_o_l_d(1)
+              facility.
+
+              If the job is a array job (see the --tt option below),  all  tasks
+              specified  via  --tt  are  affected by the --hh operation simultane-
+              ously.
+
+              _Q_a_l_t_e_r allows changing this option even while the job  executes.
+              The modified parameter will only be in effect after a restart or
+              migration of the job, however.
+
+              If this option is specified with _q_s_u_b or during  the  submission
+              of  a  job in _q_m_o_n then the parameter hh with the value uu will be
+              passed to the defined JSV instances indicating that the job will
+              be in user hold after the submission finishes.  (see --jjssvv option
+              below or find more information concerning JSV in _j_s_v(1))
+
+       --hheellpp  Prints  a listing of all options.
+
+       --hhoolldd__jjiidd wwcc__jjoobb__lliisstt
+              Available for _q_s_u_b, _q_r_s_h, and  _q_a_l_t_e_r  only.  See  _s_g_e___t_y_p_e_s(1).
+              for wwcc__jjoobb__lliisstt definition.
+
+              Defines  or  redefines  the job dependency list of the submitted
+              job. A reference by job name or pattern is only accepted if  the
+              referenced  job  is owned by the same user as the referring job.
+              The submitted job is not eligible for execution unless all  jobs
+              referenced  in  the  comma-separated job id and/or job name list
+              have completed.  If any of the referenced jobs exits  with  exit
+              code  100,  the  submitted job will remain ineligible for execu-
+              tion.
+
+              With the help of job names or regular pattern one can specify  a
+              job  dependency  on multiple jobs satisfying the regular pattern
+              or on all jobs with the requested name.  The  name  dependencies
+              are  resolved at submit time and can only be changed via qalter.
+              New jobs or name changes of other jobs will not  be  taken  into
+              account.
+
+              _Q_a_l_t_e_r  allows changing this option even while the job executes.
+              The modified parameter will only be in effect after a restart or
+              migration of the job, however.
+
+              If  this  option  or  a corresponding value in _q_m_o_n is specified
+              then this value will be  passed  to  defined  JSV  instances  as
+              parameter  with  the  name  hhoolldd__jjiidd.  (see --jjssvv option below or
+              find more information concerning JSV in _j_s_v(1))
+
+       --hhoolldd__jjiidd__aadd wwcc__jjoobb__lliisstt
+              Available for _q_s_u_b, _q_r_s_h, and  _q_a_l_t_e_r  only.  See  _s_g_e___t_y_p_e_s(1).
+              for wwcc__jjoobb__lliisstt definition.
+
+              Defines  or  redefines the job array dependency list of the sub-
+              mitted job. A reference by job name or pattern is only  accepted
+              if the referenced job is owned by the same user as the referring
+              job. Each sub-task of the submitted job is not eligible for exe-
+              cution unless the corresponding sub-tasks of all jobs referenced
+              in the comma-separated job id and/or job  name  list  have  com-
+              pleted.   If  any  array  task of the referenced jobs exits with
+              exit code 100, the dependent tasks of  the  submitted  job  will
+              remain ineligible for execution.
+
+              With  the help of job names or regular pattern one can specify a
+              job dependency on multiple jobs satisfying the  regular  pattern
+              or  on  all  jobs with the requested name. The name dependencies
+              are resolved at submit time and can only be changed via  qalter.
+              New  jobs  or  name changes of other jobs will not be taken into
+              account.
+
+              If either the submitted job or any job in  wc_job_list  are  not
+              array  jobs  with  the  same  range  of sub-tasks (see --tt option
+              below), the request list will be rejected and the job create  or
+              modify operation will error.
+
+              _q_a_l_t_e_r  allows changing this option even while the job executes.
+              The modified parameter will only be in effect after a restart or
+              migration of the job, however.
+
+              If  this  option  or  a corresponding value in _q_m_o_n is specified
+              then this value will be  passed  to  defined  JSV  instances  as
+              parameter  with the name hhoolldd__jjiidd__aadd.  (see --jjssvv option below or
+              find more information concerning JSV in _j_s_v(1))
+
+       --ii [[[[hhoossttnnaammee]]::]]ffiillee,,......
+              Available for _q_s_u_b, and _q_a_l_t_e_r only.
+
+              Defines or redefines the file used for the standard input stream
+              of  the  job.  If the _f_i_l_e constitutes an absolute filename, the
+              input-path attribute of the job is set to  ppaatthh,  including  the
+              hhoossttnnaammee.  If  the  path  name  is  relative,  Univa Grid Engine
+              expands ppaatthh either with the current working directory path  (if
+              the  --ccwwdd switch (see above) is also specified) or with the home
+              directory path. If  hhoossttnnaammee  is  present,  the  standard  input
+              stream  will be placed in the corresponding location only if the
+              job runs on the specified host. If the path contains a ":" with-
+              out a hhoossttnnaammee, a leading ":" has to be specified.
+
+              By default /dev/null is the input stream for the job.
+
+              It  is  possible  to  use certain pseudo variables, whose values
+              will be expanded at runtime of the  job  and  will  be  used  to
+              express  the standard input stream as described in the _-_e option
+              for the standard error stream.
+
+              _Q_a_l_t_e_r allows changing this option even while the job  executes.
+              The modified parameter will only be in effect after a restart or
+              migration of the job, however.
+
+              If this option or a corresponding value  in  _q_m_o_n  is  specified
+              then  this  value  will  be  passed  to defined JSV instances as
+              parameter with the name ii.  (see --jjssvv option below or find  more
+              information concerning JSV in _j_s_v(1))
+
+       --iinnhheerriitt
+              Available only for _q_r_s_h and _q_m_a_k_e(1).
+
+              _q_r_s_h  allows  the  user  to start a task in an already scheduled
+              parallel job.  The option --iinnhheerriitt tells _q_r_s_h to read a  job  id
+              from  the  environment  variable  JOB_ID and start the specified
+              command as a task in this job. Please note that  in  this  case,
+              the hostname of the host where the command will be executed must
+              precede the command to execute; the syntax changes to
+
+              qqrrsshh --iinnhheerriitt [ ootthheerr ooppttiioonnss ] hhoossttnnaammee ccoommmmaanndd [  ccoommmmaanndd__aarrggss
+              ]
+
+              Note also, that in combination with --iinnhheerriitt, most other command
+              line options will be ignored.  Only the options --vveerrbboossee, --vv and
+              --VV  will be interpreted.  As a replacement to option --ccwwdd please
+              use --vv PPWWDD.
+
+              Usually a task should have the same environment  (including  the
+              current working directory) as the corresponding job, so specify-
+              ing the option --VV should be suitable for most applications.
+
+              _N_o_t_e_: If in your system the qmaster tcp port is  not  configured
+              as  a service, but rather via the environment variable SGE_QMAS-
+              TER_PORT, make sure that this variable is set in the environment
+              when calling _q_r_s_h or _q_m_a_k_e with the --iinnhheerriitt option. If you call
+              _q_r_s_h or _q_m_a_k_e with the --iinnhheerriitt option from within a job script,
+              export  SGE_QMASTER_PORT  with  the option "-v SGE_QMASTER_PORT"
+              either as a command argument or an embedded directive.
+
+              This parameter is not available in the JSV context.   (see  --jjssvv
+              option below or find more information concerning JSV in _j_s_v(1))
+
+
+       --jj yy[[eess]]||nn[[oo]]
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Specifies whether or not the standard error stream of the job is
+              merged into the standard output stream.
+              If both the --jj yy and the --ee  options  are  present,  Univa  Grid
+              Engine sets but ignores the error-path attribute.
+
+              _Q_a_l_t_e_r  allows changing this option even while the job executes.
+              The modified parameter will only be in effect after a restart or
+              migration of the job, however.
+
+              The  value specified with this option or the corresponding value
+              specified in _q_m_o_n will only be passed to defined  JSV  instances
+              if  the  value is _y_e_s.  The name of the parameter will be jj. The
+              value will be yy also when then long form yyeess was specified  dur-
+              ing submission.  (see --jjssvv option below or find more information
+              concerning JSV in _j_s_v(1))
+
+       --jjcc jjcc__nnaammee
+              Available for _q_s_u_b, _q_r_s_h, and _q_a_l_t_e_r only.
+
+              Specifies if the job specification of a job  should  be  derived
+              from  a job class. jjcc__nnaammee might either be a name of a job class
+              or the combination of a job class name and a variant name,  both
+              names separated by a dot (.).
+
+              If  this  switch  is used then within the _s_g_e___q_m_a_s_t_e_r(8) process
+              following 6 steps will be executed:
+
+              ((11)) A new job will be created
+
+              ((22)) This job structure will be initialized with default  values.
+
+              ((33))  Then  all  those  default values will be replaced with that
+              values that are specified as job template attributes in the  job
+              class (or job class variant).
+
+              ((44))  If  the  --jjcc  switch  was  combined with other command line
+              switches that specify job characteristics  then  those  settings
+              will  be  applied  to the job. This step might overwrite default
+              values and values that where copied from the job class  specifi-
+              cation.
+
+              ((55))  Server JSV will be triggered if configured. This server JSV
+              script will receive the specification of  the  job  and  if  the
+              server  JSV  adjusts  the job specification then default values,
+              values derived from the job class specification and values spec-
+              ified at the command line might be overwritten.
+
+              ((66))  With  the last step sge_qmaster checks if any access speci-
+              fiers were violated during the steps (4) or (5). If this is  the
+              case  then the job is rejected. Otherwise it will enter the list
+              of pending jobs.
+
+              The server JSV that  might  be  triggered  with  step  (5)  will
+              receive the jjcc__nnaammee as a parameter with the name jjcc. If a server
+              JSV  decides  to  change  the  jjcc  attribute  then  the  process
+              described  above  will  restart  at step (1) and the new jjcc__nnaammee
+              will be used for step (3).
+
+              Please note that the  violation  of  the  access  specifiers  is
+              checked  in  the  last  step. As result a server JSV is also not
+              allowed to apply modifications to the job that would violate any
+              access specifiers defined in the job class specification.
+
+              Any  attempt to change a job attribute of a job that was derived
+              from a job class will be rejected. Owners of the job  class  can
+              soften  this  restriction  by using access specifiers within the
+              specification of a job class. Details concerning  access  speci-
+              fiers can be found in _s_g_e___j_o_b___c_l_a_s_s(5.)
+
+              The  qalter  -jc NONE command can be used by managers to release
+              the link between a submitted job class job and  its  parent  job
+              class.  In  this  case all other job parameters won't be changed
+              but it will be possible  to  change  all  settings  with  qalter
+              afterwards  independent on the access specifiers that were used.
+
+       --jjss jjoobb__sshhaarree
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Defines or redefines the job share of the job relative to  other
+              jobs.   Job share is an unsigned integer value.  The default job
+              share value for jobs is 0.
+
+              The job share influences the Share Tree  Policy  and  the  Func-
+              tional  Policy.  It  has  no  effect on the Urgency and Override
+              Policies (see _s_h_a_r_e___t_r_e_e(5), _s_c_h_e_d___c_o_n_f(5) and  the  _U_n_i_v_a  _G_r_i_d
+              _E_n_g_i_n_e  _I_n_s_t_a_l_l_a_t_i_o_n _a_n_d _A_d_m_i_n_i_s_t_r_a_t_i_o_n _G_u_i_d_e for further infor-
+              mation on the resource management policies  supported  by  Univa
+              Grid Engine).
+
+              In case of the Share Tree Policy, users can distribute the tick-
+              ets to which they are currently entitled among their jobs  using
+              different shares assigned via --jjss. If all jobs have the same job
+              share value, the tickets are distributed evenly. Otherwise, jobs
+              receive tickets relative to the different job shares. Job shares
+              are treated like an additional level in the share  tree  in  the
+              latter case.
+
+              In  connection  with the Functional Policy, the job share can be
+              used to weight jobs within the functional job category.  Tickets
+              are  distributed  relative  to any uneven job share distribution
+              treated as a virtual share  distribution  level  underneath  the
+              functional job category.
+
+              If both the Share Tree and the Functional Policy are active, the
+              job shares will have an effect in both policies, and the tickets
+              independently  derived  in  each  of them are added to the total
+              number of tickets for each job.
+
+              If this option or a corresponding value  in  _q_m_o_n  is  specified
+              then  this  value  will  be  passed  to defined JSV instances as
+              parameter with the name jjss.  (see --jjssvv option below or find more
+              information concerning JSV in _j_s_v(1))
+
+       --jjssvv jjssvv__uurrll
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h and _q_l_o_g_i_n only.
+
+              Defines  a  client JSV instance which will be executed to verify
+              the job specification before the job is sent to qmaster.
+
+              In contrast to other options this switch will not be overwritten
+              if  it  is also used in sge_request files. Instead all specified
+              JSV instances will be executed to verify the job to  be  submit-
+              ted.
+
+              The  JSV instance which is directly passed with the command-line
+              of a client is executed as first to verify  the  job  specifica-
+              tion.  After that the JSV instance which might have been defined
+              in various sge_request files will be triggered to check the job.
+              Find more details in man page _j_s_v(1) and _s_g_e___r_e_q_u_e_s_t(5).
+
+              The syntax of the jjssvv__uurrll is specified in _s_g_e___t_y_p_e_s_(_1_)_.()
+
+
+
+       --mmaasstteerrll rreessoouurrccee==vvaalluuee,...
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only. Available
+              only in combination with parallel jobs.
+
+              Launch the parallel job in a Univa Grid Engine queue meeting the
+              given resource request list for the master task of that parallel
+              job. Other resource requests as they can be specified  with  the
+              l-switch  will  only  specify the requirements of slave tasks if
+              the masterl-switch is used during job submission.
+
+              In case of _q_a_l_t_e_r the previous definition  is  replaced  by  the
+              specified one.
+
+              _c_o_m_p_l_e_x(5) describes how a list of available resources and their
+              associated valid value specifiers can be obtained.
+
+              _Q_a_l_t_e_r does allow changing the value of this  option  while  the
+              job  is running, however the modification will only be effective
+              after a restart or migration of the job.
+
+              If this option or a corresponding value  in  _q_m_o_n  is  specified
+              then  the  hard  resource requirements will be passed to defined
+              JSV instances as parameter with the name  mmaasstteerrll.   If  regular
+              expressions  will  be  used  for  resource  requests, then these
+              expressions will be passed as they are. Also shortcut names will
+              not  be  expanded.  (see --jjssvv option above or find more informa-
+              tion concerning JSV in _j_s_v(1))
+
+       --ll rreessoouurrccee==vvaalluuee,...
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Launch the job in a Univa Grid Engine queue  meeting  the  given
+              resource  request  list.  In case of _q_a_l_t_e_r the previous defini-
+              tion is replaced by the specified one.
+
+              _c_o_m_p_l_e_x(5) describes how a list of available resources and their
+              associated valid value specifiers can be obtained.
+
+              If  the  resource request is specified while the --ssoofftt option is
+              active the value for consumables can also be specified as range.
+              You  can  find the format description and an example in the _c_o_m_-
+              _p_l_e_x(5) man page.
+
+              There may be multiple --ll switches in a single command.  You  may
+              request  multiple --ll options to be soft or hard both in the same
+              command line. In case of  a  serial  job  multiple  --ll  switches
+              refine the definition for the sought queue.
+
+              _Q_a_l_t_e_r  allows  changing the value of this option even while the
+              job is running, but only if the initial list of  resources  does
+              not contain a resource that is marked as consumable. However the
+              modification will only be effective after a restart or migration
+              of the job.
+
+              If this option or a corresponding value in _q_m_o_n is specified the
+              these hard and soft resource  requirements  will  be  passed  to
+              defined  JSV  instances  as  parameter with the names ll__hhaarrdd and
+              ll__ssoofftt.  If  regular  expressions  will  be  used  for  resource
+              requests,  then  these  expressions  will be passed as they are.
+              Also shortcut names will not  be  expanded.   (see  --jjssvv  option
+              above or find more information concerning JSV in _j_s_v(1))
+
+       --mm bb||ee||aa||ss||nn,,......
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Defines  or  redefines  under  which circumstances mail is to be
+              sent to the job owner or to the users defined with the --MM option
+              described  below.  The option arguments have the following mean-
+              ing:
+
+              `b'     Mail is sent at the beginning of the job.
+              `e'     Mail is sent at the end of the job.
+              `a'     Mail is sent when the job is aborted or
+                      rescheduled.
+              `s'     Mail is sent when the job is suspended.
+              `n'     No mail is sent.
+
+              Currently no mail is sent when a job is suspended.
+
+              _Q_a_l_t_e_r allows changing the b, e, and  a  option  arguments  even
+              while  the  job executes. The modification of the b option argu-
+              ment will only be in effect after a restart or migration of  the
+              job, however.
+
+              If  this  option  or  a corresponding value in _q_m_o_n is specified
+              then this value will be  passed  to  defined  JSV  instances  as
+              parameter  with the name mm.  (see --jjssvv option above or find more
+              information concerning JSV in
+
+       --MM uusseerr[[@@hhoosstt]],,......
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Defines or redefines the list of users to which the server  that
+              executes  the  job  has  to  send mail, if the server sends mail
+              about the job.  Default is the  job  owner  at  the  originating
+              host.
+
+              _Q_a_l_t_e_r  allows changing this option even while the job executes.
+
+              If this option or a corresponding value  in  _q_m_o_n  is  specified
+              then  this  value  will  be  passed  to defined JSV instances as
+              parameter with the name MM.  (see --jjssvv option above or find  more
+              information concerning JSV in _j_s_v(1))
+
+       --mmaasstteerrqq wwcc__qquueeuuee__lliisstt
+              Available for _q_s_u_b, _q_r_s_h, _q_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r.  Only meaning-
+              ful for parallel jobs, i.e. together with the -pe option.
+
+              Defines or redefines a list of cluster queues, queue domains and
+              queue instances which may be used to become the so called _m_a_s_t_e_r
+              _q_u_e_u_e of this parallel  job.  A  more  detailed  description  of
+              _w_c___q_u_e_u_e___l_i_s_t can be found in _s_g_e___t_y_p_e_s(1).  The _m_a_s_t_e_r _q_u_e_u_e is
+              defined as the queue where the  parallel  job  is  started.  The
+              other  queues  to which the parallel job spawns tasks are called
+              _s_l_a_v_e _q_u_e_u_e_s.  A parallel job only has one _m_a_s_t_e_r _q_u_e_u_e.
+
+              Depending on the requested _m_a_s_t_e_r _q_u_e_u_e and other queue requests
+              -  implicit  or explicit ones -, depending on how the queues are
+              spread out over the execution hosts and depending on the alloca-
+              tion_rule of the parallel environment, requesting a _m_a_s_t_e_r _q_u_e_u_e
+              may make it necessary for Univa Grid Engine to allocate one task
+              more  for  this  parallel  job  than  the  user  requested.  See
+              _s_g_e___p_e(5), "allocation_rule" for details.
+
+              This parameter has all the properties of a resource request  and
+              will  be  merged  with  requirements  derived from the --ll option
+              described above.
+
+              _Q_a_l_t_e_r allows changing this option even while the job  executes.
+              The modified parameter will only be in effect after a restart or
+              migration of the job, however.
+
+              If this option or a corresponding value in _q_m_o_n is specified the
+              this  hard  resource  requirement  will be passed to defined JSV
+              instances as parameter with the name mmaasstteerrqq.  (see --jjssvv  option
+              above or find more information concerning JSV in _j_s_v(1))
+
+       --mmooddss ppaarraammeetteerr kkeeyy vvaalluuee
+              Available for _q_s_u_b, _q_r_s_h, _q_a_l_t_e_r of Univa Grid Engine only.
+
+              Gives  the  user the possibility to modify entries of list based
+              job parameters like resource requests, job context,  environment
+              variables and more.
+
+              The  --aaddddss  and  --cclleeaarrss switches can be used to add or remove a
+              single entry of a job parameter list.
+
+              PPaarraammeetteerr, kkeeyy and vvaalluuee arguments are explained in more  detail
+              in the --aaddddss section above.
+
+       --mmbbiinndd Available for _q_s_u_b, _q_r_s_h, and _q_a_l_t_e_r. Supported on lx-amd64 exe-
+              cution hosts only (for more details try uuttiillbbiinn//llooaaddcchheecckk --ccbb on
+              the execution host).
+
+              Sets  the  memory allocation strategy for all processes and sub-
+              processes of a job.  On execution hosts with  a  NUMA  architec-
+              ture, the memory access latency and memory throughput depends on
+              which NUMA node the memory is allocated and on which socket/core
+              the  job  runs. In order to influence the memory allocation dif-
+              ferent submit options are provided:
+
+              --mmbbiinndd ccoorreess Prefers memory on the NUMA node where  the  job  is
+              bound  with core binding.  Requires core binding set with -bind-
+              ing.  The  optional  "m_mem_free"  request  is  enhanced  during
+              scheduling   time   with   implicit   per   NUMA  node  requests
+              ("m_mem_free_n<node>"), depending on  which  cores  the  job  is
+              bound to. For more details see --mmbbiinndd ccoorreess::ssttrriicctt
+
+              --mmbbiinndd  ccoorreess::ssttrriicctt  The job is only allowed to allocate memory
+              on the NUMA node where it is bound to. Requires core binding set
+              with  -binding.  The  optional  "m_mem_free" request is extended
+              during scheduling  time  by  implicit  per  NUMA  node  requests
+              ("m_mem_free_n<node>"),  depending  on  which  cores  the job is
+              bound to. The amount of selected cores per  NUMA  node  and  the
+              total memory per slot request determining the amount of required
+              memory per NUMA node. Hence when using the  "m_mem_free"  memory
+              request  the  job  is  only scheduled to sockets which offer the
+              specific amount of free memory.
+
+              --mmbbiinndd rroouunndd__rroobbiinn Sets the memory allocation strategy  for  the
+              job  to  interleaved  memory  access.  When  the memory resource
+              request "m_mem_free" is used, the scheduler also  adds  implicit
+              memory  requests  for  all  NUMA  nodes  on  the  execution host
+              ("m_mem_free_n<node>").
+
+              --mmbbiinndd nnllooccaall Only allowed for serial jobs or jobs using a  par-
+              allel  environment with allocation rule "$pe_slots". Unspecified
+              behavior for other PEs.  Automatically  binds  a  sequential  or
+              multi-threaded  job  to cores or sockets and sets an appropriate
+              memory allocation strategy. Requires a resource request for  the
+              "m_mem_free" host complex. The behavior of the scheduler depends
+              on the execution hosts characteristics as well whether  the  job
+              is  a  serial  job or a multi-threaded parallel job (PE job with
+              allocation rule "$pe_slots"). It is not allowed to override  the
+              implicit core binding with the --bbiinnddiinngg switch.
+
+              The scheduler algorithm for sequential jobs is as follows:
+              -  If  the  host can't fulfill the "m_mem_free" request then the
+              host is skipped.
+              - If the job requests more ram than free on each socket but less
+              than installed on the sockets the host is skipped.
+              - If memory request is "smaller" than amount of free memory on a
+              socket, try to bind the job to "one  core  on  the  socket"  and
+              decrements    the    amount    of    memory   on   this   socket
+              ("m_mem_free_n<nodenumber>").    The    global    host    memory
+              "m_mem_free" on this host is decremented as well.
+              -  If memory request is "greater" than the amount of free memory
+              on any socket, find an unbound socket and  bind  it  there  com-
+              pletely  and allow memory overflow.  Decrement from "m_mem_free"
+              as well as from "m_mem_free_n<socketnumber>" and  the  remaining
+              memory round robin from the remaining sockets.
+              - If both are not possible go to the next host.
+
+              The scheduler algorithm for parallel jobs is as follows:
+              -  Hosts  that  don't  offer "m_mem_free" memory are skipped (of
+              course hosts  that  doesn't  offer  the  amount  of  free  slots
+              requested are skipped as well).
+              - If the amount of requested slots is greater than the amount of
+              cores per socket, the job is dispatched to the host without  any
+              binding.
+              - If the amount of requested slots is smaller than the amount of
+              cores per socket do following:
+              -  If  there  is  any  socket   which   offers   enough   memory
+              ("m_mem_free_n<N>")  and enough free cores bind the job to these
+              cores and set memory allocation mode to "cores:strict" (so  that
+              only local memory requests can be done by the job).
+              -  If  this  is  not possible try to find a socket which is com-
+              pletely unbound and has more than the required amount of  memory
+              installed  ("m_mem_total_n<N>").  Bind  the  job to the complete
+              socket, decrement the memory on that socket at "m_mem_free_n<N>"
+              (as  well  as  host globally on "m_mem_free") and set the memory
+              allocation strategy to "cores" (preferred usage of socket  local
+              memory).
+
+              If  the  parameters are requesting the "m_mem_free" complex, the
+              resulting  NUMA  node  memory  requests  can  be  seen  in   the
+              "implicit_requests" row in the qstat output.
+
+              Note  that  resource  reservation  for  implicit  per  NUMA node
+              requests as well as topology selections for core binding are not
+              part of resource reservation yet.
+
+              The  value  specified  with  the --mmbbiinndd option will be passed to
+              defined JSV instances (as "mbind") only when set.  JSV  can  set
+              the  parameter  as  "round_robin",  "cores",  "cores:strict", or
+              "NONE". The same values can be used for job classes.
+
+       --nnoottiiffyy
+              Available for _q_s_u_b, _q_r_s_h (with command) and _q_a_l_t_e_r only.
+
+              This flag, when set causes Univa Grid Engine to  send  "warning"
+              signals  to  a  running  job  prior to sending the signals them-
+              selves. If a SIGSTOP is pending, the job will receive a  SIGUSR1
+              several seconds before the SIGSTOP. If a SIGKILL is pending, the
+              job will receive a SIGUSR2 several seconds before  the  SIGKILL.
+              This  option  provides  the  running  job,  before receiving the
+              SIGSTOP or SIGKILL,  a  configured  time  interval  to  do  e.g.
+              cleanup  operations.   The amount of time delay is controlled by
+              the  nnoottiiffyy  parameter  in   each   queue   configuration   (see
+              _q_u_e_u_e___c_o_n_f(5)).
+
+              Note  that the Linux operating system "misused" the user signals
+              SIGUSR1 and SIGUSR2 in some early Posix thread  implementations.
+              You  might not want to use the --nnoottiiffyy option if you are running
+              multi-threaded applications in your jobs under  Linux,  particu-
+              larly on 2.0 or earlier kernels.
+
+              _Q_a_l_t_e_r  allows changing this option even while the job executes.
+
+              Only if this option is used the parameter named nnoottiiffyy with  the
+              value  yy  will  be  passed  to defined JSV instances.  (see --jjssvv
+              option above or find more information concerning JSV in _j_s_v(1))
+
+       --nnooww yy[[eess]]||nn[[oo]]
+              Available for _q_s_u_b, _q_s_h, _q_l_o_g_i_n and _q_r_s_h.
+
+              --nnooww yy tries to start the job immediately or  not  at  all.  The
+              command  returns  0 on success, or 1 on failure (also if the job
+              could not be scheduled immediately). For  array  jobs  submitted
+              with  the  --nnooww  option,  if  one or more tasks can be scheduled
+              immediately the job will be accepted, otherwise it will  not  be
+              started at all.
+
+              Jobs  submitted  with --nnooww yy option, can ONLY run on INTERACTIVE
+              queues.  --nnooww yy is default for _q_s_h, _q_l_o_g_i_n and _q_r_s_h
+
+              With the --nnooww nn option, the job will be  put  into  the  pending
+              queue  if  it  cannot be executed immediately. --nnooww nn is default
+              for _q_s_u_b.
+
+              The value specified with this option or the corresponding  value
+              specified  in  _q_m_o_n will only be passed to defined JSV instances
+              if the value is _y_e_s.  The name of the parameter will be nnooww. The
+              value  will be yy also when then long form yyeess was specified dur-
+              ing submission.  (see --jjssvv option above or find more information
+              concerning JSV in _j_s_v(1))
+
+       --NN nnaammee
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              The  name  of the job. The name should follow the "nnaammee" defini-
+              tion in _s_g_e___t_y_p_e_s(1).  Invalid job names will be denied at  sub-
+              mit time.
+
+              If  the  --NN option is not present, Univa Grid Engine assigns the
+              name of the job script to the job after any  directory  pathname
+              has  been  removed  from  the script-name. If the script is read
+              from standard input, the job name defaults to STDIN.
+
+              In the case of _q_s_h or _q_l_o_g_i_n with the --NN option is  absent,  the
+              string `INTERACT' is assigned to the job.
+
+              In  the  case  of _q_r_s_h if the --NN option is absent, the resulting
+              job name is determined from the qrsh command line by  using  the
+              argument  string  up  to  the first occurrence of a semicolon or
+              whitespace and removing the directory pathname.
+
+              _Q_a_l_t_e_r allows changing this option even while the job  executes.
+
+              The  value specified with this option or the corresponding value
+              specified in _q_m_o_n will be passed to  defined  JSV  instances  as
+              parameter  with the name _N.  (see --jjssvv option above or find more
+              information concerning JSV in _j_s_v(1))
+
+       --nnoosshheellll
+              Available only for _q_r_s_h with a command line.
+
+              Do not start the command line given to _q_r_s_h in  a  user's  login
+              shell, i.e.  execute it without the wrapping shell.
+
+              This  option can be used to speed up execution as some overhead,
+              like the shell startup and sourcing the shell resource files, is
+              avoided.
+
+              This  option  can only be used if no shell-specific command line
+              parsing is required. If the command line contains  shell  syntax
+              like  environment  variable  substitution  or  (back) quoting, a
+              shell must be started.  In this case,  either  do  not  use  the
+              --nnoosshheellll option or include the shell call in the command line.
+
+              Example:
+              qrsh echo '$HOSTNAME'
+              Alternative call with the -noshell option
+              qrsh -noshell /bin/tcsh -f -c 'echo $HOSTNAME'
+
+       --nnoossttddiinn
+              Available only for _q_r_s_h.
+
+              Suppress  the  input stream STDIN - _q_r_s_h will pass the option -n
+              to the _r_s_h(1) command. This is especially  useful,  if  multiple
+              tasks  are  executed  in  parallel using _q_r_s_h, e.g. in a _m_a_k_e(1)
+              process - it would be undefined, which  process  would  get  the
+              input.
+
+       --oo [[[[hhoossttnnaammee]]::]]ppaatthh,,......
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              The  path  used  for  the standard output stream of the job. The
+              ppaatthh is handled as described in the --ee option for  the  standard
+              error stream.
+
+              By  default  the  file  name  for  standard  output has the form
+              _j_o_b___n_a_m_e_.o_j_o_b___i_d  and  _j_o_b___n_a_m_e_.o_j_o_b___i_d.ttaasskk__iidd  for  array  job
+              tasks (see --tt option below).
+
+              _Q_a_l_t_e_r  allows changing this option even while the job executes.
+              The modified parameter will only be in effect after a restart or
+              migration of the job, however.
+
+              If  this  option  or  a corresponding value in _q_m_o_n is specified
+              then this value will be  passed  to  defined  JSV  instances  as
+              parameter  with the name oo.  (see --jjssvv option above or find more
+              information concerning JSV in _j_s_v(1))
+
+       --oott oovveerrrriiddee__ttiicckkeettss
+              Available for _q_a_l_t_e_r only.
+
+              Changes the number of override tickets for  the  specified  job.
+              Requires manager/operator privileges.
+
+       --PP pprroojjeecctt__nnaammee
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Specifies  the project to which this job is assigned. The admin-
+              istrator needs to give permission to individual users to  submit
+              jobs to a specific project. (see --aapprrjj option to _q_c_o_n_f(1)).
+
+              If  this  option  or  a corresponding value in _q_m_o_n is specified
+              then this value will be  passed  to  defined  JSV  instances  as
+              parameter with the name oott.  (see --jjssvv option above or find more
+              information concerning JSV in _j_s_v(1))
+
+       --pp pprriioorriittyy
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Defines or redefines the priority of the job relative  to  other
+              jobs.   Priority  is an integer in the range -1023 to 1024.  The
+              default priority value for jobs is 0.
+
+              Users may only decrease the  priority  of  their  jobs.  If  the
+              parameter  AALLLLOOWW__IINNCCRREEAASSEE__PPOOSSIIXX__PPRRIIOORRIITTYY is set as qqmmaasstteerr__ppaarraamm
+              in the global configuration  then  users  are  also  allowed  to
+              increase the priority of their own jobs up to 0.
+
+              Univa  Grid  Engine managers and operators may also increase the
+              priority    associated    with     jobs     independent     from
+              _A_L_L_O_W___I_N_C_R_E_A_S_E___P_O_S_I_X___P_R_I_O_R_I_T_Y setting.
+
+              If a pending job has higher priority, it is earlier eligible for
+              being dispatched by the Univa Grid Engine scheduler.
+
+              If this option or a corresponding value in _q_m_o_n is specified and
+              the  priority is not 0 then this value will be passed to defined
+              JSV instances as parameter with the name pp.   (see  --jjssvv  option
+              above or find more information concerning JSV in _j_s_v(1))
+
+       --ppee ppaarraalllleell__eennvviirroonnmmeenntt nn[[--[[mm]]]]||[[--]]mm,,......
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Parallel  programming  environment (PE) to instantiate. For more
+              detail about PEs, please see the _s_g_e___t_y_p_e_s(1).
+
+              _Q_a_l_t_e_r allows changing this option even while the job  executes.
+              The modified parameter will only be in effect after a restart or
+              migration of the job, however.
+
+              If this option or a corresponding value  in  _q_m_o_n  is  specified
+              then the parameters ppee__nnaammee, ppee__mmiinn and ppee__mmaaxx will be passed to
+              configured JSV instances where ppee__nnaammee will be the name  of  the
+              parallel  environment and the values ppee__mmiinn and ppee__mmaaxx represent
+              the values n and m which have been provided with the --ppee option.
+              A  missing  specification of m will be expanded as value 9999999
+              in JSV scripts and it represents the value infinity.  (see  --jjssvv
+              option above or find more information concerning JSV in _j_s_v(1))
+
+       --ppttyy yy[[eess]]||nn[[oo]]
+              Available for _q_r_s_h, _q_l_o_g_i_n and _q_s_u_b only.
+
+              -pty  yes  enforces  the  job to be started in a pseudo terminal
+              (pty). If no pty is available, the job  start  fails.   -pty  no
+              enforces  the job to be started without a pty.  By default, _q_r_s_h
+              _w_i_t_h_o_u_t _a _c_o_m_m_a_n_d and _q_l_o_g_i_n start the job in a pty, _q_r_s_h _w_i_t_h _a
+              _c_o_m_m_a_n_d and _q_s_u_b start the job without a pty.
+
+              Information  that this switch was specified during submission is
+              not available in the JSV context of the open source  version  of
+              Grid Engine.
+
+              In  Univa Grid Engine a variable named ppttyy will be available and
+              it will have the value uu when the  switch  was  omitted  or  the
+              value  yy or nn depending if yy[[eess]] or nn[[oo]] was passed as parameter
+              with the switch. This parameter can be changed in the  JSV  con-
+              text  to  influence  the behavior of the command line client and
+              job.
+
+              (see --jjssvv option above or find more information  concerning  JSV
+              in _j_s_v(1))
+
+       --qq wwcc__qquueeuuee__lliisstt
+              Available for _q_s_u_b, _q_r_s_h, _q_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r.
+
+              Defines  or redefines a list of cluster queues, queue domains or
+              queue instances which may be used to execute  this  job.  Please
+              find  a  description  of  _w_c___q_u_e_u_e___l_i_s_t  in  _s_g_e___t_y_p_e_s(1).  This
+              parameter has all the properties of a resource request and  will
+              be merged with requirements derived from the --ll option described
+              above.
+
+              _Q_a_l_t_e_r allows changing this option even while the job  executes.
+              The modified parameter will only be in effect after a restart or
+              migration of the job, however.
+
+              If this option or a corresponding value in _q_m_o_n is specified the
+              these  hard  and  soft  resource  requirements will be passed to
+              defined JSV instances as parameters with the  names  qq__hhaarrdd  and
+              qq__ssoofftt.  If  regular  expressions  will  be  used  for  resource
+              requests, then these expressions will be  passed  as  they  are.
+              Also  shortcut  names  will  not  be expanded.  (see --jjssvv option
+              above or find more information concerning JSV in _j_s_v(1))
+
+       --RR yy[[eess]]||nn[[oo]]
+              Available for _q_s_u_b, _q_r_s_h, _q_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r.
+
+              Indicates whether a reservation for this  job  should  be  done.
+              Reservation  is never done for immediate jobs, i.e. jobs submit-
+              ted using the --nnooww yyeess option.  Please note that  regardless  of
+              the reservation request, job reservation might be disabled using
+              max_reservation in _s_c_h_e_d___c_o_n_f(5) and might be limited only to  a
+              certain number of high priority jobs.
+
+              By default jobs are submitted with the --RR nn option.
+
+              The  value specified with this option or the corresponding value
+              specified in _q_m_o_n will only be passed to defined  JSV  instances
+              if  the  value is _y_e_s.  The name of the parameter will be RR. The
+              value will be yy also when then long form yyeess was specified  dur-
+              ing submission.  (see --jjssvv option above or find more information
+              concerning JSV in _j_s_v(1))
+
+       --rr yy[[eess]]||nn[[oo]]
+              Available for _q_s_u_b and _q_a_l_t_e_r only.
+
+              Identifies the ability of a job to be  rerun  or  not.   If  the
+              value  of  --rr  is  'yes',  the  job will be rerun if the job was
+              aborted without leaving a consistent exit state.  (This is typi-
+              cally the case if the node on which the job is running crashes).
+              If --rr is 'no', the job will  not  be  rerun  under  any  circum-
+              stances.
+              Interactive  jobs  submitted  with  _q_s_h_,  _q_r_s_h or _q_l_o_g_i_n are not
+              rerunnable.
+
+              _Q_a_l_t_e_r allows changing this option even while the job  executes.
+
+              The  value specified with this option or the corresponding value
+              specified in _q_m_o_n will only be passed to defined  JSV  instances
+              if  the  value is _y_e_s.  The name of the parameter will be rr. The
+              value will be yy also when then long form yyeess was specified  dur-
+              ing submission.  (see --jjssvv option above or find more information
+              concerning JSV in _j_s_v(1))
+
+       --rroouu vvaarriiaabbllee,,......
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Used to specify which job  report  attributes  (e.g.  cpu,  mem,
+              vmem,  ...)   shall  get  written  to the reporting file and the
+              reporting database.
+
+              Variables are specified as comma separated list.
+
+              Specifying reporting variables per job will overwrite  a  global
+              setting  done  in  the  global  cluster  configuration,  report-
+              ing_params, see also _s_g_e___c_o_n_f(5).
+
+       --sscc vvaarriiaabbllee[[==vvaalluuee]],,......
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Sets the given name/value pairs as the job's context. VVaalluuee  may
+              be  omitted.  Univa  Grid  Engine  replaces the job's previously
+              defined context with the one given as  the  argument.   Multiple
+              --aacc, --ddcc, and --sscc options may be given.  The order is important.
+              The variable name must not start with the letters  "+",  "-"  or
+              "=".
+
+              Contexts  provide  a  way to dynamically attach and remove meta-
+              information to and from a job. The  context  variables  are  nnoott
+              passed to the job's execution context in its environment.
+
+              _Q_a_l_t_e_r  allows changing this option even while the job executes.
+
+              The outcome of the evaluation of all --aacc, --ddcc, and  --sscc  options
+              or  corresponding  values  in  _q_m_o_n  is  passed  to  defined JSV
+              instances as parameter with the name aacc.  (see --jjssvv option above
+              or find more information concerning JSV in _j_s_v(1))
+
+       --sshheellll yy[[eess]]||nn[[oo]]
+              Available only for _q_s_u_b.
+
+              --sshheellll nn causes qsub to execute the command line directly, as if
+              by _e_x_e_c(2).  No command shell will  be  executed  for  the  job.
+              This  option only applies when --bb yy is also used.  Without --bb yy,
+              --sshheellll nn has no effect.
+
+              This option can be used to speed up execution as some  overhead,
+              like  the shell startup and sourcing the shell resource files is
+              avoided.
+
+              This option can only be used if no shell-specific  command  line
+              parsing  is required. If the command line contains shell syntax,
+              like environment variable  substitution  or  (back)  quoting,  a
+              shell  must  be  started.   In  this  case either do not use the
+              --sshheellll nn option or execute the shell as  the  command  line  and
+              pass the path to the executable as a parameter.
+
+              If  a  job executed with the --sshheellll nn option fails due to a user
+              error, such as an invalid path to the executable, the  job  will
+              enter the error state.
+
+              --sshheellll  yy cancels the effect of a previous --sshheellll nn.  Otherwise,
+              it has no effect.
+
+              See --bb and --nnoosshheellll for more information.
+
+              The value specified with this option or the corresponding  value
+              specified  in  _q_m_o_n will only be passed to defined JSV instances
+              if the value is _y_e_s.  The name of the parameter will  be  sshheellll.
+              The  value  will be yy also when then long form yyeess was specified
+              during submission.  (see --jjssvv option above or find more informa-
+              tion concerning JSV in _j_s_v(1))
+
+       --ssii sseessssiioonn__iidd
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r.
+
+              Requests  sent  by this client to the _s_g_e___q_m_a_s_t_e_r(1) daemon will
+              be done as part of the specified session. If the switch is omit-
+              ted  or  if  NNOONNEE  is specified as sseessssiioonn__iidd then such requests
+              will be executed outside the control of a session.
+
+              Find more information concerning sessions in _s_e_s_s_i_o_n___c_o_n_f(5).
+
+       --ssoofftt  Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              Signifies that all resource requirements following in  the  com-
+              mand  line  will be soft requirements and are to be filled on an
+              "as available" basis.
+
+              It  is  possible  to  specify  ranges  for  consumable  resource
+              requirements  if  they  are  declared  as  --ssoofftt  requests. More
+              information about soft ranges can be found in the description of
+              the --ll option.
+
+              As  Univa Grid Engine scans the command line and script file for
+              Univa Grid Engine options and parameters, it builds  a  list  of
+              resources  required  by  the job. All such resource requests are
+              considered as absolutely essential for the job to  commence.  If
+              the --ssoofftt option is encountered during the scan then all follow-
+              ing resources are designated as "soft requirements"  for  execu-
+              tion,  or  "nice-to-have,  but not essential". If the --hhaarrdd flag
+              (see above) is encountered at a later stage  of  the  scan,  all
+              resource  requests  following  it once again become "essential".
+              The --hhaarrdd and --ssoofftt options in effect act  as  "toggles"  during
+              the scan.
+
+              If  this  option  or  a corresponding value in _q_m_o_n is specified
+              then the corresponding --qq and --ll resource requirements  will  be
+              passed  to  defined  JSV  instances  as parameter with the names
+              qq__ssoofftt and ll__ssoofftt. Find for information in the sections describ-
+              ing  --qq and --ll.  (see --jjssvv option above or find more information
+              concerning JSV in _j_s_v(1))
+
+       --ssyynncc yy||nn||ll||rr
+              Available for _q_s_u_b.
+
+              --ssyynncc yy causes _q_s_u_b to wait for the job to complete before exit-
+              ing.   If  the job completes successfully, _q_s_u_b_'_s exit code will
+              be that of the completed job.  If the job fails to complete suc-
+              cessfully,  _q_s_u_b  will  print out a error message indicating why
+              the job failed and will have an exit code  of  1.   If  _q_s_u_b  is
+              interrupted, e.g. with CTRL-C, before the job completes, the job
+              will be canceled.
+              With the --ssyynncc nn option, _q_s_u_b will exit with an exit code  of  0
+              as  soon  as  the  job  is  submitted  successfully.  --ssyynncc nn is
+              default for _q_s_u_b.
+              If --ssyynncc yy is used in conjunction with --nnooww yy, _q_s_u_b will  behave
+              as though only --nnooww yy were given until the job has been success-
+              fully scheduled, after which time _q_s_u_b  will  behave  as  though
+              only --ssyynncc yy were given.
+              If  --ssyynncc  yy is used in conjunction with --tt nn[[--mm[[::ii]]]], _q_s_u_b will
+              wait for all the job's tasks to complete before exiting.  If all
+              the  job's tasks complete successfully, _q_s_u_b_'_s exit code will be
+              that of the first completed job tasks with a non-zero exit code,
+              or  0 if all job tasks exited with an exit code of 0.  If any of
+              the job's tasks fail to complete successfully, _q_s_u_b  will  print
+              out  an  error message indicating why the job task(s) failed and
+              will have an exit code of 1.  If _q_s_u_b is interrupted, e.g.  with
+              CTRL-C, before the job completes, all of the job's tasks will be
+              canceled.
+              With the --ssyynncc ll option, _q_s_u_b will print an appropriate  message
+              as  soon  as  the  job changes into the l-state (license request
+              sent to License Orchestrator).
+              With the --ssyynncc rr option, _q_s_u_b will print an appropriate  message
+              as soon as the job is running.
+
+              All  those options can be combined. qsub will exit when the last
+              event occurs.
+
+              Information that this switch was specified during submission  is
+              not  available  in the JSV context of the open source version of
+              Grid Engine.
+
+              In Univa Grid Engine a variable named ssyynncc will be available and
+              it will have the value yy when the switch was used. The parameter
+              value cannot be changed within the JSV context.
+
+              (see --jjssvv option above or find more information  concerning  JSV
+              in _j_s_v(1))
+
+       --SS [[[[hhoossttnnaammee]]::]]ppaatthhnnaammee,,......
+              Available for _q_s_u_b, _q_s_h and _q_a_l_t_e_r.
+
+              Specifies  the interpreting shell for the job. Only one ppaatthhnnaammee
+              component without a hhoosstt specifier is valid and  only  one  path
+              name  for a given host is allowed. Shell paths with host assign-
+              ments define the interpreting shell for the job if the  host  is
+              the execution host. The shell path without host specification is
+              used if the execution host matches none  of  the  hosts  in  the
+              list.
+
+              Furthermore,  the  pathname can be constructed with pseudo envi-
+              ronment variables as described for the --ee option above.
+
+              In the case of _q_s_h the specified shell path is used  to  execute
+              the  corresponding  command interpreter in the _x_t_e_r_m(1) (via its
+              _-_e option) started on behalf of  the  interactive  job.   _Q_a_l_t_e_r
+              allows  changing  this  option  even while the job executes. The
+              modified parameter will only be in effect  after  a  restart  or
+              migration of the job, however.
+
+              If  this  option  or  a corresponding value in _q_m_o_n is specified
+              then this value will be  passed  to  defined  JSV  instances  as
+              parameter  with the name SS.  (see --jjssvv option above or find more
+              information concerning JSV in _j_s_v(1))
+
+       --tt nn[[--mm[[::ss]]]]
+              Available for _q_s_u_b only. _q_a_l_t_e_r cannot be  used  to  change  the
+              array job size but --tt might be used in combination with a job ID
+              to address the tasks that should be changed.
+
+              Submits a so called _A_r_r_a_y _J_o_b, i.e. an array of identical  tasks
+              being  differentiated  only by an index number and being treated
+              by Univa Grid Engine almost like a series of  jobs.  The  option
+              argument  to  --tt specifies the number of array job tasks and the
+              index number which will be associated with the tasks. The  index
+              numbers  will  be  exported to the job tasks via the environment
+              variable SSGGEE__TTAASSKK__IIDD. The option arguments n, m and  s  will  be
+              available  through  the  environment  variables  SSGGEE__TTAASSKK__FFIIRRSSTT,
+              SSGGEE__TTAASSKK__LLAASSTT and  SSGGEE__TTAASSKK__SSTTEEPPSSIIZZEE.
+
+              Following restrictions apply to the values n and m:
+
+                     1 <= n <= MIN(2^31-1, max_aj_tasks)
+                     1 <= m <= MIN(2^31-1, max_aj_tasks)
+                     n <= m
+
+              _m_a_x___a_j___t_a_s_k_s  is  defined  in  the  cluster  configuration  (see
+              _s_g_e___c_o_n_f(5))
+
+              The task id range specified in the option argument may be a sin-
+              gle number, a simple range of the form n-m or  a  range  with  a
+              step  size.  Hence,  the task id range specified by 2-10:2 would
+              result in the task id indexes 2, 4, 6, 8, and 10, for a total of
+              5   identical   tasks,   each   with  the  environment  variable
+              SGE_TASK_ID containing one of the 5 index numbers.
+
+              All array job tasks  inherit  the  same  resource  requests  and
+              attribute definitions as specified in the _q_s_u_b or _q_a_l_t_e_r command
+              line, except for the --tt option. The tasks are scheduled indepen-
+              dently  and, provided enough resources exist, concurrently, very
+              much like separate jobs.  However, an array job or  a  sub-array
+              there  of  can  be  accessed  as  a single unit by commands like
+              _q_m_o_d(1) or _q_d_e_l(1).  See the corresponding manual pages for fur-
+              ther detail.
+
+              Array  jobs are commonly used to execute the same type of opera-
+              tion on varying input data sets correlated with the  task  index
+              number. The number of tasks in a array job is unlimited.
+
+              STDOUT  and  STDERR of array job tasks will be written into dif-
+              ferent files with the default location
+
+              <jobname>.['e'|'o']<job_id>'.'<task_id>
+
+              In order to change this default, the  --ee  and  --oo  options  (see
+              above)  can  be  used together with the pseudo environment vari-
+              ables $HOME, $USER, $JOB_ID, $JOB_NAME, $HOSTNAME, and $TASK_ID.
+
+              Note, that you can use the output redirection to divert the out-
+              put of all tasks into the same file, but the result of  this  is
+              undefined.
+
+              If  this  option  or  a corresponding value in _q_m_o_n is specified
+              then this value will be  passed  to  defined  JSV  instances  as
+              parameters  with  the  name  tt__mmiinn,  tt__mmaaxx  and tt__sstteepp (see --jjssvv
+              option above or find more information concerning JSV in _j_s_v(1))
+
+
+       --ttcc mmaaxx__rruunnnniinngg__ttaasskkss
+              Available for _q_s_u_b and _q_a_l_t_e_r only.
+
+              Can be used in conjunction with array jobs (see  -t  option)  to
+              set  a  self-imposed limit on the maximum number of concurrently
+              running tasks per job.
+
+              If this option or a corresponding value  in  qmon  is  specified
+              then   this   value  will  be passed to defined JSV instances as
+              parameter with the name ttcc. (see --jjssvv option above or find  more
+              information concerning JSV in _j_s_v(1))
+
+       --ttccoonn yy[[eess]]||nn[[oo]]
+              Available for _q_s_u_b only.
+
+              Can  be  used  in conjunction with array jobs (see -t option) to
+              submit a concurrent array job.
+
+              For a concurrent array job either all tasks can  be  started  in
+              one scheduling run or the whole job will stay pending.
+
+              When  combined  with  the --nnooww yy option the immediate concurrent
+              array job will be rejected if not all  tasks  can  be  scheduled
+              immediately.
+
+              The  --ttccoonn  yy  switch cannot be combined with the --ttcc and the --RR
+              switch.
+
+              If this option is specified then its value  (y  or  n)  will  be
+              passed to defined JSV instances as parameter with the name ttccoonn.
+              (see --jjssvv option above or find more information  concerning  JSV
+              in _j_s_v(1))
+
+              Array  task  concurrency  can  be  enabled  and limited with the
+              MAX_TCON_TASKS qmaster_param setting in the global cluster  con-
+              figuration,  see _s_g_e___c_o_n_f(1).  By default array task concurrency
+              is disabled.
+
+              Submission of concurrent array jobs will be rejected when  their
+              size  exceeds  the settings of max_aj_tasks or max_aj_instances,
+              see _s_g_e___c_o_n_f(1).  When max_aj_instances  is  lowered  below  the
+              size  of  a pending concurrent array job then this job will stay
+              pending.
+
+       --tteerrssee Available for _q_s_u_b only.
+
+              -terse causes the _q_s_u_b to display only the  job-id  of  the  job
+              being  submitted  rather than the regular "Your job ..." string.
+              In case of an error the error is reported on stderr as usual.
+
+              This can be helpful for scripts which need to parse _q_s_u_b  output
+              to get the job-id.
+
+              Information  that this switch was specified during submission is
+              not available in the JSV context of the open source  version  of
+              Grid Engine.
+
+              In  Univa  Grid  Engine a variable named tteerrssee will be available
+              and it will have the value yy when the  switch  was  used.   This
+              parameter  can  be  changed  in the JSV context to influence the
+              behavior of the command line client.
+
+              (see --jjssvv option above or find more information  concerning  JSV
+              in _j_s_v(1))
+
+       --uu uusseerrnnaammee,,......
+              Available  for  _q_a_l_t_e_r only. Changes are only made on those jobs
+              which were submitted by users specified in  the  list  of  user-
+              names.   For  managers  it  is possible to use the qqaalltteerr --uu ''**''
+              command to modify all jobs of all users.
+
+              If you use the --uu switch it is not permitted to specify an addi-
+              tional _w_c___j_o_b___r_a_n_g_e___l_i_s_t.
+
+       --vv vvaarriiaabbllee[[==vvaalluuee]],,......
+              Available for _q_s_u_b, _q_r_s_h (with command argument) and _q_a_l_t_e_r.
+
+              Defines or redefines the environment variables to be exported to
+              the execution context of the job.  If the --vv option  is  present
+              Univa  Grid Engine will add the environment variables defined as
+              arguments to the switch and,  optionally,  values  of  specified
+              variables, to the execution context of the job.
+
+              _Q_a_l_t_e_r  allows changing this option even while the job executes.
+              The modified parameter will only be in effect after a restart or
+              migration of the job, however.
+
+              All  environment  variables specified with --vv, --VV or the DISPLAY
+              variable provided with --ddiissppllaayy will be exported to the  defined
+              JSV  instances only optionally when this is requested explicitly
+              during the job submission verification.
+
+              Information that the --VV switch was specified  during  submission
+              is  not  available in the JSV context of the open source version
+              of Grid Engine.
+
+              (see --jjssvv option above or find more information  concerning  JSV
+              in _j_s_v(1))
+
+       --vveerrbboossee
+              Available only for _q_r_s_h and _q_m_a_k_e(1).
+
+              Unlike  _q_s_h  and  _q_l_o_g_i_n, _q_r_s_h does not output any informational
+              messages while establishing  the  session,  compliant  with  the
+              standard _r_s_h(1) and _r_l_o_g_i_n(1) system calls.  If the option --vveerr--
+              bboossee is set, _q_r_s_h behaves like  the  _q_s_h  and  _q_l_o_g_i_n  commands,
+              printing  information  about  the  process  of  establishing the
+              _r_s_h(1) or _r_l_o_g_i_n(1) session.
+
+       --vveerriiffyy
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r.
+
+              Instead of submitting a job, prints detailed  information  about
+              the  would-be job as though _q_s_t_a_t(1) -j were used, including the
+              effects of command-line parameters and the external environment.
+
+       --VV     Available for _q_s_u_b, _q_s_h, _q_r_s_h _w_i_t_h _c_o_m_m_a_n_d and _q_a_l_t_e_r.
+
+              Specifies  that all environment variables active within the _q_s_u_b
+              utility be exported to the context of the job.
+
+              All environment variables specified with --vv, --VV or  the  DISPLAY
+              variable  provided with --ddiissppllaayy will be exported to the defined
+              JSV instances only optionally when this is requested  explicitly
+              during the job submission verification.
+
+              In  Univa  Grid Engine a variable named --VV will be available and
+              it will have the value yy when the switch was  used.   (see  --jjssvv
+              option above or find more information concerning JSV in _j_s_v(1))
+
+       --ww ee|ww|nn|pp|vv
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r.
+
+              Specifies  a validation level applied to the job to be submitted
+              (_q_s_u_b, _q_l_o_g_i_n, and _q_s_h) or the specified  queued  job  (_q_a_l_t_e_r).
+              The information displayed indicates whether the job can possibly
+              be scheduled assuming  an  empty  system  with  no  other  jobs.
+              Resource requests exceeding the configured maximal thresholds or
+              requesting unavailable resource attributes are  possible  causes
+              for jobs to fail this validation.
+
+              The  specifiers  e,  w,  n and v define the following validation
+              modes:
+
+              `e'  error - jobs with invalid requests will be
+                   rejected.
+              `w'  warning - only a warning will be displayed
+                   for invalid requests.
+              `n'  none - switches off validation; the default for
+                   _q_s_u_b, _q_a_l_t_e_r, _q_r_s_h, _q_s_h
+                   and _q_l_o_g_i_n.
+              `p'  poke - does not submit the job but prints a
+                   validation report based on a cluster as is with
+                   all resource utilizations in place.
+              `v'  verify - does not submit the job but prints a
+                   validation report based on an empty cluster.
+
+              Note, that the necessary checks are  performance  consuming  and
+              hence  the  checking is switched off by default.  It should also
+              be noted that load values are not taken into  account  with  the
+              verification since they are assumed to be too volatile. To cause
+              -w e verification to be passed at submission time, it is  possi-
+              ble  to specify non-volatile values (non-consumables) or maximum
+              values (consumables) in complex_values.
+
+       --wwdd wwoorrkkiinngg__ddiirr
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h and _q_a_l_t_e_r only.
+
+              Execute the job from the  directory  specified  in  working_dir.
+              This  switch  will  activate  Univa  Grid Engine's path aliasing
+              facility, if the corresponding configuration files  are  present
+              (see _s_g_e___a_l_i_a_s_e_s(5)).
+
+              _Q_a_l_t_e_r  allows changing this option even while the job executes.
+              The modified parameter will only be in effect after a restart or
+              migration  of  the  job,  however.   The parameter value will be
+              available in defined JSV instances as parameter  with  the  name
+              ccwwdd  (see  --ccwwdd switch above or find more information concerning
+              JSV in _j_s_v(1))
+
+       --wwhheenn [[nnooww||oonn__rreesscchheedduullee]]
+              Available for _q_a_l_t_e_r only.
+
+              Qalter allows to change resource requests of  running  jobs.  If
+              -when  now is set the changes will be done immediately if possi-
+              ble (only consumables).  If -when on_reschedule (default) is set
+              the changes take effect when the job gets re-scheduled.
+
+       ccoommmmaanndd
+              Available for _q_s_u_b and _q_r_s_h only.
+
+              The  job's  scriptfile  or  binary.   If  not  present or if the
+              operand is the  single-character  string  '-',  _q_s_u_b  reads  the
+              script from standard input.
+
+              The command will be available in defined JSV instances as param-
+              eter with the name CCMMDDNNAAMMEE (see --jjssvv option above or  find  more
+              information concerning JSV in _j_s_v(1))
+
+       --xxdd ddoocckkeerr__ooppttiioonn
+              Available  for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only when sub-
+              mitting docker jobs.
+
+              Use the --xxdd switch for specifying arbitrary docker  run  options
+              to be used in the creation of the container for docker jobs.
+
+              If a docker run option and/or its arguments contain spaces quot-
+              ing is required, e.g.  qsub -xd "-v /tmp:/hosts_tmp".
+
+              Multiple docker run options can be specified as  a  comma  sepa-
+              rated  list  with  one  --xxdd  option,  e.g.  qsub -xd --net=user-
+              net,--ip=192.168.99.10,--hostname=test.
+
+              --xxdd ----hheellpp prints a list of docker run options, if they are sup-
+              ported  by  Univa  Grid  Engine, and a comment describing why an
+              option is not supported, which option to use instead or how  the
+              docker run option is passed via the docker API to dockerd.
+
+       --xxddvv ddoocckkeerr__vvoolluummee
+              Available for _q_s_u_b, _q_s_h, _q_r_s_h, _q_l_o_g_i_n and _q_a_l_t_e_r only.
+
+              When  a job is running within a docker container the --xxddvv switch
+              can be used to specify docker volumes to  be  mounted  into  the
+              docker container.  ddoocckkeerr__vvoolluummee is specified following the syn-
+              tax of the docker run command line option -v, see _d_o_c_k_e_r  _r_u_n(1)
+              man  page.   Multiple  volumes can be mounted by passing a comma
+              separated list of volumes to the --xxddvv switch or by repeating the
+              --xxddvv switch.
+
+              The --xxddvv switch is deprecated and will be removed in future ver-
+              sions of Univa Grid Engine, use --xxdd ----vvoolluummee instead.
+
+       ccoommmmaanndd__aarrggss
+              Available for _q_s_u_b, _q_r_s_h and _q_a_l_t_e_r only.
+
+              Arguments to the job. Not valid if the script  is  entered  from
+              standard input.
+
+              _Q_a_l_t_e_r  allows changing this option even while the job executes.
+              The modified parameter will only be in effect after a restart or
+              migration of the job, however.
+
+              The  number  of  command arguments is provided to configured JSV
+              instances as parameter with the name CCMMDDAARRGGSS. Also the  argument
+              values   can   by  accessed.  Argument  names  have  the  format
+              CCMMDDAARRGG<<nnuummbbeerr>> where <<nnuummbbeerr>> is a integer between 0 and CCMMDDAARRGGSS
+              - 1.  (see --jjssvv option above or find more information concerning
+              JSV in _j_s_v(1))
+
+       xxtteerrmm__aarrggss
+              Available for _q_s_h only.
+
+              Arguments to the _x_t_e_r_m(1) executable, as defined in the configu-
+              ration.  For details, refer to _s_g_e___c_o_n_f(5)).
+
+              Information  concerning xxtteerrmm__aarrggss will be available in JSV con-
+              text as parameters with the  name  CCMMDDAARRGGSS  and  CCMMDDAARRGG<<nnuummbbeerr>>.
+              Find  more information above in section ccoommmmaanndd__aarrggss.  (see --jjssvv
+              option above or find more information concerning JSV in _j_s_v(1))
+
+EENNVVIIRROONNMMEENNTTAALL VVAARRIIAABBLLEESS
+       SSGGEE__RROOOOTT       Specifies the location of the Univa Grid Engine standard
+                      configuration files.
+
+       SSGGEE__CCEELLLL       If set, specifies the default Univa Grid Engine cell. To
+                      address a Univa Grid Engine cell _q_s_u_b,  _q_s_h,  _q_l_o_g_i_n  or
+                      _q_a_l_t_e_r use (in the order of precedence):
+
+                             The name of the cell specified in the environment
+                             variable SGE_CELL, if it is set.
+
+                             The name of the default cell, i.e. ddeeffaauulltt.
+
+
+       SSGGEE__DDEEBBUUGG__LLEEVVEELL
+                      If set, specifies that debug information should be writ-
+                      ten  to stderr. In addition the level of detail in which
+                      debug information is generated is defined.
+
+       SSGGEE__QQMMAASSTTEERR__PPOORRTT
+                      If set, specifies the tcp port on  which  _s_g_e___q_m_a_s_t_e_r(8)
+                      is  expected to listen for communication requests.  Most
+                      installations will use a services map entry for the ser-
+                      vice "sge_qmaster" instead to define that port.
+
+       DISPLAY        For _q_s_h jobs the DISPLAY has to be specified at job sub-
+                      mission.  If the DISPLAY is not set by using  the  --ddiiss--
+                      ppllaayy or the --vv switch, the contents of the DISPLAY envi-
+                      ronment variable are used as default.
+
+       In addition to those environment variables specified to be exported  to
+       the  job  via the --vv or the --VV option (see above) _q_s_u_b, _q_s_h, and _q_l_o_g_i_n
+       add the following variables with the indicated values to  the  variable
+       list:
+
+
+       SSGGEE__OO__HHOOMMEE     the home directory of the submitting client.
+
+       SSGGEE__OO__HHOOSSTT     the  name  of the host on which the submitting client is
+                      running.
+
+       SSGGEE__OO__LLOOGGNNAAMMEE  the LOGNAME of the submitting client.
+
+       SSGGEE__OO__MMAAIILL     the MAIL of the submitting  client.  This  is  the  mail
+                      directory of the submitting client.
+
+       SSGGEE__OO__PPAATTHH     the executable search path of the submitting client.
+
+       SSGGEE__OO__SSHHEELLLL    the SHELL of the submitting client.
+
+       SSGGEE__OO__TTZZ       the time zone of the submitting client.
+
+       SSGGEE__OO__WWOORRKKDDIIRR  the  absolute  path  of the current working directory of
+                      the submitting client.
+
+       Furthermore, Univa Grid Engine sets additional variables into the job's
+       environment, as listed below.
+
+       ARC
+
+       SGE_ARCH       The  Univa  Grid Engine architecture name of the node on
+                      which the job is running. The name is  compiled-in  into
+                      the _s_g_e___e_x_e_c_d(8) binary.
+
+       SGE_BINDING    This  variable  contains  the  selected operating system
+                      internal processor numbers.  They might be   more   than
+                      selected   cores   in   presence   of SMT or CMT because
+                      each core could be  represented  by  multiple  processor
+                      identifiers.   The   processor   numbers are space sepa-
+                      rated.
+
+       SGE_CKPT_ENV   Specifies the  checkpointing  environment  (as  selected
+                      with  the  --cckkpptt option) under which a checkpointing job
+                      executes. Only set for checkpointing jobs.
+
+       SGE_CKPT_DIR   Only set for checkpointing jobs. Contains path  _c_k_p_t___d_i_r
+                      (see _c_h_e_c_k_p_o_i_n_t(5) ) of the checkpoint interface.
+
+       SGE_CWD_PATH   Specifies  the  current  working directory where the job
+                      was started.
+
+       SGE_STDERR_PATH
+                      the pathname of the file to  which  the  standard  error
+                      stream of the job is diverted. Commonly used for enhanc-
+                      ing the output with error messages from prolog,  epilog,
+                      parallel   environment   start/stop   or   checkpointing
+                      scripts.
+
+       SGE_STDOUT_PATH
+                      the pathname of the file to which  the  standard  output
+                      stream of the job is diverted. Commonly used for enhanc-
+                      ing the output with messages from prolog, epilog, paral-
+                      lel environment start/stop or checkpointing scripts.
+
+       SGE_STDIN_PATH the  pathname  of the file from which the standard input
+                      stream of the job is taken. This variable might be  used
+                      in  combination with SGE_O_HOST in prolog/epilog scripts
+                      to transfer the input file from the submit to the execu-
+                      tion host.
+
+       SGE_JOB_SPOOL_DIR
+                      The  directory  used  by  _s_g_e___s_h_e_p_h_e_r_d(8)  to  store job
+                      related data during job  execution.  This  directory  is
+                      owned  by  root or by a Univa Grid Engine administrative
+                      account and commonly is  not  open  for  read  or  write
+                      access to regular users.
+
+       SGE_TASK_ID    The  index  number of the current array job task (see --tt
+                      option above). This is an unique number  in  each  array
+                      job  and  can  be used to reference different input data
+                      records, for example. This environment variable  is  set
+                      to  "undefined"  for  non-array  jobs. It is possible to
+                      change the predefined value of this variable with --vv  or
+                      --VV (see options above).
+
+       SGE_TASK_FIRST The  index  number  of  the first array job task (see --tt
+                      option above). It is possible to change  the  predefined
+                      value  of  this  variable  with  --vv  or  --VV (see options
+                      above).
+
+       SGE_TASK_LAST  The index number of the last  array  job  task  (see  --tt
+                      option  above).  It is possible to change the predefined
+                      value of this  variable  with  --vv  or  --VV  (see  options
+                      above).
+
+       SGE_TASK_STEPSIZE
+                      The  step  size  of  the array job specification (see --tt
+                      option above). It is possible to change  the  predefined
+                      value  of  this  variable  with  --vv  or  --VV (see options
+                      above).
+
+       ENVIRONMENT    The ENVIRONMENT variable is set  to  BATCH  to  identify
+                      that  the  job is being executed under Univa Grid Engine
+                      control.
+
+       HOME           The user's home directory path from the _p_a_s_s_w_d(5)  file.
+
+       HOSTNAME       The hostname of the node on which the job is running.
+
+       JOB_ID         A  unique identifier assigned by the _s_g_e___q_m_a_s_t_e_r(8) when
+                      the job was submitted. The job ID is a  decimal  integer
+                      in the range 1 to 99999.
+
+       JOB_NAME       The  job name.  For batch jobs or jobs submitted by _q_r_s_h
+                      with a command, the job name is built as basename of the
+                      _q_s_u_b script filename resp. the _q_r_s_h command.  For inter-
+                      active jobs it is set to  `INTERACTIVE'  for  _q_s_h  jobs,
+                      `QLOGIN'  for  _q_l_o_g_i_n  jobs  and `QRLOGIN' for _q_r_s_h jobs
+                      without a command.
+
+                      This default may be overwritten by the _-_N_.  option.
+
+       JOB_SCRIPT     The path to the job script which is executed. The  value
+                      can not be overwritten by the --vv or --VV option.
+
+       LOGNAME        The user's login name from the _p_a_s_s_w_d(5) file.
+
+       NHOSTS         The number of hosts in use by a parallel job.
+
+       NQUEUES        The number of queues allocated for the job (always 1 for
+                      serial jobs).
+
+       NSLOTS         The number of queue slots in use by a parallel job.
+
+       PATH           A default shell search path of:
+                      /usr/local/bin:/usr/ucb:/bin:/usr/bin
+
+       SGE_BINARY_PATH
+                      The path  where  the  Univa  Grid  Engine  binaries  are
+                      installed. The value is the concatenation of the cluster
+                      configuration value  bbiinnaarryy__ppaatthh  and  the  architecture
+                      name $$SSGGEE__AARRCCHH environment variable.
+
+       PE             The  parallel  environment  under which the job executes
+                      (for parallel jobs only).
+
+       PE_HOSTFILE    The path of a file containing the definition of the vir-
+                      tual  parallel  machine  assigned  to  a parallel job by
+                      Univa Grid Engine. See the description of the  $$ppee__hhoosstt--
+                      ffiillee parameter in _s_g_e___p_e(5) for details on the format of
+                      this file. The environment variable  is  only  available
+                      for parallel jobs.
+
+       QUEUE          The  name  of the cluster queue in which the job is run-
+                      ning.
+
+       REQUEST        Available for batch jobs only.
+
+                      The request name of a  job  as  specified  with  the  --NN
+                      switch  (see  above)  or  taken  as  the name of the job
+                      script file.
+
+       RESTARTED      This variable is set to 1 if a job was restarted  either
+                      after  a  system crash or after a migration in case of a
+                      checkpointing job. The variable has the value  0  other-
+                      wise.
+
+       SHELL          The  user's  login  shell from the _p_a_s_s_w_d(5) file. NNoottee::
+                      This is not necessarily the shell in use for the job.
+
+       TMPDIR         The absolute path to the job's temporary working  direc-
+                      tory.
+
+       TMP            The same as TMPDIR; provided for compatibility with NQS.
+
+       TZ             The time zone variable  imported  from  _s_g_e___e_x_e_c_d(8)  if
+                      set.
+
+       USER           The user's login name from the _p_a_s_s_w_d(5) file.
+
+       SGE_JSV_TIMEOUT
+                      If  the  response time of the client JSV is greater than
+                      this timeout value, then the JSV will attempt to be  re-
+                      started. The default value is 10 seconds, and this value
+                      must be greater than 0. If the timeout has been reached,
+                      the  JSV  will only try to re-start once, if the timeout
+                      is reached again an error will occur.
+
+RREESSTTRRIICCTTIIOONNSS
+       There is no controlling  terminal  for  batch  jobs  under  Univa  Grid
+       Engine,  and  any tests or actions on a controlling terminal will fail.
+       If these operations are in your .login or .cshrc file, they  may  cause
+       your job to abort.
+
+       Insert the following test before any commands that are not pertinent to
+       batch jobs in your .login:
+
+              if ( $?JOB_NAME) then
+                     echo "Univa Grid Engine spooled job"
+                     exit 0
+              endif
+
+       Don't forget to set your shell's search path  in  your  shell  start-up
+       before this code.
+
+EEXXIITT SSTTAATTUUSS
+       The following exit values are returned:
+
+       0    Operation was executed successfully.
+
+       25   It was not possible to register a new job according to the config-
+            ured _m_a_x___u___j_o_b_s or _m_a_x___j_o_b_s limit. Additional information  may  be
+            found in _s_g_e___c_o_n_f(5)
+
+       >0   Error occurred.
+
+EEXXAAMMPPLLEESS
+       The  following is the simplest form of a Univa Grid Engine script file.
+
+       =====================================================
+
+
+       #!/bin/csh
+          a.out
+
+
+       =====================================================
+
+       The next example is a more complex Univa Grid Engine script.
+
+       =====================================================
+
+       #!/bin/csh
+
+       # Which account to be charged cpu time
+       #$ -A santa_claus
+
+       # date-time to run, format [[CC]yy]MMDDhhmm[.SS]
+       #$ -a 12241200
+
+       # to run I want 6 or more parallel processes
+       # under the PE pvm. the processes require
+       # 128M of memory
+       #$ -pe pvm 6- -l mem=128
+
+       # If I run on dec_x put stderr in /tmp/foo, if I
+       # run on sun_y, put stderr in /usr/me/foo
+       #$ -e dec_x:/tmp/foo,sun_y:/usr/me/foo
+
+       # Send mail to these users
+       #$ -M santa@nothpole,claus@northpole
+
+       # Mail at beginning/end/on suspension
+       #$ -m bes
+
+       # Export these environmental variables
+       #$ -v PVM_ROOT,FOOBAR=BAR
+
+       # The job is located in the current
+       # working directory.
+       #$ -cwd
+
+       a.out
+
+       ==========================================================
+
+
+FFIILLEESS
+       _$_R_E_Q_U_E_S_T_._o_J_I_D_[_._T_A_S_K_I_D_]      STDOUT of job #JID
+       _$_R_E_Q_U_E_S_T_._e_J_I_D_[_._T_A_S_K_I_D_]      STDERR of job
+       _$_R_E_Q_U_E_S_T_._p_o_J_I_D_[_._T_A_S_K_I_D_]     STDOUT of par. env. of job
+       _$_R_E_Q_U_E_S_T_._p_e_J_I_D_[_._T_A_S_K_I_D_]     STDERR of par. env. of job
+
+       _$_c_w_d_/_._s_g_e___a_l_i_a_s_e_s         cwd path aliases
+       _$_c_w_d_/_._s_g_e___r_e_q_u_e_s_t         cwd default request
+       _$_H_O_M_E_/_._s_g_e___a_l_i_a_s_e_s        user path aliases
+       _$_H_O_M_E_/_._s_g_e___r_e_q_u_e_s_t        user default request
+       _<_s_g_e___r_o_o_t_>_/_<_c_e_l_l_>_/_c_o_m_m_o_n_/_s_g_e___a_l_i_a_s_e_s
+                                 cluster path aliases
+       _<_s_g_e___r_o_o_t_>_/_<_c_e_l_l_>_/_c_o_m_m_o_n_/_s_g_e___r_e_q_u_e_s_t
+                                 cluster default request
+       _<_s_g_e___r_o_o_t_>_/_<_c_e_l_l_>_/_c_o_m_m_o_n_/_a_c_t___q_m_a_s_t_e_r
+                                 Univa Grid Engine master host file
+
+SSEEEE AALLSSOO
+       _s_g_e___i_n_t_r_o(1), _q_c_o_n_f(1), _q_d_e_l(1), _q_h_o_l_d(1), _q_m_o_d(1), _q_r_l_s(1),  _q_s_t_a_t(1),
+       _a_c_c_o_u_n_t_i_n_g(5),     _s_e_s_s_i_o_n___c_o_n_f(5),     _s_g_e___a_l_i_a_s_e_s(5),    _s_g_e___c_o_n_f(5),
+       _s_g_e___j_o_b___c_l_a_s_s(5), _s_g_e___r_e_q_u_e_s_t(5), _s_g_e___t_y_p_e_s(1), _s_g_e___p_e(5),  _c_o_m_p_l_e_x(5).
+
+CCOOPPYYRRIIGGHHTT
+       If  configured correspondingly, _q_r_s_h and _q_l_o_g_i_n contain portions of the
+       _r_s_h, _r_s_h_d, _t_e_l_n_e_t and _t_e_l_n_e_t_d code copyrighted by The  Regents  of  the
+       University  of  California.  Therefore, the following note applies with
+       respect to _q_r_s_h and _q_l_o_g_i_n: This product includes software developed by
+       the University of California, Berkeley and its contributors.
+
+       See   _s_g_e___i_n_t_r_o(1)   as   well   as   the   information   provided   in
+       <sge_root>/3rd_party/qrsh and <sge_root>/3rd_party/qlogin for a  state-
+       ment of further rights and permissions.
+
+
+
+Univa Grid Engine User Commands    UGE 8.4.4                         SUBMIT(1)

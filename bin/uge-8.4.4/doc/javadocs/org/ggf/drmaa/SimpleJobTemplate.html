@@ -1,0 +1,2343 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<TITLE>
+SimpleJobTemplate
+</TITLE>
+
+<META NAME="date" CONTENT="2016-11-09">
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="SimpleJobTemplate";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../org/ggf/drmaa/SessionFactory.html" title="class in org.ggf.drmaa"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../org/ggf/drmaa/SuspendInconsistentStateException.html" title="class in org.ggf.drmaa"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../index.html?org/ggf/drmaa/SimpleJobTemplate.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SimpleJobTemplate.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.ggf.drmaa</FONT>
+<BR>
+Class SimpleJobTemplate</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><B>org.ggf.drmaa.SimpleJobTemplate</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD>java.io.Serializable, <A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public class <B>SimpleJobTemplate</B><DT>extends java.lang.Object<DT>implements <A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A>, java.io.Serializable</DL>
+</PRE>
+
+<P>
+This class is a trivial implementation of the JobTemplate interface.  This
+ class can either be used as the base class for a implementation-specific
+ job template class, or for implementations which do not need more than the
+ required properties, it can be used as the job template implementation
+ directly.
+
+ <p>All non-primitive properties default to <code>null</code>.  All boolean
+ properties default to <code>false</code>.  All other primitive properties
+ default to zero.</p>
+
+ <p>The SimpleJobTemplate class is not thread safe.  No attempt is made to
+ prevent setters and getters from interfering with each other or the
+ toString() method.</p>
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>1.0</DD>
+<DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa"><CODE>JobTemplate</CODE></A>, 
+<A HREF="../../../serialized-form.html#org.ggf.drmaa.SimpleJobTemplate">Serialized Form</A></DL>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.ggf.drmaa.JobTemplate"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from interface org.ggf.drmaa.<A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#ACTIVE_STATE">ACTIVE_STATE</A>, <A HREF="../../../org/ggf/drmaa/JobTemplate.html#HOLD_STATE">HOLD_STATE</A>, <A HREF="../../../org/ggf/drmaa/JobTemplate.html#HOME_DIRECTORY">HOME_DIRECTORY</A>, <A HREF="../../../org/ggf/drmaa/JobTemplate.html#PARAMETRIC_INDEX">PARAMETRIC_INDEX</A>, <A HREF="../../../org/ggf/drmaa/JobTemplate.html#WORKING_DIRECTORY">WORKING_DIRECTORY</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#SimpleJobTemplate()">SimpleJobTemplate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create a new instance of a JobTemplate.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getArgs()">getArgs</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get the arguments to the job.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Set</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getAttributeNames()">getAttributeNames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the list of supported property names.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getBlockEmail()">getBlockEmail</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get whether to block sending e-mail by default, regardless of the DRMS
+ settings.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../org/ggf/drmaa/PartialTimestamp.html" title="class in org.ggf.drmaa">PartialTimestamp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getDeadlineTime()">getDeadlineTime</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets a deadline after which the DRMS will terminate the job.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Set</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getEmail()">getEmail</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get the list of email addresses used to report the job completion and
+ status.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getErrorPath()">getErrorPath</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets how to direct the job's standard error.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getHardRunDurationLimit()">getHardRunDurationLimit</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets how long the job may be in a running state before its limit has been
+ exceeded.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getHardWallclockTimeLimit()">getHardWallclockTimeLimit</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets the duration of the job's wall clock time limit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getInputPath()">getInputPath</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get the job's standard input path.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getJobCategory()">getJobCategory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get the opaque string specifying how to resolve site-specific resources
+ and/or policies.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getJobEnvironment()">getJobEnvironment</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get the environment values that define the remote environment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getJobName()">getJobName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get the name of the job.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getJobSubmissionState()">getJobSubmissionState</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get the job state at submission.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getJoinFiles()">getJoinFiles</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets whether the error stream should be intermixed with the output
+ stream.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getNativeSpecification()">getNativeSpecification</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get the opaque string that is passed by the end user to DRMAA to specify
+ site-specific resources and/or policies.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getOutputPath()">getOutputPath</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets how to direct the job's standard output.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getRemoteCommand()">getRemoteCommand</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get the command string to execute as the job.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getSoftRunDurationLimit()">getSoftRunDurationLimit</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets an estimate as to how long the job will need to remain in a running
+ state to complete.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getSoftWallclockTimeLimit()">getSoftWallclockTimeLimit</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets an estimate as to how much wall clock time job will need to
+ complete.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../org/ggf/drmaa/PartialTimestamp.html" title="class in org.ggf.drmaa">PartialTimestamp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getStartTime()">getStartTime</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get the earliest time when the job may be eligible to be run.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../org/ggf/drmaa/FileTransferMode.html" title="class in org.ggf.drmaa">FileTransferMode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getTransferFiles()">getTransferFiles</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets how to transfer files between hosts.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#getWorkingDirectory()">getWorkingDirectory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get the directory where the job is executed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setArgs(java.util.List)">setArgs</A></B>(java.util.List&nbsp;args)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the arguments to the job.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setBlockEmail(boolean)">setBlockEmail</A></B>(boolean&nbsp;blockEmail)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set whether to block sending e-mail by default, regardless of the DRMS
+ settings.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setDeadlineTime(org.ggf.drmaa.PartialTimestamp)">setDeadlineTime</A></B>(<A HREF="../../../org/ggf/drmaa/PartialTimestamp.html" title="class in org.ggf.drmaa">PartialTimestamp</A>&nbsp;deadline)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets a deadline after which the DRMS will terminate the job.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setEmail(java.util.Set)">setEmail</A></B>(java.util.Set&nbsp;email)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the list of email addresses used to report the job completion and
+ status.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setErrorPath(java.lang.String)">setErrorPath</A></B>(java.lang.String&nbsp;errorPath)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets how to direct the job's standard error.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setHardRunDurationLimit(long)">setHardRunDurationLimit</A></B>(long&nbsp;hardRunLimit)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets how long the job may be in a running state before its limit has been
+ exceeded, and therefore is terminated by the DRMS.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setHardWallclockTimeLimit(long)">setHardWallclockTimeLimit</A></B>(long&nbsp;hardWallclockLimit)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets when the job's wall clock time limit has
+ been exceeded.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setInputPath(java.lang.String)">setInputPath</A></B>(java.lang.String&nbsp;inputPath)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the job's standard input path.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setJobCategory(java.lang.String)">setJobCategory</A></B>(java.lang.String&nbsp;category)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set an opaque string specifying how to resolve site-specific resources
+ and/or policies.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setJobEnvironment(java.util.Map)">setJobEnvironment</A></B>(java.util.Map&nbsp;env)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the environment values that define the remote environment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setJobName(java.lang.String)">setJobName</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the name of the job.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setJobSubmissionState(int)">setJobSubmissionState</A></B>(int&nbsp;state)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the job state at submission.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setJoinFiles(boolean)">setJoinFiles</A></B>(boolean&nbsp;join)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets whether the error stream should be intermixed with the output
+ stream.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setNativeSpecification(java.lang.String)">setNativeSpecification</A></B>(java.lang.String&nbsp;spec)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set an opaque string that is passed by the end user to DRMAA to specify
+ site-specific resources and/or policies.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setOutputPath(java.lang.String)">setOutputPath</A></B>(java.lang.String&nbsp;outputPath)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets how to direct the job's standard output.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setRemoteCommand(java.lang.String)">setRemoteCommand</A></B>(java.lang.String&nbsp;remoteCommand)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the command string to execute as the job.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setSoftRunDurationLimit(long)">setSoftRunDurationLimit</A></B>(long&nbsp;softRunLimit)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets an estimate as to how long the job will need to remain in a running
+ state to complete.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setSoftWallclockTimeLimit(long)">setSoftWallclockTimeLimit</A></B>(long&nbsp;softWallclockLimit)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets an estimate as to how much wall clock time job will need to
+ complete.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setStartTime(org.ggf.drmaa.PartialTimestamp)">setStartTime</A></B>(<A HREF="../../../org/ggf/drmaa/PartialTimestamp.html" title="class in org.ggf.drmaa">PartialTimestamp</A>&nbsp;startTime)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the earliest time when the job may be eligible to be run.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setTransferFiles(org.ggf.drmaa.FileTransferMode)">setTransferFiles</A></B>(<A HREF="../../../org/ggf/drmaa/FileTransferMode.html" title="class in org.ggf.drmaa">FileTransferMode</A>&nbsp;mode)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Specifies, which of the standard I/O files (stdin, stdout and stderr) are
+ to be transferred to/from the execution host.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#setWorkingDirectory(java.lang.String)">setWorkingDirectory</A></B>(java.lang.String&nbsp;wd)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the directory where the job is executed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/ggf/drmaa/SimpleJobTemplate.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Converts this JobTemplate into a String which contains all property
+ settings.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>equals, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="SimpleJobTemplate()"><!-- --></A><H3>
+SimpleJobTemplate</H3>
+<PRE>
+public <B>SimpleJobTemplate</B>()</PRE>
+<DL>
+<DD>Create a new instance of a JobTemplate.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setRemoteCommand(java.lang.String)"><!-- --></A><H3>
+setRemoteCommand</H3>
+<PRE>
+public void <B>setRemoteCommand</B>(java.lang.String&nbsp;remoteCommand)
+                      throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setRemoteCommand(java.lang.String)">JobTemplate</A></CODE></B></DD>
+<DD>Set the command string to execute as the job.  The command
+ is relative to the execution host and is evaluated on the
+ execution host.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setRemoteCommand(java.lang.String)">setRemoteCommand</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>remoteCommand</CODE> - the command to execute as the job
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRemoteCommand()"><!-- --></A><H3>
+getRemoteCommand</H3>
+<PRE>
+public java.lang.String <B>getRemoteCommand</B>()
+                                  throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getRemoteCommand()">JobTemplate</A></CODE></B></DD>
+<DD>Get the command string to execute as the job.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getRemoteCommand()">getRemoteCommand</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the command to execute as the job or null if it has not been set
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setRemoteCommand(java.lang.String)"><CODE>JobTemplate.setRemoteCommand(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setArgs(java.util.List)"><!-- --></A><H3>
+setArgs</H3>
+<PRE>
+public void <B>setArgs</B>(java.util.List&nbsp;args)
+             throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setArgs(java.util.List)">JobTemplate</A></CODE></B></DD>
+<DD>Sets the arguments to the job.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setArgs(java.util.List)">setArgs</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>args</CODE> - the parameters passed as arguments to the job
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getArgs()"><!-- --></A><H3>
+getArgs</H3>
+<PRE>
+public java.util.List <B>getArgs</B>()
+                       throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getArgs()">JobTemplate</A></CODE></B></DD>
+<DD>Get the arguments to the job.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getArgs()">getArgs</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the parameters passed as arguments to the job or null if they have
+ not been set
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setArgs(java.util.List)"><CODE>JobTemplate.setArgs(List)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setJobSubmissionState(int)"><!-- --></A><H3>
+setJobSubmissionState</H3>
+<PRE>
+public void <B>setJobSubmissionState</B>(int&nbsp;state)
+                           throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setJobSubmissionState(int)">JobTemplate</A></CODE></B></DD>
+<DD>Set the job state at submission.  The states are
+ HOLD_STATE and ACTIVE_STATE:
+
+ <UL>
+ <LI>ACTIVE_STATE means job is eligible to run</LI>
+ <LI>HOLD_STATE means job may be queued but is ineligible to run</LI>
+ </UL>
+
+ <p>A job submitted in the HOLD_STATE state can be made eligible to run
+ through the Session.control() method using the Session.RELEASE
+ constant.</p>
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setJobSubmissionState(int)">setJobSubmissionState</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>state</CODE> - the job state at submission
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getJobSubmissionState()"><!-- --></A><H3>
+getJobSubmissionState</H3>
+<PRE>
+public int <B>getJobSubmissionState</B>()
+                          throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getJobSubmissionState()">JobTemplate</A></CODE></B></DD>
+<DD>Get the job state at submission.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getJobSubmissionState()">getJobSubmissionState</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the job state at submission
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setJobSubmissionState(int)"><CODE>JobTemplate.setJobSubmissionState(int)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setJobEnvironment(java.util.Map)"><!-- --></A><H3>
+setJobEnvironment</H3>
+<PRE>
+public void <B>setJobEnvironment</B>(java.util.Map&nbsp;env)
+                       throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setJobEnvironment(java.util.Map)">JobTemplate</A></CODE></B></DD>
+<DD>Set the environment values that define the remote environment.
+ The values override any remote environment values if there is a
+ collision.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setJobEnvironment(java.util.Map)">setJobEnvironment</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>env</CODE> - the environment values that define the remote environment
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getJobEnvironment()"><!-- --></A><H3>
+getJobEnvironment</H3>
+<PRE>
+public java.util.Map <B>getJobEnvironment</B>()
+                                throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getJobEnvironment()">JobTemplate</A></CODE></B></DD>
+<DD>Get the environment values that define the remote environment.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getJobEnvironment()">getJobEnvironment</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the environment values that define the remote environment or null
+ if it has not been set
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setJobEnvironment(java.util.Map)"><CODE>JobTemplate.setJobEnvironment(Map)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setWorkingDirectory(java.lang.String)"><!-- --></A><H3>
+setWorkingDirectory</H3>
+<PRE>
+public void <B>setWorkingDirectory</B>(java.lang.String&nbsp;wd)
+                         throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setWorkingDirectory(java.lang.String)">JobTemplate</A></CODE></B></DD>
+<DD>Set the directory where the job is executed.  If the working directory is
+ not set, behavior is implementation dependent.  The working directory is
+ evaluated relative to the execution host.
+
+ <p>A <CODE>HOME_DIRECTORY</CODE> placeholder at the beginning denotes that
+ the remaining portion of the directory name is resolved
+ relative to the job submiter's home directory on the execution host.</p>
+
+ <p>The <CODE>PARAMETRIC_INDEX</CODE> placeholder can be used at any position
+ within the directory name of a parametric job and will be replaced
+ by the underlying DRM system with the parametric job's index.</p>
+
+ <p>The directory name must be specified in a syntax that is common at the
+ host where the job will be executed.</p>
+
+ <p>If no placeholder is used, an absolute directory specification
+ is expected.</p>
+
+ <p>If the directory does not exist when the job is run, the job enters the
+ state Session.FAILED.</p>
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setWorkingDirectory(java.lang.String)">setWorkingDirectory</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>wd</CODE> - the directory where the job is executed
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWorkingDirectory()"><!-- --></A><H3>
+getWorkingDirectory</H3>
+<PRE>
+public java.lang.String <B>getWorkingDirectory</B>()
+                                     throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getWorkingDirectory()">JobTemplate</A></CODE></B></DD>
+<DD>Get the directory where the job is executed.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getWorkingDirectory()">getWorkingDirectory</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the directory where the job is executed or null if it has not been
+ set
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setWorkingDirectory(java.lang.String)"><CODE>JobTemplate.setWorkingDirectory(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setJobCategory(java.lang.String)"><!-- --></A><H3>
+setJobCategory</H3>
+<PRE>
+public void <B>setJobCategory</B>(java.lang.String&nbsp;category)
+                    throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setJobCategory(java.lang.String)">JobTemplate</A></CODE></B></DD>
+<DD>Set an opaque string specifying how to resolve site-specific resources
+ and/or policies.  The job category can be used, for example, to submit
+ jobs that are &quot;low priority&quot; jobs.  It is then up to the local
+ DRM administrator to map &quot;low priority&quot; to a set of appropriate
+ job submission characteristics, such as reduced memory allowance or
+ lower priority value.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setJobCategory(java.lang.String)">setJobCategory</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>category</CODE> - an opaque string specifying how to resolve site-specific
+ resources and/or policies.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getJobCategory()"><!-- --></A><H3>
+getJobCategory</H3>
+<PRE>
+public java.lang.String <B>getJobCategory</B>()
+                                throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getJobCategory()">JobTemplate</A></CODE></B></DD>
+<DD>Get the opaque string specifying how to resolve site-specific resources
+ and/or policies.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getJobCategory()">getJobCategory</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the opaque string specifying how to resolve site-specific
+ resources and/or policies or null if it has not been set
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setJobCategory(java.lang.String)"><CODE>JobTemplate.setJobCategory(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setNativeSpecification(java.lang.String)"><!-- --></A><H3>
+setNativeSpecification</H3>
+<PRE>
+public void <B>setNativeSpecification</B>(java.lang.String&nbsp;spec)
+                            throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setNativeSpecification(java.lang.String)">JobTemplate</A></CODE></B></DD>
+<DD>Set an opaque string that is passed by the end user to DRMAA to specify
+ site-specific resources and/or policies.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setNativeSpecification(java.lang.String)">setNativeSpecification</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>spec</CODE> - an opaque string that is passed by the end user to DRMAA to
+ specify site-specific resources and/or policies
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getNativeSpecification()"><!-- --></A><H3>
+getNativeSpecification</H3>
+<PRE>
+public java.lang.String <B>getNativeSpecification</B>()
+                                        throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getNativeSpecification()">JobTemplate</A></CODE></B></DD>
+<DD>Get the opaque string that is passed by the end user to DRMAA to specify
+ site-specific resources and/or policies.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getNativeSpecification()">getNativeSpecification</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the opaque string that is passed by the end user to DRMAA to
+ specify site-specific resources and/or policies or null if it has not
+ been set
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setNativeSpecification(java.lang.String)"><CODE>JobTemplate.setNativeSpecification(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setEmail(java.util.Set)"><!-- --></A><H3>
+setEmail</H3>
+<PRE>
+public void <B>setEmail</B>(java.util.Set&nbsp;email)
+              throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setEmail(java.util.Set)">JobTemplate</A></CODE></B></DD>
+<DD>Set the list of email addresses used to report the job completion and
+ status.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setEmail(java.util.Set)">setEmail</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>email</CODE> - the list of email addresses used to report the job
+ completion and status.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEmail()"><!-- --></A><H3>
+getEmail</H3>
+<PRE>
+public java.util.Set <B>getEmail</B>()
+                       throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getEmail()">JobTemplate</A></CODE></B></DD>
+<DD>Get the list of email addresses used to report the job completion and
+ status.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getEmail()">getEmail</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the list of email addresses used to report the job completion
+ and status or null if they have not been set
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setEmail(java.util.Set)"><CODE>JobTemplate.setEmail(Set)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setBlockEmail(boolean)"><!-- --></A><H3>
+setBlockEmail</H3>
+<PRE>
+public void <B>setBlockEmail</B>(boolean&nbsp;blockEmail)
+                   throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setBlockEmail(boolean)">JobTemplate</A></CODE></B></DD>
+<DD>Set whether to block sending e-mail by default, regardless of the DRMS
+ settings.  This property can only be used to prevent email from being
+ sent.  It cannot force the DRM to send email.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setBlockEmail(boolean)">setBlockEmail</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>blockEmail</CODE> - whether to block sending e-mail by default
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBlockEmail()"><!-- --></A><H3>
+getBlockEmail</H3>
+<PRE>
+public boolean <B>getBlockEmail</B>()
+                      throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getBlockEmail()">JobTemplate</A></CODE></B></DD>
+<DD>Get whether to block sending e-mail by default, regardless of the DRMS
+ settings.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getBlockEmail()">getBlockEmail</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>whether to block sending e-mail by default
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setBlockEmail(boolean)"><CODE>JobTemplate.setBlockEmail(boolean)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setStartTime(org.ggf.drmaa.PartialTimestamp)"><!-- --></A><H3>
+setStartTime</H3>
+<PRE>
+public void <B>setStartTime</B>(<A HREF="../../../org/ggf/drmaa/PartialTimestamp.html" title="class in org.ggf.drmaa">PartialTimestamp</A>&nbsp;startTime)
+                  throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setStartTime(org.ggf.drmaa.PartialTimestamp)">JobTemplate</A></CODE></B></DD>
+<DD>Set the earliest time when the job may be eligible to be run.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setStartTime(org.ggf.drmaa.PartialTimestamp)">setStartTime</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>startTime</CODE> - the earliest time when the job may be eligible to be run
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStartTime()"><!-- --></A><H3>
+getStartTime</H3>
+<PRE>
+public <A HREF="../../../org/ggf/drmaa/PartialTimestamp.html" title="class in org.ggf.drmaa">PartialTimestamp</A> <B>getStartTime</B>()
+                              throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getStartTime()">JobTemplate</A></CODE></B></DD>
+<DD>Get the earliest time when the job may be eligible to be run.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getStartTime()">getStartTime</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the earliest time when the job may be eligible to be run or null
+ if it has not been set
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setStartTime(org.ggf.drmaa.PartialTimestamp)"><CODE>JobTemplate.setStartTime(PartialTimestamp)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setJobName(java.lang.String)"><!-- --></A><H3>
+setJobName</H3>
+<PRE>
+public void <B>setJobName</B>(java.lang.String&nbsp;name)
+                throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setJobName(java.lang.String)">JobTemplate</A></CODE></B></DD>
+<DD>Set the name of the job.  A job name will be comprised of alpha-numeric
+ and _ characters.  The DRMAA implementation may truncate client
+ provided job names to an implementation defined length that is at least
+ 31 characters.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setJobName(java.lang.String)">setJobName</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name of the job
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getJobName()"><!-- --></A><H3>
+getJobName</H3>
+<PRE>
+public java.lang.String <B>getJobName</B>()
+                            throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getJobName()">JobTemplate</A></CODE></B></DD>
+<DD>Get the name of the job.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getJobName()">getJobName</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the name of the job or null if it has not been set
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setJobName(java.lang.String)"><CODE>JobTemplate.setJobName(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setInputPath(java.lang.String)"><!-- --></A><H3>
+setInputPath</H3>
+<PRE>
+public void <B>setInputPath</B>(java.lang.String&nbsp;inputPath)
+                  throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setInputPath(java.lang.String)">JobTemplate</A></CODE></B></DD>
+<DD>Set the job's standard input path.
+ Unless set elsewhere, if not explicitly set in the job template, the job
+ is started with an empty input stream.
+
+ <p>If set, specifies the network path of the job's input stream in
+ the form of [hostname]:file_path</p>
+
+ <p>When the transferFiles property is supported and has it's inputStream
+ property set, the input file will be fetched by the underlying DRM
+ system from the specified host or from the submit host if no hostname
+ is specified.</p>
+
+ <p>When the transferFiles property is not supported or does not have its
+ inputStream property set, the input file is always expected to be
+ at the host where the job is executed irrespective of a whether a
+ hostname is specified in the path.</p>
+
+ <p>The <CODE>PARAMETRIC_INDEX</CODE> placeholder can be used at any position
+ within the file path of parametric job templates and will be replaced
+ by the underlying DRM system with the parametric job's index.</p>
+
+ <p>A <CODE>HOME_DIRECTORY</CODE> placeholder at the beginning of the file
+ path denotes that the remaining portion of the file path is relative to
+ the job submiter's home directory on the host where the file is
+ located.</p>
+
+ <p>A <CODE>WORKING_DIRECTORY</CODE> placeholder at the beginning of the file
+ path denotes that the remaining portion of the file path is relative to
+ the job's working directory on the host where the file is located.</p>
+
+ <p>The file path must be specified in a syntax that is common at the host
+ where the file is located.</p>
+
+ <p>When the job is run, if this property is set, and the file can't be read,
+ the job will enter the state Session.FAILED.</p>
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setInputPath(java.lang.String)">setInputPath</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>inputPath</CODE> - the job's standard input path
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInputPath()"><!-- --></A><H3>
+getInputPath</H3>
+<PRE>
+public java.lang.String <B>getInputPath</B>()
+                              throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getInputPath()">JobTemplate</A></CODE></B></DD>
+<DD>Get the job's standard input path.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getInputPath()">getInputPath</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the job's standard input path or null if it has not been set
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setInputPath(java.lang.String)"><CODE>JobTemplate.setInputPath(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setOutputPath(java.lang.String)"><!-- --></A><H3>
+setOutputPath</H3>
+<PRE>
+public void <B>setOutputPath</B>(java.lang.String&nbsp;outputPath)
+                   throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setOutputPath(java.lang.String)">JobTemplate</A></CODE></B></DD>
+<DD>Sets how to direct the job's standard output.
+ If not explicitly set in the job template, the whereabouts of the jobs
+ output stream is not defined.
+ If set, specifies the network path of the job's output stream file in the
+ form of [hostname]:file_path
+
+ <p>When the transferFiles property is supported and has its outputStream
+ property set, the output file will be transferred by the underlying
+ DRM system to the specified host or to the submit host if no hostname is
+ specified.</p>
+
+ <p>When the transferFiles property is not supported or does
+ not have it's outputStream property set, the output file is always kept
+ at the host where the job is executed irrespective of a whether a
+ hostname is specified in the path.</p>
+
+ <p>The <CODE>PARAMETRIC_INDEX</CODE> placeholder can be used at any position
+ within the file path of parametric job templates and will be replaced
+ by the underlying DRM system with the parametric job's index.</p>
+
+ <p>A <CODE>HOME_DIRECTORY</CODE> placeholder at the beginning of the file
+ path denotes that the remaining portion of the file path is relative to
+ the job submiter's home directory on the host where the file is
+ located.</p>
+
+ <p>A <CODE>WORKING_DIRECTORY</CODE> placeholder at the beginning of the file
+ path denotes that the remaining portion of the file path is relative to
+ the job's working directory on the host where the file is located.</p>
+
+ <p>The file path must be specified in a syntax that is common at the host
+ where the file is located.</p>
+
+ <p>When the job is run, if this property is set, and the file can't be
+ written before execution the job will enter the state Session.FAILED.</p>
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setOutputPath(java.lang.String)">setOutputPath</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>outputPath</CODE> - how to direct the job's standard output
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOutputPath()"><!-- --></A><H3>
+getOutputPath</H3>
+<PRE>
+public java.lang.String <B>getOutputPath</B>()
+                               throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getOutputPath()">JobTemplate</A></CODE></B></DD>
+<DD>Gets how to direct the job's standard output.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getOutputPath()">getOutputPath</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>how to direct the job's standard output or null if it has not been
+ set
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setOutputPath(java.lang.String)"><CODE>JobTemplate.setOutputPath(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setErrorPath(java.lang.String)"><!-- --></A><H3>
+setErrorPath</H3>
+<PRE>
+public void <B>setErrorPath</B>(java.lang.String&nbsp;errorPath)
+                  throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setErrorPath(java.lang.String)">JobTemplate</A></CODE></B></DD>
+<DD>Sets how to direct the job's standard error.
+ If not explicitly set in the job template, the whereabouts of the job's
+ error stream is not defined. If set, specifies the network path of the
+ job's error stream file in the form [hostname]:file_path
+
+ <p>When the transferFiles property is supported and has its errorStream
+ property set, the error file will be transferred by the underlying
+ DRM system to the specified host or to the submit host if no hostname is
+ specified.</p>
+
+ <p>When the transferFiles property is not supported or does
+ not have it's errorStream property set, the error file is always kept
+ at the host where the job is executed irrespective of a whether a
+ hostname is specified in the path.</p>
+
+ <p>The <CODE>PARAMETRIC_INDEX</CODE> placeholder can be used at any position
+ within the file path of parametric job templates and will be replaced
+ by the underlying DRM system with the parametric job's index.</p>
+
+ <p>A <CODE>HOME_DIRECTORY</CODE> placeholder at the beginning of the file
+ path denotes that the remaining portion of the file path is relative to
+ the job submiter's home directory on the host where the file is
+ located.</p>
+
+ <p>A <CODE>WORKING_DIRECTORY</CODE> placeholder at the beginning of the file
+ path denotes that the remaining portion of the file path is relative to
+ the job's working directory on the host where the file is located.</p>
+
+ <p>The file path must be specified in a syntax that is common at the host
+ where the file is located.</p>
+
+ <p>When the job is run, if this property is set, and the file can't be
+ written before execution the job will enter the state Session.FAILED.</p>
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setErrorPath(java.lang.String)">setErrorPath</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>errorPath</CODE> - how to direct the job's standard error
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getErrorPath()"><!-- --></A><H3>
+getErrorPath</H3>
+<PRE>
+public java.lang.String <B>getErrorPath</B>()
+                              throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getErrorPath()">JobTemplate</A></CODE></B></DD>
+<DD>Gets how to direct the job's standard error.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getErrorPath()">getErrorPath</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>how to direct the job's standard error
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setErrorPath(java.lang.String)"><CODE>JobTemplate.setErrorPath(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setJoinFiles(boolean)"><!-- --></A><H3>
+setJoinFiles</H3>
+<PRE>
+public void <B>setJoinFiles</B>(boolean&nbsp;join)
+                  throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setJoinFiles(boolean)">JobTemplate</A></CODE></B></DD>
+<DD>Sets whether the error stream should be intermixed with the output
+ stream. If not explicitly set in the job template this property defaults
+ to <CODE>false</CODE>.
+
+ <p>If <CODE>true</CODE> is specified the underlying DRM system will ignore
+ the value of the errorPath property and intermix the standard error
+ stream with the standard output stream as specified by the outputPath
+ property.</p>
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setJoinFiles(boolean)">setJoinFiles</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>join</CODE> - whether the error stream should be intermixed with the output
+ stream
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getJoinFiles()"><!-- --></A><H3>
+getJoinFiles</H3>
+<PRE>
+public boolean <B>getJoinFiles</B>()
+                     throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getJoinFiles()">JobTemplate</A></CODE></B></DD>
+<DD>Gets whether the error stream should be intermixed with the output
+ stream.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getJoinFiles()">getJoinFiles</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>Whether the error stream should be intermixed with the output
+ stream
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setJoinFiles(boolean)"><CODE>JobTemplate.setJoinFiles(boolean)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setTransferFiles(org.ggf.drmaa.FileTransferMode)"><!-- --></A><H3>
+setTransferFiles</H3>
+<PRE>
+public void <B>setTransferFiles</B>(<A HREF="../../../org/ggf/drmaa/FileTransferMode.html" title="class in org.ggf.drmaa">FileTransferMode</A>&nbsp;mode)
+                      throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setTransferFiles(org.ggf.drmaa.FileTransferMode)">JobTemplate</A></CODE></B></DD>
+<DD>Specifies, which of the standard I/O files (stdin, stdout and stderr) are
+ to be transferred to/from the execution host.  If not set, defaults to
+ the equivalent of a FileTransferMode instance with all properties set to
+ false.  See inputPath, outputPath and errorPath setters for information
+ about how to specify the standard input file, standard output file, and
+ standard error file.
+
+ <p>If the FileTransferMode instance's errorStream property is set to
+ <CODE>true</CODE>, the errorPath property is taken to specify the
+ location to which error files should be transfered after the job
+ finishes.</p>
+
+ <p>If the FileTransferMode instance's inputStream property is set to
+ <CODE>true</CODE>, the inputPath property is taken to specify the
+ location from which input files should be transfered before the job
+ starts.</p>
+
+ <p>If the FileTransferMode instance's outputStream property is set to
+ <CODE>true</CODE>, the outputPath property is taken to specify the
+ location to which output files should be transfered after the job
+ finishes.</p>
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setTransferFiles(org.ggf.drmaa.FileTransferMode)">setTransferFiles</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>mode</CODE> - how to transfer files between hosts.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setInputPath(java.lang.String)"><CODE>JobTemplate.setInputPath(String)</CODE></A>, 
+<A HREF="../../../org/ggf/drmaa/JobTemplate.html#setOutputPath(java.lang.String)"><CODE>JobTemplate.setOutputPath(String)</CODE></A>, 
+<A HREF="../../../org/ggf/drmaa/JobTemplate.html#setErrorPath(java.lang.String)"><CODE>JobTemplate.setErrorPath(String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTransferFiles()"><!-- --></A><H3>
+getTransferFiles</H3>
+<PRE>
+public <A HREF="../../../org/ggf/drmaa/FileTransferMode.html" title="class in org.ggf.drmaa">FileTransferMode</A> <B>getTransferFiles</B>()
+                                  throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getTransferFiles()">JobTemplate</A></CODE></B></DD>
+<DD>Gets how to transfer files between hosts.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getTransferFiles()">getTransferFiles</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>how to transfer files between hosts.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setTransferFiles(org.ggf.drmaa.FileTransferMode)"><CODE>JobTemplate.setTransferFiles(FileTransferMode)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDeadlineTime(org.ggf.drmaa.PartialTimestamp)"><!-- --></A><H3>
+setDeadlineTime</H3>
+<PRE>
+public void <B>setDeadlineTime</B>(<A HREF="../../../org/ggf/drmaa/PartialTimestamp.html" title="class in org.ggf.drmaa">PartialTimestamp</A>&nbsp;deadline)
+                     throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setDeadlineTime(org.ggf.drmaa.PartialTimestamp)">JobTemplate</A></CODE></B></DD>
+<DD>Sets a deadline after which the DRMS will terminate the job.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setDeadlineTime(org.ggf.drmaa.PartialTimestamp)">setDeadlineTime</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>deadline</CODE> - the deadline after which the DRMS will terminate the job
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDeadlineTime()"><!-- --></A><H3>
+getDeadlineTime</H3>
+<PRE>
+public <A HREF="../../../org/ggf/drmaa/PartialTimestamp.html" title="class in org.ggf.drmaa">PartialTimestamp</A> <B>getDeadlineTime</B>()
+                                 throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getDeadlineTime()">JobTemplate</A></CODE></B></DD>
+<DD>Sets a deadline after which the DRMS will terminate the job.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getDeadlineTime()">getDeadlineTime</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the deadline after which the DRMS will terminate the job
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setDeadlineTime(org.ggf.drmaa.PartialTimestamp)"><CODE>JobTemplate.setDeadlineTime(PartialTimestamp)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setHardWallclockTimeLimit(long)"><!-- --></A><H3>
+setHardWallclockTimeLimit</H3>
+<PRE>
+public void <B>setHardWallclockTimeLimit</B>(long&nbsp;hardWallclockLimit)
+                               throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setHardWallclockTimeLimit(long)">JobTemplate</A></CODE></B></DD>
+<DD>Sets when the job's wall clock time limit has
+ been exceeded.  The DRMS will terminate a job that has exceeded its wall
+ clock time limit.  Note that time spent suspended is also accounted for
+ here.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setHardWallclockTimeLimit(long)">setHardWallclockTimeLimit</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>hardWallclockLimit</CODE> - when the job's wall clock time limit has been
+ exceeded.  Specified in seconds
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHardWallclockTimeLimit()"><!-- --></A><H3>
+getHardWallclockTimeLimit</H3>
+<PRE>
+public long <B>getHardWallclockTimeLimit</B>()
+                               throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getHardWallclockTimeLimit()">JobTemplate</A></CODE></B></DD>
+<DD>Gets the duration of the job's wall clock time limit.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getHardWallclockTimeLimit()">getHardWallclockTimeLimit</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>when the job's wall clock time limit has been exceeded.
+ Specified in seconds
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setHardWallclockTimeLimit(long)"><CODE>JobTemplate.setHardWallclockTimeLimit(long)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setSoftWallclockTimeLimit(long)"><!-- --></A><H3>
+setSoftWallclockTimeLimit</H3>
+<PRE>
+public void <B>setSoftWallclockTimeLimit</B>(long&nbsp;softWallclockLimit)
+                               throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setSoftWallclockTimeLimit(long)">JobTemplate</A></CODE></B></DD>
+<DD>Sets an estimate as to how much wall clock time job will need to
+ complete. Note that time spent suspended is also accounted for here.<P>
+
+ This attribute is intended to assist the scheduler.
+ If the time specified in insufficient, the
+ drmaa-implementation may impose a scheduling penalty.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setSoftWallclockTimeLimit(long)">setSoftWallclockTimeLimit</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>softWallclockLimit</CODE> - an estimate as to how much wall clock time job
+ will need to complete.  Specified in seconds
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSoftWallclockTimeLimit()"><!-- --></A><H3>
+getSoftWallclockTimeLimit</H3>
+<PRE>
+public long <B>getSoftWallclockTimeLimit</B>()
+                               throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getSoftWallclockTimeLimit()">JobTemplate</A></CODE></B></DD>
+<DD>Gets an estimate as to how much wall clock time job will need to
+ complete.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getSoftWallclockTimeLimit()">getSoftWallclockTimeLimit</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>an estimate as to how much wall clock time job will need
+ to complete.  Specified in seconds
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setSoftWallclockTimeLimit(long)"><CODE>JobTemplate.setSoftWallclockTimeLimit(long)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setHardRunDurationLimit(long)"><!-- --></A><H3>
+setHardRunDurationLimit</H3>
+<PRE>
+public void <B>setHardRunDurationLimit</B>(long&nbsp;hardRunLimit)
+                             throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setHardRunDurationLimit(long)">JobTemplate</A></CODE></B></DD>
+<DD>Sets how long the job may be in a running state before its limit has been
+ exceeded, and therefore is terminated by the DRMS.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setHardRunDurationLimit(long)">setHardRunDurationLimit</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>hardRunLimit</CODE> - how long the job may be in a running state before its
+ limit has been exceeded.  Specified in seconds
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHardRunDurationLimit()"><!-- --></A><H3>
+getHardRunDurationLimit</H3>
+<PRE>
+public long <B>getHardRunDurationLimit</B>()
+                             throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getHardRunDurationLimit()">JobTemplate</A></CODE></B></DD>
+<DD>Gets how long the job may be in a running state before its limit has been
+ exceeded.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getHardRunDurationLimit()">getHardRunDurationLimit</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>how long the job may be in a running state before its limit has
+ been exceeded.  Specified in seconds
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setHardRunDurationLimit(long)"><CODE>JobTemplate.setHardRunDurationLimit(long)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setSoftRunDurationLimit(long)"><!-- --></A><H3>
+setSoftRunDurationLimit</H3>
+<PRE>
+public void <B>setSoftRunDurationLimit</B>(long&nbsp;softRunLimit)
+                             throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setSoftRunDurationLimit(long)">JobTemplate</A></CODE></B></DD>
+<DD>Sets an estimate as to how long the job will need to remain in a running
+ state to complete.  This attribute is intended to assist the scheduler.
+ If the time specified in insufficient, the DRMAA implementation may
+ impose a scheduling penalty.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setSoftRunDurationLimit(long)">setSoftRunDurationLimit</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>softRunLimit</CODE> - an estimate as to how long the job will need to
+ remain in a running state to complete.  Specified in seconds
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>InvalidAttributeFormatException -- the format of the argument is
+ invalid</LI>
+ <LI>InvalidAttributeValueException -- the value of the argument is
+ invalid</LI>
+ <LI>ConflictingAttributeValuesException -- the value of the argument
+ conflicts with the value of another job template property</LI>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>IllegalArgumentException -- an argument is invalid</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSoftRunDurationLimit()"><!-- --></A><H3>
+getSoftRunDurationLimit</H3>
+<PRE>
+public long <B>getSoftRunDurationLimit</B>()
+                             throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getSoftRunDurationLimit()">JobTemplate</A></CODE></B></DD>
+<DD>Gets an estimate as to how long the job will need to remain in a running
+ state to complete.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getSoftRunDurationLimit()">getSoftRunDurationLimit</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>an estimate as to how long the job will need to remain
+ in a running state to complete.  Specified in seconds
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL><DT><B>See Also:</B><DD><A HREF="../../../org/ggf/drmaa/JobTemplate.html#setSoftRunDurationLimit(long)"><CODE>JobTemplate.setSoftRunDurationLimit(long)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAttributeNames()"><!-- --></A><H3>
+getAttributeNames</H3>
+<PRE>
+public java.util.Set <B>getAttributeNames</B>()
+                                throws <A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getAttributeNames()">JobTemplate</A></CODE></B></DD>
+<DD>Returns the list of supported property names.  This list
+ includes supported DRMAA reserved property names (both required and
+ optional) and DRM-specific property names.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html#getAttributeNames()">getAttributeNames</A></CODE> in interface <CODE><A HREF="../../../org/ggf/drmaa/JobTemplate.html" title="interface in org.ggf.drmaa">JobTemplate</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the list of supported property names
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../org/ggf/drmaa/DrmaaException.html" title="class in org.ggf.drmaa">DrmaaException</A></CODE> - May be one of the following:
+ <UL>
+ <LI>NoActiveSessionException -- the session has not yet been initialized
+ or has already been exited</LI>
+ <LI>DrmCommunicationException -- the DRMAA implementation was unable to
+ contact the DRM</LI>
+ <LI>AuthorizationException -- the executing user does not have
+ sufficient permissions to execute the desired action</LI>
+ <LI>InternalException -- an error has occured in the DRMAA
+ implementation</LI>
+ </UL></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public java.lang.String <B>toString</B>()</PRE>
+<DL>
+<DD>Converts this JobTemplate into a String which contains all property
+ settings.  The generated string is then cached and reused until one of
+ the property settings is modified.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>toString</CODE> in class <CODE>java.lang.Object</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a string containing all property settings</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../org/ggf/drmaa/SessionFactory.html" title="class in org.ggf.drmaa"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../org/ggf/drmaa/SuspendInconsistentStateException.html" title="class in org.ggf.drmaa"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../index.html?org/ggf/drmaa/SimpleJobTemplate.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SimpleJobTemplate.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+<!--___INFO__MARK_BEGIN__-->
+The contents of this file are licensed under the <a href="http://gridengine.sunsource.net/Gridengine_SISSL_license.html">Sun Industry Standards Source License version 1.2</a>.<br>
+Copyright 2008, Sun Microsystems, Inc.
+<!--___INFO__MARK_END__-->
+</BODY>
+</HTML>

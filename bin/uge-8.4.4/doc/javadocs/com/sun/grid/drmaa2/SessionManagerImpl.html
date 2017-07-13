@@ -1,0 +1,1031 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<TITLE>
+SessionManagerImpl
+</TITLE>
+
+<META NAME="date" CONTENT="2016-11-09">
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="SessionManagerImpl";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/sun/grid/drmaa2/ReservationSessionImpl.html" title="class in com.sun.grid.drmaa2"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/sun/grid/drmaa2/SessionManagerImpl.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SessionManagerImpl.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.sun.grid.drmaa2</FONT>
+<BR>
+Class SessionManagerImpl</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>com.sun.grid.drmaa2.SessionManagerImpl</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public class <B>SessionManagerImpl</B><DT>extends java.lang.Object<DT>implements <A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></DL>
+</PRE>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#SessionManagerImpl()">SessionManagerImpl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#closeJobSession(org.ggf.drmaa2.JobSession)">closeJobSession</A></B>(<A HREF="../../../../org/ggf/drmaa2/JobSession.html" title="interface in org.ggf.drmaa2">JobSession</A>&nbsp;session)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#closeJobSession(java.lang.String)">closeJobSession</A></B>(java.lang.String&nbsp;sessionName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#closeMonitoringSession(org.ggf.drmaa2.MonitoringSession)">closeMonitoringSession</A></B>(<A HREF="../../../../org/ggf/drmaa2/MonitoringSession.html" title="interface in org.ggf.drmaa2">MonitoringSession</A>&nbsp;session)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#closeMonitoringSession(java.lang.String)">closeMonitoringSession</A></B>(java.lang.String&nbsp;sessionName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#closeReservationSession(org.ggf.drmaa2.ReservationSession)">closeReservationSession</A></B>(<A HREF="../../../../org/ggf/drmaa2/ReservationSession.html" title="interface in org.ggf.drmaa2">ReservationSession</A>&nbsp;session)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#closeReservationSession(java.lang.String)">closeReservationSession</A></B>(java.lang.String&nbsp;sessionName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../org/ggf/drmaa2/JobSession.html" title="interface in org.ggf.drmaa2">JobSession</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#createJobSession(com.sun.grid.drmaa2.AuthInfo, java.lang.String, java.lang.String)">createJobSession</A></B>(<A HREF="../../../../com/sun/grid/drmaa2/AuthInfo.html" title="class in com.sun.grid.drmaa2">AuthInfo</A>&nbsp;auth,
+                 java.lang.String&nbsp;sessionName,
+                 java.lang.String&nbsp;contact)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../org/ggf/drmaa2/JobSession.html" title="interface in org.ggf.drmaa2">JobSession</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#createJobSession(java.lang.String, java.lang.String)">createJobSession</A></B>(java.lang.String&nbsp;sessionName,
+                 java.lang.String&nbsp;contact)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../org/ggf/drmaa2/ReservationSession.html" title="interface in org.ggf.drmaa2">ReservationSession</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#createReservationSession(com.sun.grid.drmaa2.AuthInfo, java.lang.String, java.lang.String)">createReservationSession</A></B>(<A HREF="../../../../com/sun/grid/drmaa2/AuthInfo.html" title="class in com.sun.grid.drmaa2">AuthInfo</A>&nbsp;auth,
+                         java.lang.String&nbsp;sessionName,
+                         java.lang.String&nbsp;contact)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../org/ggf/drmaa2/ReservationSession.html" title="interface in org.ggf.drmaa2">ReservationSession</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#createReservationSession(java.lang.String, java.lang.String)">createReservationSession</A></B>(java.lang.String&nbsp;sessionName,
+                         java.lang.String&nbsp;contact)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#destroyJobSession(com.sun.grid.drmaa2.AuthInfo, org.ggf.drmaa2.JobSession)">destroyJobSession</A></B>(<A HREF="../../../../com/sun/grid/drmaa2/AuthInfo.html" title="class in com.sun.grid.drmaa2">AuthInfo</A>&nbsp;authInfo,
+                  <A HREF="../../../../org/ggf/drmaa2/JobSession.html" title="interface in org.ggf.drmaa2">JobSession</A>&nbsp;session)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#destroyJobSession(com.sun.grid.drmaa2.AuthInfo, java.lang.String)">destroyJobSession</A></B>(<A HREF="../../../../com/sun/grid/drmaa2/AuthInfo.html" title="class in com.sun.grid.drmaa2">AuthInfo</A>&nbsp;authInfo,
+                  java.lang.String&nbsp;sessionName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#destroyJobSession(org.ggf.drmaa2.JobSession)">destroyJobSession</A></B>(<A HREF="../../../../org/ggf/drmaa2/JobSession.html" title="interface in org.ggf.drmaa2">JobSession</A>&nbsp;session)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#destroyJobSession(java.lang.String)">destroyJobSession</A></B>(java.lang.String&nbsp;sessionName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#destroyReservationSession(com.sun.grid.drmaa2.AuthInfo, org.ggf.drmaa2.ReservationSession)">destroyReservationSession</A></B>(<A HREF="../../../../com/sun/grid/drmaa2/AuthInfo.html" title="class in com.sun.grid.drmaa2">AuthInfo</A>&nbsp;authInfo,
+                          <A HREF="../../../../org/ggf/drmaa2/ReservationSession.html" title="interface in org.ggf.drmaa2">ReservationSession</A>&nbsp;session)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#destroyReservationSession(com.sun.grid.drmaa2.AuthInfo, java.lang.String)">destroyReservationSession</A></B>(<A HREF="../../../../com/sun/grid/drmaa2/AuthInfo.html" title="class in com.sun.grid.drmaa2">AuthInfo</A>&nbsp;authInfo,
+                          java.lang.String&nbsp;sessionName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#destroyReservationSession(org.ggf.drmaa2.ReservationSession)">destroyReservationSession</A></B>(<A HREF="../../../../org/ggf/drmaa2/ReservationSession.html" title="interface in org.ggf.drmaa2">ReservationSession</A>&nbsp;session)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#destroyReservationSession(java.lang.String)">destroyReservationSession</A></B>(java.lang.String&nbsp;sessionName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#getDrmaaName()">getDrmaaName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../org/ggf/drmaa2/Version.html" title="class in org.ggf.drmaa2">Version</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#getDrmaaVersion()">getDrmaaVersion</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#getDrmsName()">getDrmsName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../org/ggf/drmaa2/Version.html" title="class in org.ggf.drmaa2">Version</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#getDrmsVersion()">getDrmsVersion</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#getJobInfoImplementationSpecificAttributeNames()">getJobInfoImplementationSpecificAttributeNames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#getJobSessionNames()">getJobSessionNames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#getJobTemplateImplementationSpecificAttributeNames()">getJobTemplateImplementationSpecificAttributeNames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#getReservationSessionNames()">getReservationSessionNames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../org/ggf/drmaa2/JobSession.html" title="interface in org.ggf.drmaa2">JobSession</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#openJobSession(java.lang.String)">openJobSession</A></B>(java.lang.String&nbsp;sessionName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../org/ggf/drmaa2/MonitoringSession.html" title="interface in org.ggf.drmaa2">MonitoringSession</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#openMonitoringSession(java.lang.String)">openMonitoringSession</A></B>(java.lang.String&nbsp;sessionName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../org/ggf/drmaa2/ReservationSession.html" title="interface in org.ggf.drmaa2">ReservationSession</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#openReservationSession(java.lang.String)">openReservationSession</A></B>(java.lang.String&nbsp;sessionName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#registerEventNotification(org.ggf.drmaa2.DrmaaCallback)">registerEventNotification</A></B>(<A HREF="../../../../org/ggf/drmaa2/DrmaaCallback.html" title="interface in org.ggf.drmaa2">DrmaaCallback</A>&nbsp;callback)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/sun/grid/drmaa2/SessionManagerImpl.html#supports(org.ggf.drmaa2.DrmaaCapability)">supports</A></B>(<A HREF="../../../../org/ggf/drmaa2/DrmaaCapability.html" title="enum in org.ggf.drmaa2">DrmaaCapability</A>&nbsp;capability)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>equals, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="SessionManagerImpl()"><!-- --></A><H3>
+SessionManagerImpl</H3>
+<PRE>
+public <B>SessionManagerImpl</B>()</PRE>
+<DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getDrmsName()"><!-- --></A><H3>
+getDrmsName</H3>
+<PRE>
+public java.lang.String <B>getDrmsName</B>()
+                             throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#getDrmsName()">getDrmsName</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDrmsVersion()"><!-- --></A><H3>
+getDrmsVersion</H3>
+<PRE>
+public <A HREF="../../../../org/ggf/drmaa2/Version.html" title="class in org.ggf.drmaa2">Version</A> <B>getDrmsVersion</B>()
+                       throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#getDrmsVersion()">getDrmsVersion</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDrmaaName()"><!-- --></A><H3>
+getDrmaaName</H3>
+<PRE>
+public java.lang.String <B>getDrmaaName</B>()
+                              throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#getDrmaaName()">getDrmaaName</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDrmaaVersion()"><!-- --></A><H3>
+getDrmaaVersion</H3>
+<PRE>
+public <A HREF="../../../../org/ggf/drmaa2/Version.html" title="class in org.ggf.drmaa2">Version</A> <B>getDrmaaVersion</B>()
+                        throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#getDrmaaVersion()">getDrmaaVersion</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="supports(org.ggf.drmaa2.DrmaaCapability)"><!-- --></A><H3>
+supports</H3>
+<PRE>
+public boolean <B>supports</B>(<A HREF="../../../../org/ggf/drmaa2/DrmaaCapability.html" title="enum in org.ggf.drmaa2">DrmaaCapability</A>&nbsp;capability)
+                 throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#supports(org.ggf.drmaa2.DrmaaCapability)">supports</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createJobSession(java.lang.String, java.lang.String)"><!-- --></A><H3>
+createJobSession</H3>
+<PRE>
+public <A HREF="../../../../org/ggf/drmaa2/JobSession.html" title="interface in org.ggf.drmaa2">JobSession</A> <B>createJobSession</B>(java.lang.String&nbsp;sessionName,
+                                   java.lang.String&nbsp;contact)
+                            throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#createJobSession(java.lang.String, java.lang.String)">createJobSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createJobSession(com.sun.grid.drmaa2.AuthInfo, java.lang.String, java.lang.String)"><!-- --></A><H3>
+createJobSession</H3>
+<PRE>
+public <A HREF="../../../../org/ggf/drmaa2/JobSession.html" title="interface in org.ggf.drmaa2">JobSession</A> <B>createJobSession</B>(<A HREF="../../../../com/sun/grid/drmaa2/AuthInfo.html" title="class in com.sun.grid.drmaa2">AuthInfo</A>&nbsp;auth,
+                                   java.lang.String&nbsp;sessionName,
+                                   java.lang.String&nbsp;contact)
+                            throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#createJobSession(com.sun.grid.drmaa2.AuthInfo, java.lang.String, java.lang.String)">createJobSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createReservationSession(java.lang.String, java.lang.String)"><!-- --></A><H3>
+createReservationSession</H3>
+<PRE>
+public <A HREF="../../../../org/ggf/drmaa2/ReservationSession.html" title="interface in org.ggf.drmaa2">ReservationSession</A> <B>createReservationSession</B>(java.lang.String&nbsp;sessionName,
+                                                   java.lang.String&nbsp;contact)
+                                            throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#createReservationSession(java.lang.String, java.lang.String)">createReservationSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createReservationSession(com.sun.grid.drmaa2.AuthInfo, java.lang.String, java.lang.String)"><!-- --></A><H3>
+createReservationSession</H3>
+<PRE>
+public <A HREF="../../../../org/ggf/drmaa2/ReservationSession.html" title="interface in org.ggf.drmaa2">ReservationSession</A> <B>createReservationSession</B>(<A HREF="../../../../com/sun/grid/drmaa2/AuthInfo.html" title="class in com.sun.grid.drmaa2">AuthInfo</A>&nbsp;auth,
+                                                   java.lang.String&nbsp;sessionName,
+                                                   java.lang.String&nbsp;contact)
+                                            throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#createReservationSession(com.sun.grid.drmaa2.AuthInfo, java.lang.String, java.lang.String)">createReservationSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="openJobSession(java.lang.String)"><!-- --></A><H3>
+openJobSession</H3>
+<PRE>
+public <A HREF="../../../../org/ggf/drmaa2/JobSession.html" title="interface in org.ggf.drmaa2">JobSession</A> <B>openJobSession</B>(java.lang.String&nbsp;sessionName)
+                          throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#openJobSession(java.lang.String)">openJobSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="openReservationSession(java.lang.String)"><!-- --></A><H3>
+openReservationSession</H3>
+<PRE>
+public <A HREF="../../../../org/ggf/drmaa2/ReservationSession.html" title="interface in org.ggf.drmaa2">ReservationSession</A> <B>openReservationSession</B>(java.lang.String&nbsp;sessionName)
+                                          throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#openReservationSession(java.lang.String)">openReservationSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="openMonitoringSession(java.lang.String)"><!-- --></A><H3>
+openMonitoringSession</H3>
+<PRE>
+public <A HREF="../../../../org/ggf/drmaa2/MonitoringSession.html" title="interface in org.ggf.drmaa2">MonitoringSession</A> <B>openMonitoringSession</B>(java.lang.String&nbsp;sessionName)
+                                        throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#openMonitoringSession(java.lang.String)">openMonitoringSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="closeJobSession(org.ggf.drmaa2.JobSession)"><!-- --></A><H3>
+closeJobSession</H3>
+<PRE>
+public void <B>closeJobSession</B>(<A HREF="../../../../org/ggf/drmaa2/JobSession.html" title="interface in org.ggf.drmaa2">JobSession</A>&nbsp;session)
+                     throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#closeJobSession(org.ggf.drmaa2.JobSession)">closeJobSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="closeReservationSession(org.ggf.drmaa2.ReservationSession)"><!-- --></A><H3>
+closeReservationSession</H3>
+<PRE>
+public void <B>closeReservationSession</B>(<A HREF="../../../../org/ggf/drmaa2/ReservationSession.html" title="interface in org.ggf.drmaa2">ReservationSession</A>&nbsp;session)
+                             throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#closeReservationSession(org.ggf.drmaa2.ReservationSession)">closeReservationSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="closeMonitoringSession(org.ggf.drmaa2.MonitoringSession)"><!-- --></A><H3>
+closeMonitoringSession</H3>
+<PRE>
+public void <B>closeMonitoringSession</B>(<A HREF="../../../../org/ggf/drmaa2/MonitoringSession.html" title="interface in org.ggf.drmaa2">MonitoringSession</A>&nbsp;session)
+                            throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#closeMonitoringSession(org.ggf.drmaa2.MonitoringSession)">closeMonitoringSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="destroyJobSession(org.ggf.drmaa2.JobSession)"><!-- --></A><H3>
+destroyJobSession</H3>
+<PRE>
+public void <B>destroyJobSession</B>(<A HREF="../../../../org/ggf/drmaa2/JobSession.html" title="interface in org.ggf.drmaa2">JobSession</A>&nbsp;session)
+                       throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#destroyJobSession(org.ggf.drmaa2.JobSession)">destroyJobSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="destroyJobSession(com.sun.grid.drmaa2.AuthInfo, org.ggf.drmaa2.JobSession)"><!-- --></A><H3>
+destroyJobSession</H3>
+<PRE>
+public void <B>destroyJobSession</B>(<A HREF="../../../../com/sun/grid/drmaa2/AuthInfo.html" title="class in com.sun.grid.drmaa2">AuthInfo</A>&nbsp;authInfo,
+                              <A HREF="../../../../org/ggf/drmaa2/JobSession.html" title="interface in org.ggf.drmaa2">JobSession</A>&nbsp;session)
+                       throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#destroyJobSession(com.sun.grid.drmaa2.AuthInfo, org.ggf.drmaa2.JobSession)">destroyJobSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="destroyReservationSession(org.ggf.drmaa2.ReservationSession)"><!-- --></A><H3>
+destroyReservationSession</H3>
+<PRE>
+public void <B>destroyReservationSession</B>(<A HREF="../../../../org/ggf/drmaa2/ReservationSession.html" title="interface in org.ggf.drmaa2">ReservationSession</A>&nbsp;session)
+                               throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#destroyReservationSession(org.ggf.drmaa2.ReservationSession)">destroyReservationSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="destroyReservationSession(com.sun.grid.drmaa2.AuthInfo, org.ggf.drmaa2.ReservationSession)"><!-- --></A><H3>
+destroyReservationSession</H3>
+<PRE>
+public void <B>destroyReservationSession</B>(<A HREF="../../../../com/sun/grid/drmaa2/AuthInfo.html" title="class in com.sun.grid.drmaa2">AuthInfo</A>&nbsp;authInfo,
+                                      <A HREF="../../../../org/ggf/drmaa2/ReservationSession.html" title="interface in org.ggf.drmaa2">ReservationSession</A>&nbsp;session)
+                               throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#destroyReservationSession(com.sun.grid.drmaa2.AuthInfo, org.ggf.drmaa2.ReservationSession)">destroyReservationSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getJobSessionNames()"><!-- --></A><H3>
+getJobSessionNames</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>getJobSessionNames</B>()
+                                                    throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#getJobSessionNames()">getJobSessionNames</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getReservationSessionNames()"><!-- --></A><H3>
+getReservationSessionNames</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>getReservationSessionNames</B>()
+                                                            throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#getReservationSessionNames()">getReservationSessionNames</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="registerEventNotification(org.ggf.drmaa2.DrmaaCallback)"><!-- --></A><H3>
+registerEventNotification</H3>
+<PRE>
+public void <B>registerEventNotification</B>(<A HREF="../../../../org/ggf/drmaa2/DrmaaCallback.html" title="interface in org.ggf.drmaa2">DrmaaCallback</A>&nbsp;callback)
+                               throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#registerEventNotification(org.ggf.drmaa2.DrmaaCallback)">registerEventNotification</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="closeJobSession(java.lang.String)"><!-- --></A><H3>
+closeJobSession</H3>
+<PRE>
+public void <B>closeJobSession</B>(java.lang.String&nbsp;sessionName)
+                     throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#closeJobSession(java.lang.String)">closeJobSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="closeReservationSession(java.lang.String)"><!-- --></A><H3>
+closeReservationSession</H3>
+<PRE>
+public void <B>closeReservationSession</B>(java.lang.String&nbsp;sessionName)
+                             throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#closeReservationSession(java.lang.String)">closeReservationSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="closeMonitoringSession(java.lang.String)"><!-- --></A><H3>
+closeMonitoringSession</H3>
+<PRE>
+public void <B>closeMonitoringSession</B>(java.lang.String&nbsp;sessionName)
+                            throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#closeMonitoringSession(java.lang.String)">closeMonitoringSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="destroyJobSession(com.sun.grid.drmaa2.AuthInfo, java.lang.String)"><!-- --></A><H3>
+destroyJobSession</H3>
+<PRE>
+public void <B>destroyJobSession</B>(<A HREF="../../../../com/sun/grid/drmaa2/AuthInfo.html" title="class in com.sun.grid.drmaa2">AuthInfo</A>&nbsp;authInfo,
+                              java.lang.String&nbsp;sessionName)
+                       throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#destroyJobSession(com.sun.grid.drmaa2.AuthInfo, java.lang.String)">destroyJobSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="destroyJobSession(java.lang.String)"><!-- --></A><H3>
+destroyJobSession</H3>
+<PRE>
+public void <B>destroyJobSession</B>(java.lang.String&nbsp;sessionName)
+                       throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#destroyJobSession(java.lang.String)">destroyJobSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="destroyReservationSession(com.sun.grid.drmaa2.AuthInfo, java.lang.String)"><!-- --></A><H3>
+destroyReservationSession</H3>
+<PRE>
+public void <B>destroyReservationSession</B>(<A HREF="../../../../com/sun/grid/drmaa2/AuthInfo.html" title="class in com.sun.grid.drmaa2">AuthInfo</A>&nbsp;authInfo,
+                                      java.lang.String&nbsp;sessionName)
+                               throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#destroyReservationSession(com.sun.grid.drmaa2.AuthInfo, java.lang.String)">destroyReservationSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="destroyReservationSession(java.lang.String)"><!-- --></A><H3>
+destroyReservationSession</H3>
+<PRE>
+public void <B>destroyReservationSession</B>(java.lang.String&nbsp;sessionName)
+                               throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#destroyReservationSession(java.lang.String)">destroyReservationSession</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getJobTemplateImplementationSpecificAttributeNames()"><!-- --></A><H3>
+getJobTemplateImplementationSpecificAttributeNames</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>getJobTemplateImplementationSpecificAttributeNames</B>()
+                                                                                    throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#getJobTemplateImplementationSpecificAttributeNames()">getJobTemplateImplementationSpecificAttributeNames</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getJobInfoImplementationSpecificAttributeNames()"><!-- --></A><H3>
+getJobInfoImplementationSpecificAttributeNames</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>getJobInfoImplementationSpecificAttributeNames</B>()
+                                                                                throws <A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html#getJobInfoImplementationSpecificAttributeNames()">getJobInfoImplementationSpecificAttributeNames</A></CODE> in interface <CODE><A HREF="../../../../org/ggf/drmaa2/SessionManager.html" title="interface in org.ggf.drmaa2">SessionManager</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../org/ggf/drmaa2/DrmaaException.html" title="class in org.ggf.drmaa2">DrmaaException</A></CODE></DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/sun/grid/drmaa2/ReservationSessionImpl.html" title="class in com.sun.grid.drmaa2"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/sun/grid/drmaa2/SessionManagerImpl.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SessionManagerImpl.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+<!--___INFO__MARK_BEGIN__-->
+The contents of this file are licensed under the <a href="http://gridengine.sunsource.net/Gridengine_SISSL_license.html">Sun Industry Standards Source License version 1.2</a>.<br>
+Copyright 2008, Sun Microsystems, Inc.
+<!--___INFO__MARK_END__-->
+</BODY>
+</HTML>

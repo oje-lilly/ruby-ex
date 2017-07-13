@@ -1,0 +1,57 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_DICT_FREE" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_dict_free\fR \- drmaa2_dict_free, Frees a DRMAA2 dictionary\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+void drmaa2_dict_free(drmaa2_dict * dict);
+.
+.SH "DESCRIPTION"
+Frees the DRMAA2 dictionary and sets it to NULL\. If the dictionary was created with a callback function, this function is called for all elements of the dictionary\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+static void drmaa2_dict_string_free(char** key, char** value)
+{
+   drmaa2_string_free(key);
+   drmaa2_string_free(value);
+}
+
+/* \.\.\. */
+
+/* Create dictionary for job environment variables\. */
+drmaa2_dict dict = drmaa2_dict_create((drmaa2_dict_entryfree)drmaa2_dict_string_free);
+
+if (dict == NULL) {
+   printf("Error: Could not create a new dictionary\.\en");
+   return;
+}
+
+if (drmaa2_dict_set(dict, strdup("key"), strdup("value")) != DRMAA2_SUCCESS) {
+   printf("Error: Could not set a new value in the dictionary\.\en");
+   return;
+}
+
+if (drmaa2_dict_set(dict, strdup("key2"), strdup("")) != DRMAA2_SUCCESS) {
+   printf("Error: Could not set a new value in the dictionary\.\en");
+   return;
+}
+
+/* Frees strings implicitly\. */
+drmaa2_dict_free(&dict);
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_dict_create(3), drmaa2_dict_free(3), drmaa2_dict_list(3), drmaa2_dict_has(3), drmaa2_dict_get(3), drmaa2_dict_del(3), drmaa2_dict_set(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

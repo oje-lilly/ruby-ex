@@ -1,0 +1,35 @@
+#___INFO__MARK_BEGIN__
+###########################################################################
+#
+#  The contents of this file are made available subject to the terms of the
+#  Apache Software License 2.0 ('The License').
+#  You may not use this file except in compliance with The License.
+#  You may obtain a copy of The License at
+#  http://www.apache.org/licenses/LICENSE-2.0.html
+#
+#  Copyright (c) 2011-2015 Univa Corporation.
+#
+###########################################################################
+#___INFO__MARK_END__
+Tight integration for mpich2 was tested with version
+mpich2-1.4.1p1.
+
+Building mpich2
+===============
+No special options are needed for configuration and build of mpich2.
+Grid Engine tight integration is enabled by default.
+
+Installing the PE
+=================
+qconf -Ap $SGE_ROOT/mpi/mpich2/mpich2.template
+
+Note
+====
+In the tested version 1.4.1p1 mpirun correctly recognizes UGE as
+resource management system and starts slave tasks via
+qrsh -inherit <host> <command>
+On the master node slave tasks are started via fork/exec, therefore the
+PE attribute master_forks_slaves is set to TRUE.
+Should your specific mpich2 version behave differently and you see
+qrsh -inherit calls done to the master node failing,
+set master_forks_slaves to FALSE.

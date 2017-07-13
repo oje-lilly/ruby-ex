@@ -1,0 +1,53 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_J_GET_INFO" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_j_get_info\fR \- drmaa2_j_get_info, Returns the detailed information about a job\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.IP "" 4
+.
+.nf
+
+typedef struct {
+   drmaa2_string      jobId;
+   int                exitStatus;
+   drmaa2_string      terminatingSignal;
+   drmaa2_string      annotation;
+   drmaa2_jstate      jobState;
+   drmaa2_string      jobSubState;
+   drmaa2_string_list allocatedMachines;
+   drmaa2_string      submissionMachine;
+   drmaa2_string      jobOwner;
+   long long          slots;
+   drmaa2_string      queueName;
+   time_t             wallclockTime;
+   long long          cpuTime;
+   time_t             submissionTime;
+   time_t             dispatchTime;
+   time_t             finishTime;
+} drmaa2_jinfo_s;
+typedef drmaa2_jinfo_s * drmaa2_jinfo;
+.
+.fi
+.
+.IP "" 0
+.
+.P
+drmaa2_jinfo drmaa2_j_get_info(const drmaa2_j job)
+.
+.SH "DESCRIPTION"
+Creates a \fBdrmaa2_jinfo\fR object containing all currently available job information\. Not all fields might be set depeding on the job state\.
+.
+.SH "RETURN VALUES"
+Returns a newly allocated \fBdrmaa2_jinfo\fR object which must be freed from the calling function or NULL in case of an error\. In case of an error the error reason is set in the context of the calling thread\. It can be read out by using the drmaa2_geterror(3) and drmaa2_geterror_text(3) functions\.
+.
+.SH "SEE ALSO"
+drmaa2_jinfo_free(3), drmaa2_geterror(3), drmaa2_geterror_text(3), drmaa2_j_suspend(3), drmaa2_j_resume(3), drmaa2_j_hold(3), drmaa2_j_release(3), drmaa2_j_terminate(3), drmaa2_j_get_id(3), drmaa2_j_get_session_name(3), drmaa2_j_get_jt(3), drmaa2_j_get_state(3), drmaa2_j_get_info(3), drmaa2_j_wait_started(3), drmaa2_j_wait_terminated(3), drmaa2_jsession_run_job(3), drmaa2_j_free(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

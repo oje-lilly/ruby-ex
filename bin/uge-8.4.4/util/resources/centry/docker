@@ -1,0 +1,13 @@
+# Version: Grid Engine 8.3.2
+#
+# DO NOT MODIFY THIS FILE MANUALLY!
+#
+name        docker
+shortcut    dock
+type        BOOL
+relop       ==
+requestable YES
+consumable  NO
+default     0
+urgency     0
+aapre       FALSE

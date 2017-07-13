@@ -1,0 +1,96 @@
+'\" t
+.\"___INFO__MARK_BEGIN__
+.\"
+.\" Copyright: 2004 by Sun Microsystems, Inc.
+.\"
+.\" Portions of this software are Copyright (c) 2011 Univa Corporation
+.\"
+.\"___INFO__MARK_END__
+.\"
+.\" Some handy macro definitions [from Tom Christensen's man(1) manual page].
+.\"
+.de SB		\" small and bold
+.if !"\\$1"" \\s-2\\fB\&\\$1\\s0\\fR\\$2 \\$3 \\$4 \\$5
+..
+.\"
+.de T		\" switch to typewriter font
+.ft CW		\" probably want CW if you don't have TA font
+..
+.\"
+.de TY		\" put $1 in typewriter font
+.if t .T
+.if n ``\c
+\\$1\c
+.if t .ft P
+.if n \&''\c
+\\$2
+..
+.\"
+.de M		\" man page reference
+\\fI\\$1\\fR\\|(\\$2)\\$3
+..
+.TH uge_js_service.exe 8 "UGE 8.4.4" "Univa Grid Engine Administrative Commands"
+.SH NAME
+uge_js_service.exe \- Univa Grid Engine job starter service
+.\"
+.\"
+.SH SYNOPSIS
+.B uge_js_service.exe
+[
+.B \-help
+|
+.B \-install 
+|
+.B \-uninstall
+]
+.\"
+.\"
+.SH DESCRIPTION
+.PP
+.I uge_js_service.exe cooperates with the
+.M sge_execd 8
+to run jobs on Windows hosts. It is a Win32 service that is started at boot time
+under the "Local System" account, giving it the permissions to give any process the
+permissions to access the visible Desktop in order to let jobs display their GUI there.
+.br
+This service runs independently of the
+.M sge_execd 8
+(i.e. it is not started and stopped together with the execution daemon) and there
+can be only one
+.I uge_js_service.exe per host.
+.PP
+Jobs can request to be allowed to display their GUI on the visible desktop by 
+requesting the resource "display_win_gui" (qsub -l display_win_gui=1).
+.PP
+The Windows administrator can operate this service using the usual Windows
+Service Control Manager or the "net" command. The "start" method starts the
+service if possible, the "stop" method stops it regardless of any jobs that
+might be still running. For a graceful shutdown, first run the "pause" method.
+This will start the shutdown procedure of the service and prevent it from
+accepting any further jobs. After this, the "resume" (aka "continue") method
+will fail as long as there are jobs running in the
+.I uge_js_service.exe.
+If no job is left in the service, the "resume" method will succeed and the
+service will stop.
+.br
+.\"
+.\"
+.SH OPTIONS
+.\"
+.SS "\fB\-help\fP"
+Prints a listing of all options.
+.SS "\fB\-install\fP"
+Installs the service. Only the local Administrator has the permissions to install the service.
+.SS "\fB\-uninstall\fP"
+Uninstalls the service. Only the local Administrator has the permissions to uninstall the service. Only a stopped service can be uninstalled. See the Windows command net.exe for information on how to stop a service.
+.fi
+.\"
+.\"
+.SH "SEE ALSO"
+.M sge_intro 1 ,
+.M sge_execd 8 .
+.\"
+.SH "COPYRIGHT"
+See
+.M sge_intro 1
+for a full statement of rights and permissions.

@@ -1,0 +1,84 @@
+SGE_PASSWD(1)                                                    SGE_PASSWD(1)
+
+
+
+NNAAMMEE
+       sgepasswd - Modify the Univa Grid Engine password file
+
+SSYYNNTTAAXX
+       ssggeeppaasssswwdd [[ --DD ddoommaaiinn ] --dd uusseerr ]
+
+       ssggeeppaasssswwdd [ --DD ddoommaaiinn ] [ uusseerr ]
+
+DDEESSCCRRIIPPTTIIOONN
+       _s_g_e_p_a_s_s_w_d modifies the Univa Grid Engine password file _s_g_e_p_a_s_s_w_d(5).
+
+       This  file  contains  a list of usernames and their windows password in
+       encrypted form.  _s_g_e___e_x_e_c_d(8)  and  _s_g_e___s_h_e_p_h_e_r_d(8)  on  hosts  running
+       Microsoft  Windows  as  operating systems use this information to start
+       jobs for a certain user.
+
+       Each user can use the _s_g_e_p_a_s_s_w_d application to add a new entry for  the
+       own  user  account.  It  is also possible to change the stored password
+       with _s_g_e_p_a_s_s_w_d as far as the user knows the old one.
+
+       The root user additionally has the permission to  change  the  password
+       entries for other user accounts. Root can also delete existing entries.
+
+       The _s_g_e_p_a_s_s_w_d application is only available on  non-Windows  hosts.  In
+       order  to be able to modify the _s_g_e_p_a_s_s_w_d(5) file, the _s_g_e_p_a_s_s_w_d appli-
+       cation needs to run with the right user ID  set  (usually  the  one  of
+       root).  To  achieve this, the setuid bit has to be set in the file per-
+       missions and the _s_g_e_p_a_s_s_w_d application has to be  owned  by  the  right
+       user  (usually  root).  The _s_g_e___q_m_a_s_t_e_r(8) installation script sets the
+       permissions and owner properly if it is requested.
+
+       The "ls -l" output of the _s_g_e_p_a_s_s_w_d application should look like this:
+
+       -r-sr-xr-x  1 root root 4136176 Dec 10 15:51 sgepasswd
+
+       However, the setuid mechanism does not work if the  _s_g_e_p_a_s_s_w_d  applica-
+       tion resides on a file system that is mounted with the "nosuid" option.
+       If policies require the $SGE_ROOT directory to be  located  on  such  a
+       file  system, copying the _s_g_e_p_a_s_s_w_d application to a different location
+       is a possible workaround for this problem.
+
+
+
+OOPPTTIIOONNSS
+       --DD ddoommaaiinn
+              Per default _s_g_e_p_a_s_s_w_d will add/modify the current Unix  username
+              without  domain specification.  This switch can be used to add a
+              domain specification in front of the current user name.  Consult
+              your  Microsoft  Windows  documentation  to get more information
+              about domain users.
+
+       --dd uusseerr
+              Only root can use this parameter  to  delete  entries  from  the
+              _s_g_e_p_a_s_s_w_d(5) file.
+
+       --hheellpp  Prints a listing of all options.
+
+EENNVVIIRROONNMMEENNTTAALL VVAARRIIAABBLLEESS
+       SSGGEE__CCEERRTTFFIILLEE   Specifies  the  location of public key file. Per default
+                      _s_g_e_p_a_s_s_w_d will  use  the  file  $SGE_ROOT/$SGE_CELL/com-
+                      mon/sgeCA/certs/cert.pem
+
+       SSGGEE__KKEEYYFFIILLEE    If  set, specifies the location of the private key file.
+                      Default          is           /var/sgeCA/port${SGE_QMAS-
+                      TER_PORT}/${SGE_CELL}/private/key.pem
+
+       SSGGEE__RRAANNDDFFIILLEE   If  set, specifies the location of the seed used to cre-
+                      ate encrypted versions of  user  passwords.  Default  is
+                      /var/sgeCA/port${SGE_QMASTER_PORT}/${SGE_CELL}/pri-
+                      vate/rand.seed
+
+SSEEEE AALLSSOO
+       _s_g_e___i_n_t_r_o(1), _s_g_e_p_a_s_s_w_d(5)
+
+CCOOPPYYRRIIGGHHTT
+       See _s_g_e___i_n_t_r_o(1) for a full statement of rights and permissions.
+
+
+
+Univa Grid Engine User Commands    UGE 8.4.4                     SGE_PASSWD(1)

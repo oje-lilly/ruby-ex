@@ -1,0 +1,30 @@
+# UGE CMU START
+SERVER;Univa Grid Engine|Start qmaster; source UGEPATH/UGECELL/common/settings.sh && UGEPATH/util/resources/CMU/scripts/startup_qmaster.sh 
+SERVER;Univa Grid Engine|Stop qmaster; source UGEPATH/UGECELL/common/settings.sh && qconf -km
+TERMINAL;Univa Grid Engine|Modify Global Configuration; source UGEPATH/UGECELL/common/settings.sh && qconf -mconf
+TERMINAL;Univa Grid Engine|Show Global Configuration; source UGEPATH/UGECELL/common/settings.sh && qconf -sconf
+TERMINAL;Univa Grid Engine|Modify Scheduler Configuration; source UGEPATH/UGECELL/common/settings.sh && qconf -msconf
+TERMINAL;Univa Grid Engine|Show Scheduler Configuration; source UGEPATH/UGECELL/common/settings.sh && qconf -ssconf
+TERMINAL;Univa Grid Engine|Show Queue Instances; source UGEPATH/UGECELL/common/settings.sh && qstat -f
+TERMINAL;Univa Grid Engine|Modify Resource/Complex Configuration; source UGEPATH/UGECELL/common/settings.sh && qconf -mc
+TERMINAL;Univa Grid Engine|Create Grid Engine Backup; UGEPATH/util/resources/CMU/scripts/create_restore_backup.sh backup
+TERMINAL;Univa Grid Engine|Restore Configuration from Backup; source UGEPATH/util/resources/CMU/scripts/create_restore_backup.sh restore
+SERVER;Univa Grid Engine|Kill Jobs; source UGEPATH/UGECELL/common/settings.sh && for i in `cat CMU_TEMP_NODE_FILE`; do i=`UGEPATH/utilbin/lx-amd64/gethostbyname $i | awk 'BEGIN{ m=1 } /^Hostname/ { print $2; m=0 } END {exit m}'`; UGEPATH/util/resources/CMU/scripts/kill_jobs_on_host.sh $i; done
+SERVER;Univa Grid Engine|Reschedule Jobs; source UGEPATH/UGECELL/common/settings.sh && for i in `cat CMU_TEMP_NODE_FILE`; do i=`UGEPATH/utilbin/lx-amd64/gethostbyname $i | awk 'BEGIN{ m=1 } /^Hostname/ { print $2; m=0 } END {exit m}'`; UGEPATH/util/resources/CMU/scripts/reschedule_jobs_on_host.sh $i; done
+SERVER;Univa Grid Engine|Disable Queue Instances; source UGEPATH/UGECELL/common/settings.sh && for i in `cat CMU_TEMP_NODE_FILE`; do i=`UGEPATH/utilbin/lx-amd64/gethostbyname $i | awk 'BEGIN{ m=1 } /^Hostname/ { print $2; m=0 } END {exit m}'`; UGEPATH/util/resources/CMU/scripts/disable_qis_on_host.sh $i; done
+SERVER;Univa Grid Engine|Enable Queue Instances; source UGEPATH/UGECELL/common/settings.sh && for i in `cat CMU_TEMP_NODE_FILE`; do i=`UGEPATH/utilbin/lx-amd64/gethostbyname $i | awk 'BEGIN{ m=1 } /^Hostname/ { print $2; m=0 } END {exit m}'`; UGEPATH/util/resources/CMU/scripts/enable_qis_on_host.sh $i; done
+SERVER;Univa Grid Engine|Shutdown Execution Daemon; source UGEPATH/UGECELL/common/settings.sh && for i in `cat CMU_TEMP_NODE_FILE`; do i=`UGEPATH/utilbin/lx-amd64/gethostbyname $i | awk 'BEGIN{ m=1 } /^Hostname/ { print $2; m=0 } END {exit m}'`; UGEPATH/util/resources/CMU/scripts/kill_execd.sh $i; done
+SERVER;Univa Grid Engine|Startup Execution Daemon; source UGEPATH/UGECELL/common/settings.sh && for i in `cat CMU_TEMP_NODE_FILE`; do i=`UGEPATH/utilbin/lx-amd64/gethostbyname $i | awk 'BEGIN{ m=1 } /^Hostname/ { print $2; m=0 } END {exit m}'`; UGEPATH/util/resources/CMU/scripts/startup_execd.sh $i; done
+# context menu (just only one selected)
+TERMINAL;Univa Grid Engine|Show Jobs on Host; source UGEPATH/UGECELL/common/settings.sh && qhost -j -h CMU_ONE_NODE_SELECTED | tail -n +7 | sed -e 's/^ *//g'
+TERMINAL;Univa Grid Engine|Modify Host Configuration; source UGEPATH/UGECELL/common/settings.sh && qconf -mconf CMU_ONE_NODE_SELECTED
+TERMINAL;Univa Grid Engine|Modify Execution Configuration; source UGEPATH/UGECELL/common/settings.sh && qconf -me CMU_ONE_NODE_SELECTED
+TERMINAL;Univa Grid Engine|Add as Submit Host; source UGEPATH/UGECELL/common/settings.sh && for i in `cat CMU_TEMP_NODE_FILE`; do i=`UGEPATH/utilbin/lx-amd64/gethostbyname $i | awk 'BEGIN{ m=1 } /^Hostname/ { print $2; m=0 } END {exit m}'`; qconf -as $i; done
+TERMINAL;Univa Grid Engine|Delete as Submit Host; source UGEPATH/UGECELL/common/settings.sh && for i in `cat CMU_TEMP_NODE_FILE`; do i=`UGEPATH/utilbin/lx-amd64/gethostbyname $i | awk 'BEGIN{ m=1 } /^Hostname/ { print $2; m=0 } END {exit m}'`; qconf -ds $i; done
+TERMINAL;Univa Grid Engine|Add as Admin Host; source UGEPATH/UGECELL/common/settings.sh && for i in `cat CMU_TEMP_NODE_FILE`; do i=`UGEPATH/utilbin/lx-amd64/gethostbyname $i | awk 'BEGIN{ m=1 } /^Hostname/ { print $2; m=0 } END {exit m}'`; qconf -ah $i; done
+TERMINAL;Univa Grid Engine|Delete as Admin Host; source UGEPATH/UGECELL/common/settings.sh && for i in `cat CMU_TEMP_NODE_FILE`; do i=`UGEPATH/utilbin/lx-amd64/gethostbyname $i | awk 'BEGIN{ m=1 } /^Hostname/ { print $2; m=0 } END {exit m}'`; qconf -dh $i; done
+TERMINAL;Univa Grid Engine|Migrate Grid Engine Master; source UGEPATH/UGECELL/common/settings.sh && UGEPATH/util/resources/CMU/scripts/migrate_master.sh CMU_ONE_NODE_SELECTED
+# global menu
+GUI;Univa Grid Engine|Univa Information;BROWSE http://www.univa.com
+GUI;Univa Grid Engine|Univa Support;BROWSE http://support.univa.com
+# add links to wiki only when available on servers 

@@ -1,0 +1,39 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_GET_DRMS_VERSION" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_get_drms_version\fR \- drmaa2_get_drms_version, Returns the version of the DRMS
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_version drmaa2_get_drms_version();
+.
+.SH "DESCRIPTION"
+Allocates a new \fBdrmaa2_version\fR object with the major and minor version of \fBUniva(R) Grid Engine(TM)\fR\.
+.
+.SH "RETURN VALUES"
+Upon successful completion drmaa2_get_drms_version(3) returns a newly allocated \fBdrmaa2_version\fR object\. In case of out\-of\-memory NULL is returned\. The newly allocated object must be freed with drmaa2_version_free(3)\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_version v = drmaa2_get_drms_version();
+
+if (v != NULL) {
+   fprintf("Major version: %s", (char *) v\->major);
+   fprintf("Minor version: %s", (char *) v\->minor);
+   drmaa2_version_free(&v);
+}
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_version(3), drmaa2_version_free(3), drmaa2_get_drms_name(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

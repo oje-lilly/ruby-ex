@@ -1,0 +1,51 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_J_GET_STATE" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_j_get_state\fR \- drmaa2_j_get_state, Returns the job state\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.IP "" 4
+.
+.nf
+
+typedef enum drmaa2_jstate {
+   DRMAA2_UNDETERMINED                =  0,
+   DRMAA2_QUEUED                      =  1,
+   DRMAA2_QUEUED_HELD                 =  2,
+   DRMAA2_RUNNING                     =  3,
+   DRMAA2_SUSPENDED                   =  4,
+   DRMAA2_REQUEUED                    =  5,
+   DRMAA2_REQUEUED_HELD               =  6,
+   DRMAA2_DONE                        =  7,
+   DRMAA2_FAILED                      =  8
+} drmaa2_jstate;
+.
+.fi
+.
+.IP "" 0
+.
+.P
+drmaa2_jstate drmaa2_j_get_state(const drmaa2_j job, drmaa2_string *substate)
+.
+.SH "DESCRIPTION"
+Determines the current state of a DRMAA2 job\. Since the \fBUniva(R) Grid Engine(TM)\fR DRMAA2 implemenation is event based, the function call does not result in any addionaly communication to the Grid Engine master process\. Hence this function can be savely called in a loop while waiting for a specific job state\.
+.
+.P
+Currently the sub\-state does not provide any information so the second argument must be NULL\.
+.
+.P
+A job state can be fetched for any kind jobs which are currently visible through open job and monitoring sessions\.
+.
+.SH "RETURN VALUES"
+Returns a DRMAA2 job state (\fBdrmaa2_jstate\fR)\. In case the job stated can not be fetched DRMAA2_UNDETERMINED is returned and the failure reason is set in the context of the calling thread\. It can be read out by using the drmaa2_geterror(3) and drmaa2_geterror_text(3) functions\.
+.
+.SH "SEE ALSO"
+drmaa2_geterror(3), drmaa2_geterror_text(3), drmaa2_j_suspend(3), drmaa2_j_resume(3), drmaa2_j_hold(3), drmaa2_j_release(3), drmaa2_j_terminate(3), drmaa2_j_get_id(3), drmaa2_j_get_session_name(3), drmaa2_j_get_jt(3), drmaa2_j_get_state(3), drmaa2_j_get_info(3), drmaa2_j_wait_started(3), drmaa2_j_wait_terminated(3), drmaa2_jsession_run_job(3), drmaa2_j_free(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

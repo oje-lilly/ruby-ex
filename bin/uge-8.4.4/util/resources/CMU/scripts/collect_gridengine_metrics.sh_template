@@ -1,0 +1,116 @@
+#!/bin/sh
+#___INFO__MARK_BEGIN__
+#############################################################################
+#
+#  This code is the Property, a Trade Secret and the Confidential Information
+#  of Univa Corporation.
+#
+#  Copyright Univa Corporation. All Rights Reserved. Access is Restricted.
+#
+#  It is provided to you under the terms of the
+#  Univa Term Software License Agreement.
+#
+#  If you have any questions, please contact our Support Department.
+#
+#  www.univa.com
+#
+###########################################################################
+#___INFO__MARK_END__
+
+source UGEPATH/util/resources/CMU/scripts/uge_settings.sh
+PATH=CMUPATH:$PATH
+
+# Collect Univa Grid Engine metrics like jobs per host.
+get_gridengine_metrics () {
+   # for all configured CMU nodes, check UGE metrics
+   if [ -f /tmp/metrics$$.txt ]; then
+      rm /tmp/metrics$$.txt
+   fi
+   
+   # global qhost call
+   qhost > /tmp/qhost$$.txt
+   # global qhost slots call
+   qstat -F slots > /tmp/qstat_slots$$.txt
+   # global qstat m_topology_inuse call
+   qhost -F m_topology_inuse > /tmp/qhost_m_topology_inuse$$.txt
+   # global list of submit host roles
+   qconf -ss | awk -F"." '{print $1}' >> /tmp/qconf_ss$$.txt
+   # global list of admin host roles
+   qconf -sh | awk -F"." '{print $1}' >> /tmp/qconf_sh$$.txt
+
+   for i in `cmu_show_nodes`; do
+      # while qstat can report long host name qhost always
+      # returns short host name
+      host_name=`$SGE_ROOT/utilbin/lx-amd64/gethostbyname -name $i`
+      echo "BEGIN_NODE $i" >> /tmp/metrics$$.txt
+      # check if execution daemon is up/down/not configured
+      load=`cat /tmp/qhost$$.txt | grep $i | awk '{print $7}'`
+      if [ "$load" == "" ]; then
+         echo UGE_execd_state NA >> /tmp/metrics$$.txt
+      elif [ "$load" == "-" ]; then 
+         echo UGE_execd_state offline >> /tmp/metrics$$.txt
+      else
+         echo UGE_execd_state online >> /tmp/metrics$$.txt
+         # on online hosts additionally check the
+         # amount of jobs running on that host
+         qhost -h $i -j > /tmp/qhosth$$.out
+         # searching for each line with 9 columns (could a slave task
+         # on a remote host or the master task) / other tasks of the
+         # job are following with 2 columns after those lines.
+         running_jobs=`cat /tmp/qhosth$$.out | tail -n +7 | awk '{print NF}' | grep 9  | wc -l`
+         echo UGE_running_jobs $running_jobs >> /tmp/metrics$$.txt
+         # amount of consumed slots
+         lines=`cat /tmp/qhosth$$.out | wc -l`
+         if [ $lines -lt 6 ]; then
+            echo UGE_consumed_slots 0 >> /tmp/metrics$$.txt
+         else
+            lines=`expr $lines - 6`
+            echo UGE_consumed_slots $lines >> /tmp/metrics$$.txt
+         fi
+         rm /tmp/qhosth$$.out
+
+         # amount of configured slots on that host
+         # (the sum of all queue instances)
+         slots=`cat /tmp/qstat_slots$$.txt | grep -A1 "@$host_name " | grep "qc:slots=" | cut -f2 -d"=" | awk '{sum += $1} END {print sum}'`
+         echo UGE_free_slots $slots >> /tmp/metrics$$.txt
+         # m_topology_inuse
+         topology=`cat /tmp/qhost_m_topology_inuse$$.txt | grep -A1 "^$i " | tail -n 1 | cut -f2 -d"="`
+         echo UGE_topology_inuse $topology >> /tmp/metrics$$.txt
+
+         # check if host is submit host or admin host
+         host_length=`echo $i | wc -c`
+         submithost_length=`cat /tmp/qconf_ss$$.txt | grep ^$i | wc -c`
+         adminhost_length=`cat /tmp/qconf_sh$$.txt | grep ^$i | wc -c`
+         role="-"
+         if [ $submithost_length -eq $host_length -a $adminhost_length -eq $host_length ]; then
+            role="adminhost,submithost"
+         else
+            if [ $submithost_length -eq $host_length ]; then
+               role="submithost"
+            elif [ $adminhost_length -eq $host_length ]; then
+               role="adminhost"
+            fi
+         fi
+         echo UGE_host_roles $role >> /tmp/metrics$$.txt
+      fi
+   done
+   
+   rm -f /tmp/qhost$$.txt
+   rm -f /tmp/qstat_slots$$.txt
+   rm -f /tmp/qhost_m_topology_inuse$$.txt
+   rm -r /tmp/qconf_ss$$.txt
+   rm -r /tmp/qconf_sh$$.txt
+}
+
+# Collect metrics every 15 seconds
+while [ 1 ]; do
+   get_gridengine_metrics
+   cmu_submit_extended_metrics -f /tmp/metrics$$.txt
+   # update more often then the 5 second inteval from CMU
+   for i in `seq 1 5`; do
+      sleep 3
+      cmu_submit_extended_metrics -f /tmp/metrics$$.txt
+   done
+   # save always in same file for debugging
+   mv /tmp/metrics$$.txt /tmp/uge_cmu_metrics
+done

@@ -1,0 +1,13 @@
+# UGE CMU START
+# only the first metric starts the loop and takes care of that
+UGE_running_jobs     "Amount of running Univa Grid Engine jobs"  1 numerical   Instantaneous  4   number EXTENDED UGEPATH/util/resources/CMU/scripts/collect_gridengine_metrics.sh
+UGE_consumed_slots   "Amount of consumed slots per host" 1 numerical   Instantaneous  32  number EXTENDED
+UGE_free_slots       "Amount of free slots per host" 1 numerical   Instantaneous  32  number EXTENDED
+UGE_execd_state      "State of Execution Daemon"           1 string      Instantaneous  state EXTENDED 
+UGE_host_roles       "Roles of the host (admin, submit host)" 1 string      Instantaneous  state EXTENDED 
+UGE_topology_inuse   "Topology string ('c'=used core,'C'=free core,'S'=socket,'T'/'t'=thread)" 1 string  Instantaneous  state EXTENDED
+UGE_cpu_load         "CPU load of UGE processes in %"         1 numerical   Instantaneous  10   % ps aux | grep "/sge_" | grep -v grep | awk '{SUM += $3} END {print SUM}'
+UGE_mem_load         "Memory load of UGE processes in %"      1 numerical   Instantaneous  10   % ps aux | grep "/sge_" | grep -v grep | awk '{SUM += $4} END {print SUM}'
+UGE_execd_uptime     "Start time of UGE execd process"              1 string      Instantaneous  date ps -p `ps aux | grep sge_execd | grep -v grep | awk '{print $2}'` -o lstart | tail -n1
+UGE_qmaster_uptime   "Start time of UGE qmaster process"          1 string      Instantaneous  date ps -p `ps aux | grep sge_qmaster | grep -v grep | awk '{print $2}'` -o lstart | tail -n1
+# UGE CMU END

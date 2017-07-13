@@ -1,0 +1,26 @@
+#___INFO__MARK_BEGIN__
+###########################################################################
+#
+#  The contents of this file are made available subject to the terms of the
+#  Apache Software License 2.0 ('The License').
+#  You may not use this file except in compliance with The License.
+#  You may obtain a copy of The License at
+#  http://www.apache.org/licenses/LICENSE-2.0.html
+#
+#  Copyright (c) 2011-2014 Univa Corporation.
+#
+###########################################################################
+#___INFO__MARK_END__
+pe_name                lam
+slots                  999999
+user_lists             NONE
+xuser_lists            NONE
+start_proc_args        $sge_root/mpi/lam/startlam.sh -catch_rsh $pe_hostfile <path to LAM installation>
+stop_proc_args         $sge_root/mpi/lam/stoplam.sh <path to LAM installation>
+allocation_rule        $round_robin
+control_slaves         TRUE
+job_is_first_task      FALSE
+urgency_slots          min
+accounting_summary     TRUE
+daemon_forks_slaves    TRUE
+master_forks_slaves    FALSE

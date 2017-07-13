@@ -1,0 +1,43 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_QUEUEINFO_IMPL_SPEC" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_queueinfo_impl_spec\fR \- drmaa2_queueinfo_impl_spec, Returns a list of UGE queue information attributes\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_string_list drmaa2_queueinfo_impl_spec(void);
+.
+.SH "DESCRIPTION"
+Returns all \fBUniva(R) Grid Engine(TM)\fR specific queue info (\fBdrmaa2_queueinfo\fR) attributes which are not defined by the DRMAA2 standard but available in the \fBUniva(R) Grid Engine(TM)\fR DRMAA2 implemenation\. The list must be freed by the caller\.
+.
+.SH "RETURN VALUES"
+Returns a newly allocated \fBdrmaa2_string_list\fR or NULL in case no \fBUniva(R) Grid Engine(TM)\fR specific attributes are available\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_string_list uge_attributes = drmaa2_queueinfo_impl_spec();
+
+if (uge_attributes != NULL) {
+   long size, i;
+   size = drmaa2_list_size(uge_attributes);
+   for (i = 0; i < size; i++) {
+      drmaa2_string attr = drmaa2_list_get(uge_attributes, i);
+      printf("Additionally supported attribute: %s\en", attr);
+   }
+   drmaa2_list_free(&uge_attributes);
+}
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_jtemplate_impl_spec(3), drmaa2_jinfo_impl_spec(3), drmaa2_rtemplate_impl_spec(3), drmaa2_rinfo_impl_spec(3), drmaa2_queueinfo_impl_spec(3), drmaa2_machineinfo_impl_spec(3), drmaa2_notification_impl_spec(3), drmaa2_get_instance_value(3), drmaa2_describe_attribute(3), drmaa2_set_instance_value(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

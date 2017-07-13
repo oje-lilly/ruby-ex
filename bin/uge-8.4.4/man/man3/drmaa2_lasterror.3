@@ -1,0 +1,69 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_LASTERROR" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_lasterror\fR \- drmaa2_lasterror, Returns the last error occurred within the thread\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.IP "" 4
+.
+.nf
+
+typedef enum drmaa2_error {
+   DRMAA2_SUCCESS                 =  0,
+   DRMAA2_DENIED_BY_DRMS          =  1,
+   DRMAA2_DRM_COMMUNICATION       =  2,
+   DRMAA2_TRY_LATER               =  3,
+   DRMAA2_SESSION_MANAGEMENT      =  4,
+   DRMAA2_TIMEOUT                 =  5,
+   DRMAA2_INTERNAL                =  6,
+   DRMAA2_INVALID_ARGUMENT        =  7,
+   DRMAA2_INVALID_SESSION         =  8,
+   DRMAA2_INVALID_STATE           =  9,
+   DRMAA2_OUT_OF_RESOURCE         = 10,
+   DRMAA2_UNSUPPORTED_ATTRIBUTE   = 11,
+   DRMAA2_UNSUPPORTED_OPERATION   = 12,
+   DRMAA2_IMPLEMENTATION_SPECIFIC = 13,
+   DRMAA2_LASTERROR               = 14
+} drmaa2_error;
+.
+.fi
+.
+.IP "" 0
+.
+.P
+drmaa2_error drmaa2_lasterror(void)
+.
+.SH "DESCRIPTION"
+Returns the last DRMAA2 related error happend within the thread the function has called\. Internally thread local storage is used by DRMAA2 functions for storing errors\. This function is usually called when a previous DRMAA2 function call failed resulting in returning a NULL value\. A detailed description of the error can be get by using the drmaa2_lasterror_text(3) call\.
+.
+.SH "RETURN VALUES"
+Returns a \fBdrmaa2_error\fR value of the last error occurred\. If no error happend yet \fBDRMAA2_SUCCESS\fR is returned\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_rsession rs = drmaa2_open_rsession(NULL);
+
+if (rs == NULL) {
+   if (drmaa2_listerror() == DRMAA2_UNSUPPORTED_OPERATION) {
+      printf("Don\'t use reservations sessions again, they are not supported\.\en");
+   } else {
+      /* handle real error \.\.\. */
+   }
+} else {
+   /* Do something with the reservation session \.\.\. */
+}
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_lasterror_text(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

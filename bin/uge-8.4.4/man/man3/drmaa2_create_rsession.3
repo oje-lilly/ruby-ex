@@ -1,0 +1,25 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_CREATE_RSESSION" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_create_rsession\fR \- drmaa2_create_rsession, Creates a new DRMAA2 reservation session\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_rsession drmaa2_create_rsession(const char \fIsession_name, const char\fRcontact);
+.
+.SH "DESCRIPTION"
+Reservation sessions are currently not supported in the \fBUniva(R) Grid Engine(TM)\fR DRMAA2 implementation\.
+.
+.SH "RETURN VALUES"
+Returns NULL and sets the failure code \fBDRMAA2_UNSUPPORTED_OPERATION\fR\.
+.
+.SH "SEE ALSO"
+drmaa2_open_rsession(3), drmaa2_close_rsession(3), drmaa2_destroy_rsession(3), drmaa2_get_rsession_names(3), drmaa2_msession_get_all_reservations(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

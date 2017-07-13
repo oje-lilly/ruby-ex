@@ -1,0 +1,46 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_OPEN_MSESSION" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_open_msession\fR \- drmaa2_open_msession, Returns a monitoring session object
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_msession drmaa2_open_msession(const char* monitoring_session_name);
+.
+.SH "DESCRIPTION"
+If there is no active job session, the function establishes a new connection to the Univa(R) Grid Engine(TM) master process and subscribes objects which can be requested by DRMAA2 monitoring session calls\. If a job session is already open, the connection is shared by the job and the monitoring session\. It is only allowed to have one monitoring session open at a time\. The given monitoring session name has no effect, it can be any string of NULL and is not further considered by the DRMAA2 Grid Engine implementation\.
+.
+.P
+In case of success the function returns a valid drmaa2_msession object, which can be used for fetching queue, machine or job statuses\. When the monitoring session is not used anymore it must be close by drmaa2_close_msession(3)\. Closing the monitoring session disenganges the connection from the Univa(R) Grid Engine(TM) master process\. If there is still one or more job session open, the connection to the master process remains active, but closing the monitoring session has the effect that less information is transferred from the Univa(R) Grid Engine(TM) master process to the DRMAA2 application and the memory footprint of the application is reduced\.
+.
+.P
+The connection to the qmaster is event driven hence with an open monitoring session the DRMAA2 application gets an continues data stream of changed lists and objects even no information (e\.g\. by calling drmaa2_mession_get_all_queues(3)) is requested by the application\. Hence it is recommended to open a monitoring session only if the information is needed and close the montioring session as soon as possible in the application\. Subsequent calls of drmaa2_msession_get_*() do not result in additional communication to the qmaster since all information is already locally available\. An open monitoring session can increase the memory footprint of the application depending on the amount of information is available on qmaster (amount of jobs, amount of queues, amount of machines)\.
+.
+.SH "RETURN VALUES"
+This function returns a newly allocated drmaa2_msession object or NULL in case of an error\. The error number and text can be fetched by subsequent calls of drmaa2_lasterror(3) and drmaa2_lasterror_text(3) within the same thread where drmaa2_open_msession(3) was called\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_msession ms = drmaa2_open_msession(NULL);
+
+if (ms != NULL) {
+   drmaa2_j_list job_list = drmaa2_msession_get_all_jobs(ms, NULL);
+   \.\.\.
+   drmaa2_close_msession(ms);
+   drmaa2_msession_free(&ms);
+}
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_msession_free(3), drmaa2_close_msession(3), drmaa2_msession_get_all_jobs(3), drmaa2_msession_get_all_queues(3), drmaa2_msession_get_all_machines(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

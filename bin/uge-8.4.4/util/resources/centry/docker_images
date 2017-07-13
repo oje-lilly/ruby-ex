@@ -1,0 +1,13 @@
+# Version: Grid Engine 8.3.2
+#
+# DO NOT MODIFY THIS FILE MANUALLY!
+#
+name        docker_images
+shortcut    dockimg
+type        RESTRING
+relop       ==
+requestable YES
+consumable  NO
+default     NONE
+urgency     0
+aapre       FALSE

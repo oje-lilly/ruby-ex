@@ -1,0 +1,387 @@
+#!/usr/bin/tclsh
+#############################################################################
+#
+#  This code is the Property, a Trade Secret and the Confidential Information
+#  of Univa Corporation.
+#
+#  Copyright Univa Corporation. All Rights Reserved. Access is Restricted.
+#
+#  It is provided to you under the terms of the
+#  Univa Term Software License Agreement.
+#
+#  If you have any questions, please contact our Support Department.
+#
+#  www.univa.com
+#
+###########################################################################
+
+set sge_root $env(SGE_ROOT)
+
+source "$sge_root/util/resources/jsv/jsv_include.tcl"
+
+proc jsv_on_start {} {
+   # no job environment needed
+}
+
+# NOTE: When Cray architecture changes, this script
+# has to be changed as well.
+
+#########################################################
+# This script ensures that mpp* parameters are aligned
+# to the number of requested cray_nodes based on the
+# homogenous machine layout of the compute nodes in the
+# Cray XC30 cluster.
+#########################################################
+
+
+# This function aligns "cray_nodes" and PE slots requests
+# depending on the required_hosts settings and if the job
+# is parallel or sequential. Sequential jobs have no multi-
+# pier for resources ("cray_nodes") hence "cray_nodes" is
+# set to required_hosts. Parallel jobs need to be aligned
+# to required_hosts hence "cray_nodes" is set to 1.
+# Multiplication is done by Univa Grid Engine itself.
+proc correct_cray_nodes_and_pe_settings {cray_nodes slots required_hosts postfix} {
+   set do_correct 0
+
+   if {$cray_nodes == 0} {
+      # either correct PE or the cray_nodes request
+      if {$slots == 0} {
+         # job did not request Cray PE: no slot multiplier
+         jsv_sub_add_param "l_hard" "cray_nodes${postfix}" "$required_hosts"
+         set do_correct 1
+      } else {
+         # parallel job request needs to be alligned
+         jsv_sub_add_param "l_hard" "cray_nodes${postfix}" 1
+         jsv_set_param "pe_min" $required_hosts
+         jsv_set_param "pe_max" $required_hosts
+         set do_correct 1
+      }
+   } else {
+      # cray_nodes are set on command line
+      # need to differentiate between a parallel job
+      # and a non parallel job
+      if {$slots == 0} {
+         if {$required_hosts != $cray_nodes} {
+            # required nodes must be corrected
+            jsv_sub_add_param "l_hard" "cray_nodes${postfix}" "$required_hosts"
+            set do_correct 1
+         }
+      } else {
+         # this is a parallel job: allign it without checking
+         jsv_sub_add_param "l_hard" "cray_nodes${postfix}" 1
+         jsv_set_param "pe_min" "$required_hosts"
+         jsv_set_param "pe_max" "$required_hosts"
+         set do_correct 1
+      }
+   }
+   return do_correct
+}
+
+proc jsv_on_verify {} {
+   set do_reject 0
+   set job_message ""
+   set postfix ""
+
+   set hard_cray_q_found 0
+   set hard_other_q_found 0
+   set soft_cray_q_found 0
+   set soft_other_q_found 0
+   set cray_pe_found 0
+   set cray_q_machine_name ""
+   set cray_pe_machine_name ""
+
+   # -------------------------------------------------------------
+   # ENSURE THAT cray_nodes, mppwidth, mppdepth, and mppnppn is set
+   # for all cray jobs other than login node only jobs. Login node
+   # only jobs are jobs requesting no cray PE but a cray.q.
+   # -------------------------------------------------------------
+
+   # -------------------------------------------------
+   # Check only jobs which are requesting the "cray.q"
+   # -------------------------------------------------
+   if {[jsv_is_param "q_hard"] == 0 && [jsv_is_param "q_soft"] == 0 &&
+       [string length [jsv_get_param "pe_name"]] == 0} {
+      jsv_accept "Accepted. Not a Cray XC30 job."
+      return
+   }
+
+   if {[jsv_is_param "q_hard"] == 1} {
+      # it is a comma separated list
+      set qlist [split [jsv_get_param "q_hard"] ", "]
+
+      # find out if it requests cray*.q and/or other queues
+      foreach queue $qlist {
+         if {[string match "cray*.q" $queue] == 0} {
+            # cray*.q should not be requested with others
+            set hard_other_q_found 1
+         } else {
+            set hard_cray_q_found 1
+            set got_machine_name [regexp {cray_(.*)\.q} $queue match submatch]
+            if {$got_machine_name == 1} {
+               set cray_q_machine_name "$submatch"
+            }
+         }
+      }
+      if {$hard_cray_q_found == 0} {
+         # no cray*.q found
+         jsv_accept "Accepted. Not a Cray XC30 job."
+         return
+      } elseif {$hard_other_q_found == 1} {
+         # cray*.q should not be requested with others
+         jsv_reject "Please only use cray.q. Do not mix the request with other queues"
+         return
+      }
+      # continue: this is a job requesting only cray*.q
+   }
+
+   if {[jsv_is_param "q_soft"] == 1} {
+      # it is a comma separated list
+      set qlist [split [jsv_get_param "q_soft"] ", "]
+
+      # find out if it requests cray*.q and/or other queues
+      foreach queue $qlist {
+         if {[string match "cray*.q" $queue] == 0} {
+            # cray*.q should not be requested with others
+            set soft_other_q_found 1
+         } else {
+            set soft_cray_q_found 1
+         }
+      }
+      if {$soft_cray_q_found == 0} {
+         if {$hard_cray_q_found == 0} {
+            # no cray*.q found
+            jsv_accept "Accepted. Not a Cray XC30 job."
+            return
+         } else {
+            # continue: this is a job requesting only hard cray*.q
+         }
+      } else {
+         jsv_reject "Disallowed to use cray.q as soft request."
+         return
+      }
+   }
+
+   set pe [jsv_get_param "pe_name"]
+   if {[string match "cray*.pe" $pe] == 1} {
+         set cray_pe_found 1
+         set got_machine_name [regexp {cray_(.*)\.pe} $pe match submatch]
+         if {$got_machine_name == 1} {
+            set cray_pe_machine_name "$submatch"
+         }
+   } elseif {[string length $pe] > 0} {
+      # this job is requesting cray.q, otherwise we wouldn't get here, so:
+      jsv_reject "Disallowed to use non-cray PE on Cray XC30 job."
+      return
+   }
+   # else no PE was requested
+
+   if {$cray_q_machine_name != "" && $cray_pe_machine_name != ""} {
+      if {[string compare $cray_q_machine_name $cray_pe_machine_name] != 0} {
+         jsv_reject "Disallowed to use queue and parallel environment of different machine name!"
+         return
+      }
+   }
+   if {$cray_q_machine_name != ""} {
+      set postfix "_$cray_q_machine_name"
+   } elseif {$cray_pe_machine_name != ""} {
+      set postfix "_$cray_pe_machine_name"
+   }
+
+   # ----------------------
+   # It is a Cray XC-30 job
+   # ----------------------
+
+   # Machine specific values: Requires a homogenous topology
+   # for a Cray machine. This values are set during installation
+   # of the Cray XC30 support. Needs to be adapted if something
+   # changes in the system.
+
+   # Don't remove this comment, the install script needs it to insert new host specific values:
+   # START HOST SPECIFIC VALUES
+   # END HOST SPECIFIC VALUES
+
+   set cores_per_host_var_name "cores_per_host${postfix}"
+   set cores_per_host [subst $$cores_per_host_var_name]
+   set cores_per_NUMA_node_var_name "cores_per_NUMA_node${postfix}"
+   set cores_per_NUMA_node [subst $$cores_per_NUMA_node_var_name]
+   set NUMA_nodes_per_host_var_name "NUMA_nodes_per_host${postfix}"
+   set NUMA_nodes_per_host [subst $$NUMA_nodes_per_host_var_name]
+
+   # adding the forced cray complex in order to get access to the cray.q
+   jsv_sub_add_param "l_hard" "cray_forced" 1
+
+   # checking if cray_nodes where requested
+   set has_cray_nodes [jsv_sub_is_param "l_hard" "cray_nodes${postfix}"]
+   # amount of processing elements
+   set has_mppwidth [jsv_sub_is_param "l_hard" "mppwidth${postfix}"]
+   # amount of cores per processing element
+   set has_mppdepth [jsv_sub_is_param "l_hard" "mppdepth${postfix}"]
+   # processing elements per execution host
+   set has_mppnppn [jsv_sub_is_param "l_hard" "mppnppn${postfix}"]
+
+   set width 0
+   set depth 0
+   set nppn 0
+
+   if {$has_mppwidth} {
+     set width [jsv_sub_get_param "l_hard" "mppwidth${postfix}"]
+   }
+   if {$has_mppdepth} {
+     set depth [jsv_sub_get_param "l_hard" "mppdepth${postfix}"]
+   }
+   if {$has_mppnppn} {
+     set nppn [jsv_sub_get_param "l_hard" "mppnppn${postfix}"]
+   }
+
+   # Get the amount of PE slots -> this needs to be multiplied by the amount
+   # of requested "cray_nodes".
+   set pe_name [jsv_get_param "pe_name"]
+   set slots 0
+   if {[string compare $pe_name "cray${postfix}.pe"] == 0} {
+      set min_slots [jsv_get_param "pe_min"]
+      set max_slots [jsv_get_param "pe_max"]
+
+      # Range PEs are currently not supported.
+      if {$min_slots != $max_slots} {
+         jsv_reject "Range PEs are currently not supported."
+         return
+      }
+      set slots $min_slots
+   } elseif {[string compare $pe_name ""] != 0} {
+      # requested a PE but not the cray PE
+      jsv_reject "Job in cray.q did not request the cray parallel environment"
+      return
+   }
+
+   # When -l requests are for the job, Cray specific topology parameters
+   # needs to be validated.
+   if {[jsv_is_param "l_hard"] == 1} {
+      # if no cray_nodes are requested we need to add them
+      # otherwise we need to correct them if they are wrong
+      set cray_nodes 0
+
+      if {$has_cray_nodes == 1} {
+         set cray_nodes [jsv_sub_get_param "l_hard" "cray_nodes${postfix}"]
+      }
+
+      if {$has_mppwidth == 1 && $has_mppdepth == 1 && $has_mppnppn == 1} {
+         #  check if nppn and depth fit on architecture
+         if {[expr $nppn * $depth] > $cores_per_host} {
+            set job_message "Reject because nppn * depth is greater than cores per host."
+            set do_reject 1
+         }
+         # nppn drives the request on alps side
+         set required_hosts [expr $width / $nppn]
+         correct_cray_nodes_and_pe_settings $cray_nodes $slots $required_hosts $postfix
+      }
+
+      if {$has_mppwidth == 1 && $has_mppdepth == 1 && $has_mppnppn == 0} {
+         # check if depth does fit on the host
+         if {$depth > $cores_per_host} {
+            set job_message "Job requested a depth (mppdepth=$depth) higher than cores per host"
+            set do_reject 1
+         } else {
+            # check how many processing elements fit on the execution host
+            set pe_per_host [expr $cores_per_host / $depth]
+            set required_hosts [expr $width / $pe_per_host]
+            if {[expr $width % $pe_per_host] != 0} {
+               incr required_hosts 1
+            }
+            # adapt job settings if needed
+            correct_cray_nodes_and_pe_settings $cray_nodes $slots $required_hosts $postfix
+         }
+      }
+
+      if {$has_mppwidth == 1 && $has_mppdepth == 0 && $has_mppnppn == 0} {
+         # assume a depth of $cores_per_host if not set
+         jsv_sub_add_param "l_hard" "mppdepth${postfix}" $cores_per_host
+         if {$slots > 0} {
+            # if PE is set, the PE determines the amount of hosts
+            set required_hosts $slots
+         } else {
+            # if no PE is set the width determines the amount of hosts
+            set required_hosts $width
+         }
+         # adapt job settings if needed
+         correct_cray_nodes_and_pe_settings $cray_nodes $slots $required_hosts $postfix
+      }
+
+      if {$has_mppwidth == 1 && $has_mppdepth == 0 && $has_mppnppn == 1} {
+         # set depth to 0 -> nppn is overwriting it
+         jsv_sub_add_param "l_hard" "mppdepth${postfix}" 1
+
+         if {$nppn == 0} {
+            set nppn 1
+            jsv_sub_add_param "l_hard" "mppnppn${postfix}" 1
+         }
+         # amount of processing elements per host are set
+         set required_hosts [expr $width / $nppn]
+         if {[expr $width % $nppn] != 0} {
+            # need to fill up hosts
+            incr required_hosts 1
+         }
+         # adapt job settings if needed
+         correct_cray_nodes_and_pe_settings $cray_nodes $slots $required_hosts $postfix
+      }
+
+      if {$has_mppwidth == 0 && $has_mppdepth == 0 && $has_mppnppn == 0} {
+         # login node jobs don't need any architecture
+         if {$slots == 0 && $cray_nodes == 0} {
+            # this is ok - login node only job
+         } elseif {$slots > 0 && $cray_nodes == 0} {
+            # adapt job settings if needed
+            set required_hosts $slots
+            jsv_sub_add_param "l_hard" "mppwidth${postfix}" $required_hosts
+            jsv_sub_add_param "l_hard" "mppdepth${postfix}" $cores_per_host
+            correct_cray_nodes_and_pe_settings $cray_nodes $slots $required_hosts $postfix
+         } elseif {$slots == 0 && $cray_nodes > 0} {
+            # set all required architecture requests
+            set required_hosts $cray_nodes
+            jsv_sub_add_param "l_hard" "mppwidth${postfix}" $required_hosts
+            jsv_sub_add_param "l_hard" "mppdepth${postfix}" $cores_per_host
+            correct_cray_nodes_and_pe_settings $cray_nodes $slots $required_hosts $postfix
+         } elseif {$slots > 0 && $cray_nodes > 0} {
+            # adapt cray_nodes to 1
+            set required_hosts $slots
+            jsv_sub_add_param "l_hard" "mppwidth${postfix}" $required_hosts
+            jsv_sub_add_param "l_hard" "mppdepth${postfix}" $cores_per_host
+            correct_cray_nodes_and_pe_settings $cray_nodes $slots $required_hosts $postfix
+         }
+      }
+
+      if {$has_mppwidth == 0 && $has_mppdepth == 0 && $has_mppnppn == 1} {
+         set job_message "Job has mppnppn set without mppwidth"
+         set do_reject 1
+      }
+
+      if {$has_mppwidth == 0 && $has_mppdepth == 1 && $has_mppnppn == 0} {
+         set job_message "Job has mppdepth set without mppwidth"
+         set do_reject 1
+      }
+
+      if {$has_mppwidth == 0 && $has_mppdepth == 1 && $has_mppnppn == 1} {
+         set job_message "Job has mppdepth with mppnppn set which is not allowed"
+         set do_reject 1
+      }
+   } else {
+      # No hard resource request. Could be a job just running on a login node
+      # for compiling. Hence it is ok.
+      if {$slots != 0} {
+      	 # But when using a cray parallel envioronment, cray_nodes must be 1.
+         jsv_sub_add_param "l_hard" "cray_nodes${postfix}" 1
+         jsv_sub_add_param "l_hard" "mppwidth${postfix}" $slots
+         jsv_sub_add_param "l_hard" "mppdepth${postfix}" $cores_per_host
+         jsv_sub_add_param "l_hard" "mppnppn${postfix}" 0
+      }
+   }
+
+   if {$do_reject == 1} {
+      jsv_reject $job_message
+   } else {
+      jsv_correct "Job was modified before accepted."
+   }
+}
+
+jsv_main
+

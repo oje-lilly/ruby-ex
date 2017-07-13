@@ -1,0 +1,70 @@
+#___INFO__MARK_BEGIN__
+###########################################################################
+#
+#  The contents of this file are made available subject to the terms of the
+#  Apache Software License 2.0 ('The License').
+#  You may not use this file except in compliance with The License.
+#  You may obtain a copy of The License at
+#  http://www.apache.org/licenses/LICENSE-2.0.html
+#
+#  Copyright (c) 2011-2012 Univa Corporation.
+#
+###########################################################################
+#___INFO__MARK_END__
+Tight integration for OpenMPI with rankfiles was tested with version
+openmpi-1.6.0.
+
+Rankfiles allows OpenMPI to bind each rank on a different processor.
+This can improve performance depending on your application usually
+significant. In order to create such a rankfile this template contains
+a link to a script which is executed before the parallel jobs starts
+and extracts core binding information for the rankfile out of the
+pe_hostfile, which is written by Univa Grid Engine. Parallel jobs
+using this parallel environment must be submitted with the
+-binding pe ... submission option. The requested binding describes
+the amount of cores selected for each participating host.
+
+
+Building OpenMPI
+================
+When you build openmpi, make sure to configure with option --with-sge.
+
+Installing the PE
+=================
+qconf -Ap $SGE_ROOT/mpi/openmpi_rankfile/openmpi_rankfile.template
+
+(==> special option to mpirun to extend the number of qrsh -inherit
+to more than 128)
+
+Adding the PE to a queue:
+qconf -mq all.q
+Add to "pe_list" openmpi_rankfile.
+
+
+Using the PE
+============
+
+Submit the job (example):
+
+qsub -pe openmpi_rankfile 8 -binding pe linear:4 yourjob.sh
+
+The job script "yourjob.sh" contains:
+
+...
+mpirun --rankfile $TMPDIR/pe_rankfile
+...
+
+The job itself must call mpirun with  "--rankfile $TMPDIR/pe_rankfile".
+If using non parallel jobs with the same PE, the existence of
+the pe_rankfile must be checked and depending on that the rankfile
+option for mpirun must be omnitted.
+
+The template has a fixed example allocation rule of 4, i.e. per host 4
+ranks (slots) are chosen. If you need a different setting this must
+be adapted.
+
+In the example each of the 4 ranks on both hosts are bound to a different
+core. The amount of slots and the execution hosts as well as the qrsh
+calls are automatically determined and done by OpenMPI when built with
+the sge option (see Building OpenMPI).
+

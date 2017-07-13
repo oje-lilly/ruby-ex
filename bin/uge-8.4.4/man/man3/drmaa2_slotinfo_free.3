@@ -1,0 +1,22 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_SLOTINFO_FREE" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_slotinfo_free\fR \- drmaa2_slotinfo_free, Frees a slotinfo object\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+void drmaa2_slotinfo_free(drmaa2_slotinfo * slotinfo);
+.
+.SH "DESCRIPTION"
+Frees the memory of a \fBdrmaa2_slotinfo\fR object and sets it to NULL\. A \fBdrmaa2_slotinfo\fR object is part of the optional reservation session and not supported in \fBUniva(R) Grid Engine(TM)\fR\.
+.
+.SH "SEE ALSO"
+drmaa2_rinfo_free(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

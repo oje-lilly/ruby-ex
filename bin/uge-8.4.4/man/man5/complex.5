@@ -1,0 +1,531 @@
+'\" t
+.\"___INFO__MARK_BEGIN__
+.\"
+.\" Copyright: 2004 by Sun Microsystems, Inc.
+.\"
+.\"___INFO__MARK_END__
+.\"
+.\" Some handy macro definitions [from Tom Christensen's man(1) manual page].
+.\"
+.de SB		\" small and bold
+.if !"\\$1"" \\s-2\\fB\&\\$1\\s0\\fR\\$2 \\$3 \\$4 \\$5
+..
+.\"
+.de T		\" switch to typewriter font
+.ft CW		\" probably want CW if you don't have TA font
+..
+.\"
+.de TY		\" put $1 in typewriter font
+.if t .T
+.if n ``\c
+\\$1\c
+.if t .ft P
+.if n \&''\c
+\\$2
+..
+.\"
+.de M		\" man page reference
+\\fI\\$1\\fR\\|(\\$2)\\$3
+..
+.TH COMPLEX 5 "UGE 8.4.4" "Univa Grid Engine File Formats"
+.\"
+.SH NAME
+complex \- Univa Grid Engine complexes configuration file format
+.\"
+.\"
+.SH DESCRIPTION
+.I Complex
+reflects the format of the Univa Grid Engine complex configuration.  The
+definition of complex attributes provides all pertinent information
+concerning the resource attributes a user may request for a Univa Grid Engine
+job via the
+.M qsub 1
+\fB\-l\fP option
+and for the interpretation of these parameters within the Univa Grid Engine
+system.
+.PP
+The Univa Grid Engine complex object defines all entries which are used for 
+configuring the global, the host, and queue object. The system has a 
+set of pre defined entries, which are assigned to a host or queue per default.
+In a addition can the user define new entries and assign them to one or multiple
+objects. Each load value has to have its corresponding complex entry object, which
+defines the type and the relational operator for it.
+.\"
+.SS "\fBdefining resource attributes\fP"
+The complex configuration should not be accessed directly.
+In order to add or modify complex entries, the
+.M qconf 1
+options -Mc and \-mc should be used instead.
+While the \-Mc option takes a
+.I complex
+configuration file as an argument and overrides the current configuration, 
+the \-mc option bring up an editor filled in with the current
+.I complex
+configuration.
+.sp 1
+The provided list contains all definitions of resource attributes in the system. Adding
+a new entry means to provide: name, shortcut, type, relop, requestable, consumable, 
+default, and urgency. The fields are described below. Changing one is easily done by 
+updating the field to change and removing an entry by deleting its definition. An 
+attribute can only be removed, when it is not referenced in a host or queue object 
+anymore. Also does the system have a set of default resource attributes which are 
+always attached to a host or queue. They cannot be deleted nor can the type of 
+such an attribute be changed.
+.PP
+.\"
+.SS "\fBworking with resource attributes\fP"
+Before a user can request a resource attribute it has to be attached to the global, host,
+or cqueue object. The resource attribute exists only for the objects, it got attached to (
+if it is attached to the global object(qconf -me global), it exits system wide, host object: 
+only on that host (qconf -me NAME): cqueue object: only on that cqueue (qconf -mq NAME)).
+.sp 1
+When the user attached a resource attribute to an object, one also has to assign a value
+to it; the resource limit. Another way to get a resource attribute value is done by 
+configuring a load sensor for that attribute. 
+.PP
+.\"
+.SS "\fBDefault queue resource attributes\fP"
+In its default form it contains a selection of parameters in the
+queue configuration as defined in
+.M queue_conf 5 .
+The queue configuration parameters being requestable for a job
+by the user in principal are:
+.sp 1
+.nf
+.RS
+qname
+hostname
+notify
+calendar
+min_cpu_interval 
+tmpdir
+seq_no
+s_rt
+h_rt
+s_cpu
+h_cpu
+s_data
+h_data
+s_stack
+h_stack
+s_core
+h_core
+s_rss
+h_rss
+.RE
+.\"
+.SS "\fBDefault host resource attributes\fP"
+The standard set of host related attributes consists 
+of two categories. The first category is built by several queue configuration
+attributes which are particularly suitable to be managed on a host basis. These
+attributes are:
+.sp 1
+.nf
+.RS
+slots
+s_vmem
+h_vmem
+s_fsize
+h_fsize
+.RE
+.fi
+(please refer to
+.M queue_conf 5
+for details).
+.sp 1
+.B Note:
+Defining these attributes in the
+host complex is no contradiction to having them also in the queue
+configuration. It allows maintaining the corresponding resources on a
+host level and at the same time on a queue level. Total virtual free
+memory (h_vmem) can be managed for a host, for example, and a subset
+of the total amount can be associated with a queue on that host.
+.sp 1
+The second attribute category in the standard host complex are the default 
+load values Every
+.M sge_execd 8
+periodically reports load to
+.M sge_qmaster 8 .
+The reported load values are either the standard Univa Grid Engine load values
+such as the CPU load average (see
+.M uptime 1 )
+or load values defined by the Univa Grid Engine administration (see the
+.B load_sensor
+parameter in the cluster configuration
+.M sge_conf 5
+and the
+.I Univa Grid Engine Installation and Administration Guide
+for details).
+The characteristics definition for the standard load values is part of
+the default host complex, while administrator defined load values
+require extension of the host complex. Please refer to the file
+<sge_root>/doc/load_parameters.asc for detailed information on the
+standard set of load values.
+.\"
+.SS "\fBOverriding attributes\fP"
+One attribute can be assigned to the global object, host object, and queue object
+at the same time. On the host level it might get its value from the user
+defined resource limit and a load sensor. In case that the attribute is a consumable, 
+we have in addition to the resource limit and its load report on host level also 
+the internal usage, which the system keeps track of. The merge is done as follows:
+.sp 1
+In general an attribute can be overridden on a lower level
+   - global by hosts and queues
+   - hosts by queues
+and load values or resource limits on the same level.
+.sp 1
+We have one limitation for overriding attributes based on its relational 
+operator:
+.sp 1
+!=, == operators can only be overridden on the same level, but not on a 
+lower level. The user defined value always overrides the load value.
+.sp 1   
+>=, >, <=, < operators can only be overridden, when the new value is more 
+restrictive than the old one.
+.sp 1
+In the case of a consumable on host level, which has also a load sensor, the
+system checks for the current usage, and if the internal accounting is more 
+restrictive than the load sensor report, the internal value is kept; if the
+load sensor report is more restrictive, that one is kept.
+.PP
+Note, Univa Grid Engine allows backslashes (\\) be used to escape newline
+(\\newline) characters. The backslash and the newline are replaced with a
+space (" ") character before any interpretation.
+.\"
+.\"
+.PP
+.SH FORMAT
+The principal format of a 
+.I complex
+configuration is that of a tabulated list. Each line starting with
+a '#' character is a comment line. Each line despite comment lines
+define one element of the complex. A element definition line
+consists of the following 8 column entries per line (in the order
+of appearance):
+.SS "\fBname\fP"
+The name of the complex element to be used to request this attribute
+for a job in the
+.M qsub 1
+\fB\-l\fP option. A complex attribute
+name (see \fIcomplex_name\fP in 
+.M sge_types 1 ) 
+may appear only once across all 
+complexes, i.e. the complex attribute definition is unique.
+.SS "\fBshortcut\fP"
+A shortcut for \fBname\fP which may also be used to request this
+attribute for a job in the
+.M qsub 1
+\fB\-l\fP option. An attribute
+.B shortcut
+may appear only once across 
+all complexes, so as to avoid the possibility of ambiguous complex attribute 
+references.
+.\"
+.SS "\fBtype\fP"
+This setting determines how the corresponding values are to be treated 
+Univa Grid Engine internally in case of comparisons or in case of load scaling for 
+the load complex entries:
+.IP "\(bu" 3n
+With \fBINT\fP only raw integers are allowed.
+.IP "\(bu" 3n
+With \fBDOUBLE\fP floating point numbers in double precision (decimal and
+scientific notation) can be specified.
+.IP "\(bu" 3n
+With \fBTIME\fP time specifiers are allowed. Refer to 
+.M queue_conf 5  
+for a format description.
+.IP "\(bu" 3n
+With \fBMEMORY\fP memory size specifiers are allowed. Refer to 
+.M queue_conf 5 
+for a format description.
+.IP "\(bu" 3n
+With \fBBOOL\fP the strings TRUE and FALSE are allowed. When used in a 
+load formula (refer to 
+.M sched_conf 5
+)
+TRUE and FALSE get mapped into '1' and '0'.
+.IP "\(bu" 3n
+With \fBSTRING\fP all strings are allowed and is used for 
+wildcard regular boolean expression matching. 
+Please see 
+.M sge_types 1 
+manpage for \fBexpression\fP definition.
+.sp 1
+.nf
+.RS
+Examples:
+ -l arch="*x*|sol*"  : 
+      results in "arch=lx-x86" OR "arch=lx-amd64" 
+         OR "arch=sol-amd64" OR ... 
+ -l arch="sol-x??"  : 
+      results in "arch=sol-x86" OR "arch=sol-x64" OR ...
+ -l arch="lx2[246]-x86"  : 
+      results in "arch=lx22-x86" OR "arch=lx24-x86"  
+         OR "arch=lx26-x86"
+ -l arch="lx2[4-6]-x86"  : 
+      results in "arch=lx24-x86" OR "arch=lx25-x86"  
+         OR "arch=lx26-x86"
+ -l arch="lx2[24-6]-x86"  : 
+      results in "arch=lx22-x86" OR "arch=lx24-x86"  
+         OR "arch=lx25-x86" OR "arch=lx26-x86"
+ -l arch="!lx-x86&!sol-amd64"  : 
+      results in NEITHER "arch=lx-x86" NOR "arch=sol-amd64"
+ -l arch="lx2[4|6]-amd64"  : 
+      results in "arch=lx24-amd64" OR "arch=lx26-amd64"  
+.RE
+.fi
+.IP "\(bu" 3n
+\fBCSTRING\fP is like \fBSTRING\fP except comparisons are case insensitive. 
+.IP "\(bu" 3n
+\fBRESTRING\fP is like \fBSTRING\fP and it will be deprecated in the future.
+.IP "\(bu" 3n
+\fBHOST\fP is like \fBCSTRING\fP but the expression must match a valid hostname.
+.IP "\(bu" 3n
+With \fBRSMAP\fP requests only integers are allowed. In difference to \fBINT\fP the scheduler selects
+additionally a specific entity (string) out of the string list configured on host level.
+This complex type is only allowed to be initialized on host level (qconf -me) and not on
+queue level. Further a \fBRSMAP\fP complex is only allowed to be a consumable and the relation
+operator must be "<=". This resource type allows to configure host resources for which it is
+required that the job knows which specific resource of the set has to be accessed.
+RSMAP also allow to configure topology masks, in order to automatically bind
+RSMAP ids to specific CPU core on the execution host (see host_conf man page).
+.IP "\(bu" 3n
+For \fBINT\fP, \fBDOUBLE\fP, \fBMEMORY\fP and \fBRSMAP\fP consumable requests it is possible to
+specify a range (soft_range) if the consumable is requested by using the \fB\-soft\fP option. Please see
+.M sge_types 1
+manpage for \fBsoft_range\fP definition. If a soft request is not grantable the job will be dispatched
+anyway instead of staying in the pending job list - the request is simply ignored. Jobs that are requesting
+resources within the \fB\-hard\fP section of the submit command have to wait until there are enough resources
+free and will stay in the pending job list.
+.sp 1
+.RS
+.RS
+Examples:
+.sp 1
+1) qsub ... -soft -l memory=4K-4G:4K ...
+.sp 1
+Soft request for consumable "memory". Any value between 4096 Byte and 4294967296 Byte that matches the
+specified step of 4096 Byte will be granted if it is available on the resulting hosts which were selected
+by the scheduler run. The scheduler will select hosts based on the specified \fB\-hard\fP requested resources
+and on the configured scheduler settings.
+.RE
+.sp 1
+.RS
+2) qsub ... -soft -l "memory=4G-8G:1G|1G-4G:500M" ...
+.sp 1
+Soft request with 2 ranges for consumable "memory". If there is no resource available that provides the big
+memory range (4G-8G) the algorithm will try to find a matching resource for the 2nd specified range.
+.RE
+.sp 1
+It is also possible to request some minimum value for the consumable in the \fB\-hard\fP section and
+define additionally a higher value or range in the \fB\-soft\fP part of the request.
+.sp 1
+.RS
+Examples:
+.sp 1
+1) qsub ... -soft -l my_double=2.5-8.5:0.1 -hard -l my_double=2.5 ...
+.sp 1
+Soft request with ranges for consumable "my_double" in combination with hard request. The job will stay pending
+until there is a minimum of my_double=2.5 available on a host or queue. Once a resource was found the consumable
+might also consume up to 8.5 - using a range step size of 0.1.
+.sp 1
+1) qsub ... -soft -l my_int="20-100:2|10-20:1|1-10:1",arch=lx-amd64 -hard -l my_int=1 ...
+.sp 1
+Soft request with 3 ranges for consumable "my_int" and preferred architecture "lx-amd64" in combination with hard
+request. The job will stay pending until there is a minimum of my_int=1 available on a host or queue. In addition
+to the "my_int" consumable also the architecture "lx_amd64" is preferred.
+.RE
+.RE
+.\"
+.SS "\fBrelop\fP"
+The
+.B relation operator.
+The relation operator is used when the value requested by the user for
+this parameter is compared against the corresponding value configured for
+the considered queues. If the result of the comparison is false, the
+job cannot run in this queue. Possible relation operators are "==", "<",
+">", "<=", ">=" and "EXCL". The only valid operator for string type attributes
+is "==".
+.sp
+The "EXCL" relation operator implements exclusive scheduling and is
+only valid for consumable boolean type attributes. Exclusive means the result
+of the comparison is only true if a job requests to be exclusive and no
+other exclusive or non-exclusive jobs uses the complex. If the job does not request
+to be exclusive and no other exclusive job uses the complex the comparison is also
+true.
+.\"
+.SS "\fBrequestable\fP"
+The entry can be used in a
+.M qsub 1
+resource request if this field is set to 'y' or 'yes'.
+If set to 'n' or 'no' this entry cannot be used by a
+user in order to request a queue or a class of queues.
+If the entry is set to 'forced' or 'f' the 
+attribute has to be requested by a job or it is rejected.
+.sp
+To enable resource request enforcement the existence of the
+resource has to be defined. This can be done on a cluster global, per host
+and per queue basis. The definition of resource availability is performed 
+with the complex_values entry in
+.M host_conf 5
+and
+.M queue_conf 5 .
+.\"
+.SS "\fBconsumable\fP"
+The
+.B consumable
+parameter can be set to either 'yes' ('y' abbreviated), 'no'
+('n'), 'JOB' ('j'), or 'HOST' ('h'). It can be set to 'yes' and 'JOB' only for numeric attributes
+(INT, DOUBLE, MEMORY, TIME, RSMAP - see
+.B type
+above). It can be set to 'HOST' only for a RSMAP attribute (which must be initialized on host layer).
+If set to 'yes', 'JOB' or 'HOST' the
+consumption of the corresponding resource can be managed by
+Univa Grid Engine internal bookkeeping. In this case Univa Grid Engine accounts
+for the consumption of this resource for all running jobs and ensures that jobs
+are only dispatched if the Univa Grid Engine internal bookkeeping indicates
+enough available consumable resources. Consumables are an efficient means to
+manage limited resources such a available memory, free space on a file
+system, network bandwidth or floating software licenses.
+.sp 1
+A consumable defined by 'y' is a per slot consumable which means the limit is
+multiplied by the number of slots being used by the job before being applied.
+In case of 'j' the consumable is a per job consumable. This resource is debited
+as requested (without multiplication) from the allocated master queue. The
+resource needs not be available for the slave task queues.
+.sp 1
+A consumable defined by 'HOST' is a per host consumable which means that the
+request is not multiplied by the number of slots. In case a parallel job spans
+multiple hosts, the resource request is just one time requested on each host.
+Use cases are parallel jobs which are requesting co-processor cards,
+like GPUs or other hardware. Regardless of how many parallel tasks finally
+run on a host, just the exact amount of the (not multiplied by slots) is
+consumed.
+.sp 1
+Consumables can be combined with default or user defined load parameters 
+(see
+.M sge_conf 5
+and
+.M host_conf 5 ),
+i.e. load values can be reported 
+for consumable attributes or the consumable flag can be set for load 
+attributes. The Univa Grid Engine consumable resource management takes both 
+the load (measuring availability of the resource) and the internal bookkeeping 
+into account in this case, and makes sure that neither of both exceeds a given 
+limit.
+.sp 1
+To enable consumable resource management the basic availability of a 
+resource has to be defined. This can be done on a cluster global, per host and 
+per queue instance basis while these categories may supersede each other in the given 
+order (i.e. a host can restrict availability of a cluster resource and a
+queue can restrict host and cluster resources). The definition of resource
+availability is performed with the
+.B complex_values
+entry in
+.M host_conf 5
+and
+.M queue_conf 5 . 
+The
+.B complex_values
+definition of the "global" host specifies cluster global 
+consumable settings. To each consumable complex attribute in a 
+.B complex_values
+list a value is assigned which denotes the maximum 
+available amount for that resource. The internal bookkeeping will subtract 
+from this total the assumed resource consumption by all running jobs as 
+expressed through the jobs' resource requests. For a "RSMAP" complex type
+in addition to the amount of resources also the specific string instances
+which are are available for the jobs must be initialized. This can
+only be done on host level, it is not allowed to use it on queue level.
+The format for RSMAP initialization in the complex_values field is
+<complexname>=<amount>(<stringlist>), where <complexname> is the name
+of the complex, <amount> is an integer describing the maximum amount
+of resources, and <stringlist> is a space separated list of <amount>
+strings which can be mapped to the jobs. Additionally it is possible
+to specify a number range in the <stringlist>, like 1-3 which is
+equal to following string list: "1 2 3".
+.sp 1
+.B Note:
+Jobs can be forced to request a resource and thus to specify their 
+assumed consumption via the 'force' value of the
+.B requestable 
+parameter (see above).
+.sp 1
+.B Note also:
+A default resource consumption value can be pre-defined by the 
+administrator for consumable attributes not explicitly requested by 
+the job (see the
+.B default
+parameter below). This is meaningful only if 
+requesting the attribute is not enforced as explained above.
+.sp 1
+See the
+.I Univa Grid Engine Installation and Administration Guide
+for examples 
+on the usage of the consumable resources facility.
+.\"
+.SS "\fBdefault\fP"
+Meaningful only for consumable complex attributes (see
+.B consumable
+parameter above). Univa Grid Engine assumes the resource amount denoted in the 
+.B default
+parameter implicitly to be consumed by jobs being dispatched to a 
+host or queue managing the consumable attribute. Jobs explicitly requesting 
+the attribute via the \fI\-l\fP option to
+.M qsub 1
+override this default value.
+.\"
+.SS "\fBurgency\fP"
+The urgency value allows influencing
+job priorities on a per resource base. The urgency value effects
+the addend for each resource when determining the resource request 
+related urgency contribution. For numeric type resource requests the 
+addend is the product of the urgency value, the jobs assumed slot 
+allocation and the per slot request as specified via \fI\-l\fP option to 
+.M qsub 1 .
+For string type requests the resources urgency value is directly 
+used as addend. Urgency values are of type real. See under 
+.M sge_priority 5 
+for an overview on job priorities.
+.\"
+.SS "\fBaapre\fP"
+The aapree-attribute (available after preemption) 
+of a complex defines if a resource will be reported
+as available within Univa Grid Engine when a job that consumes such a resource is 
+preempted. For all non-consumable resources it can only be set to NO. For 
+consumables it can be set to YES or NO. The aapre-attribute of the 
+slots complex can only be set to YES. 
+After the installation of UGE all memory based complexes are defined as consumable
+and aapre is also set to YES. As result the system will report memory (and slots) 
+as available that are in the preempted state (P-state).
+.sp 1
+.B Note:
+Please note that there are different preemptive actions available that can 'preempt'
+a job. Depending on the preemptive action that is applied to a job, this job might switch
+into P-state, N-state or S-state. For jobs in P-state all used resources where the 
+aapre-attribute is set to true will be reported as available. For the N-state
+only all non-memory based consumables where aapre-attribute is true.
+For the S-state only the slots consumable will be available.
+.sp 1
+Find more information concerning preemptive actions and resulting job states in
+.M sge_preemption 5 .
+.\"
+.\"
+.SH "SEE ALSO"
+.M sge_intro 1 ,
+.M sge_types 1 ,
+.M sge_preemption 5 ,
+.M qconf 1 ,
+.M qsub 1 ,
+.M uptime 1 ,
+.M host_conf 5 ,
+.M queue_conf 5 ,
+.M sge_execd 8 ,
+.M sge_qmaster 8 
+.br
+.I Univa Grid Engine Installation and Administration Guide.
+.\"
+.SH "COPYRIGHT"
+See
+.M sge_intro 1
+for a full statement of rights and permissions.

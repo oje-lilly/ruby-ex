@@ -1,0 +1,107 @@
+ACCESS_LIST(5)                                                  ACCESS_LIST(5)
+
+
+
+NNAAMMEE
+       access_list - Univa Grid Engine access list file format
+
+DDEESSCCRRIIPPTTIIOONN
+       Access lists are used in Univa Grid Engine to define access permissions
+       of users to the cluster via the global configuration (see  _s_g_e___c_o_n_f(5))
+       and job classes (see _s_g_e___j_o_b___c_l_a_s_s(5)).  They define access permissions
+       to hosts (see _h_o_s_t___c_o_n_f(5)), queues (see _q_u_e_u_e___c_o_n_f(5)), parallel envi-
+       ronments  (see  _s_g_e___p_e(5)), projects (see _p_r_o_j_e_c_t(5)) and they allow to
+       define  limits  for   multiple   users   via   resource   quotas   (see
+       _s_g_e___r_e_s_o_u_r_c_e___q_u_o_t_a(5))
+
+       A  list  of  currently configured access lists can be displayed via the
+       _q_c_o_n_f(1) --ssuull option. The contents of each enlisted access list can  be
+       shown  via  the  --ssuu  switch. The output follows the _a_c_c_e_s_s___l_i_s_t format
+       description. New access lists can be created and existing can be  modi-
+       fied via the --aauu and --dduu options to _q_c_o_n_f(1).
+
+       Departments  are  a special form of access list that additionally allow
+       assignment of functional shares and override tickets.
+
+       Note, Univa Grid Engine allows backslashes (\) be used to  escape  new-
+       line  (\newline) characters. The backslash and the newline are replaced
+       with a space (" ") character before any interpretation.
+
+       There are several predefined access lists that gain access  to  certain
+       functionalities of a Univa Grid Engine system:
+
+       aarruusseerrss
+              The access control list allows users that are referenced to sub-
+              mit and control advance reservations (see _q_r_s_u_b(1)).
+
+       ddeeaaddlliinneeuusseerrss
+              Users mentioned in this access control list can specify a  dead-
+              line  for  jobs either during the submission with _q_s_u_b(1) --ddll or
+              after submission with the _q_a_l_t_e_r(1) --ddll switch.
+
+       sseessssiioonnuusseerrss
+              GDI sessions have been introduced with Univa  Grid  Engine  8.2.
+              Such objects can be created, modified and deleted by managers or
+              users that are members of the sseessssiioonnuusseerrss access control  list.
+              The  list will be defined during a default installation of Univa
+              Grid Engine but it will be empty. Either users can be  added  to
+              give  them permissions to create, modify and deleted own session
+              objects or the sseessssiioonnuusseerrss access control list can  be  deleted
+              to give all users permissions.
+
+       ssuuddoommaasstteerrss
+              see ssuuddooeerrss below.
+
+       ssuuddooeerrss
+              ssuuddoommaasstteerrss  and  ssuuddooeerrss  access  lists are used in combination
+              with the Univa Grid Engine  Rest  Service.  Users  mentioned  in
+              ssuuddoommaasstteerrss  can  trigger  commands on behalf of different users
+              that have to be specified in ssuuddooeerrss so that corresponding Univa
+              Grid Engine requests are accepted and executed. This functional-
+              ity is available since Univa Grid Engine 8.3.
+
+FFOORRMMAATT
+       The following list of _a_c_c_e_s_s___l_i_s_t parameters specifies the  _a_c_c_e_s_s___l_i_s_t
+       content:
+
+   nnaammee
+       The   name   of   the  access  list  as  defined  for  _u_s_e_r_s_e_t___n_a_m_e  in
+       _s_g_e___t_y_p_e_s(1).
+
+   ttyyppee
+       The type of the access list, currently  one  of _A_C_L_, or _D_E_P_T or a  com-
+       bination of both in a comma separated list. Depending on this parameter
+       the access list can be used as access list only or as a department.
+
+   oottiicckkeett
+       The amount of override tickets currently assigned to the department.
+
+   ffsshhaarree
+       The current functional share of the department.
+
+   eennttrriieess
+       The entries parameter contains the comma separated list of  those  UNIX
+       users (see _u_s_e_r___n_a_m_e in _s_g_e___t_y_p_e_s(1)) or those primary UNIX groups that
+       are assigned to the access list or the department. By  default  only  a
+       user's primary UNIX group is used; secondary groups are ignored as long
+       as the _q_m_a_s_t_e_r___p_a_r_a_m EENNAABBLLEE__SSUUPP__GGRRPP__EEVVAALL is not defined.  Only symbolic
+       names  are allowed.  A group is differentiated from a user name by pre-
+       fixing the group name with a '@' sign.  Pure access lists allow enlist-
+       ing any user or group in any access list.
+
+       When  using  departments,  each  user  or  group  enlisted  may only be
+       enlisted in one department, in order to ensure a unique  assignment  of
+       jobs  to departments.  To jobs whose users do not match with any of the
+       users  or  groups  enlisted  under  entries  the  _d_e_f_a_u_l_t_d_e_p_a_r_t_m_e_n_t  is
+       assigned, if existing.
+
+SSEEEE AALLSSOO
+       _h_o_s_t___c_o_n_f(5),      _s_g_e___c_o_n_f(5),     _s_g_e___i_n_t_r_o(1),     _s_g_e___j_o_b___c_l_a_s_s(5),
+       _s_g_e___t_y_p_e_s(1), _p_r_o_j_e_c_t(5), _q_c_o_n_f(1), _s_g_e___p_e(5), _q_u_e_u_e___c_o_n_f(5).
+
+CCOOPPYYRRIIGGHHTT
+       See _s_g_e___i_n_t_r_o(1) for a full statement of rights and permissions.
+
+
+
+Univa Grid Engine File Formats     UGE 8.4.4                    ACCESS_LIST(5)

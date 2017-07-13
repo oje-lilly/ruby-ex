@@ -1,0 +1,72 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_DICT_LIST" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_dict_list\fR \- drmaa2_dict_list, Creates a list out of the dictionary keys\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_string_list drmaa2_dict_list(const drmaa2_dict dict)
+.
+.SH "DESCRIPTION"
+Creates a newly allocated \fBdrmaa2_string_list\fR out of the keys from the dictionary\. When the dictionary is defined but has 0 keys, a list with 0 elements is returned\. The list is required to get the keys in order to traverse a dictionary\. After using the list it must be freed with drmaa2_dict_free(3) by the caller\.
+.
+.SH "RETURN VALUES"
+Returns a \fBdrmaa2_string_list\fR or NULL in case of an error\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+static void drmaa2_dict_string_free(char** key, char** value)
+{
+   drmaa2_string_free(key);
+   drmaa2_string_free(value);
+}
+
+/* \.\.\. */
+drmaa2_string_list keys;
+
+/* Create dictionary for job environment variables\. */
+drmaa2_dict dict = drmaa2_dict_create((drmaa2_dict_entryfree)drmaa2_dict_string_free);
+
+if (dict == NULL) {
+   printf("Error: Could not create a new dictionary\.\en");
+   return;
+}
+
+if (drmaa2_dict_set(dict, strdup("key"), strdup("value")) != DRMAA2_SUCCESS) {
+   printf("Error: Could not set a new value in the dictionary\.\en");
+   return;
+}
+
+if (drmaa2_dict_set(dict, strdup("key2"), strdup("")) != DRMAA2_SUCCESS) {
+   printf("Error: Could not set a new value in the dictionary\.\en");
+   return;
+}
+
+if ((keys = drmaa2_dict_list(dict)) != NULL) {
+   long size, i;
+   size = drmaa2_list_size(keys);
+   for (i = 0; i < size; i++) {
+      drmaa2_string key = drmaa2_list_get(keys, i);
+      /* use key for getting the value in the dict */
+      printf("Key: %s Value: %s\en", key, drmaa2_dict_get(dict, key));
+   }
+   drmaa2_list_free(&keys);
+}
+
+/* Frees strings implicitly\. */
+drmaa2_dict_free(&dict);
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_dict_create(3), drmaa2_dict_free(3), drmaa2_dict_list(3), drmaa2_dict_has(3), drmaa2_dict_get(3), drmaa2_dict_del(3), drmaa2_dict_set(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

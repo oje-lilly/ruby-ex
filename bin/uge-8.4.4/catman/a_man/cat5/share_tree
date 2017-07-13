@@ -1,0 +1,98 @@
+SHARE_TREE(5)                                                    SHARE_TREE(5)
+
+
+
+NNAAMMEE
+       share_tree - Univa Grid Engine share tree file format
+
+DDEESSCCRRIIPPTTIIOONN
+       The   share   tree  defines  the  long-term  resource  entitlements  of
+       users/projects and of a hierarchy of arbitrary groups thereof.
+
+       The current share tree  can  be  displayed  via  the  _q_c_o_n_f(1)  --ssssttrreeee
+       option.  The  output follows the _s_h_a_r_e___t_r_e_e format description. A share
+       tree can be created and an existing one can be modified via the --aassttrreeee
+       and  --mmssttrreeee  options  to  _q_c_o_n_f(1).  The --sssstt option shows a formatted
+       share tree (tree view).  Individual share tree nodes  can  be  created,
+       modified,  deleted,  or shown via the --aassttnnooddee, --ddssttnnooddee, --mmssttnnooddee, and
+       --ssssttnnooddee options to _q_c_o_n_f(1).
+
+       Note, Univa Grid Engine allows backslashes (\) be used to  escape  new-
+       line  (\newline) characters. The backslash and the newline are replaced
+       with a space (" ") character before any interpretation.
+
+       A tree is constructed from a root node, internal nodes and leaf  nodes.
+       The  simplest useful tree consists of the root node and two leaf nodes.
+       Internal nodes can be used to group leaf nodes.  These  internal  nodes
+       can  either be abstract nodes with no relation to any Univa Grid Engine
+       object, or nodes of type project, which relate to a defined Univa  Grid
+       Engine  project  (see  _p_r_o_j_e_c_t(5)).  _u_s_e_r(5)) or type project. See also
+       the explanations in FORMAT and the EXAMPLES below.
+
+FFOORRMMAATT
+       The format of a share tree file is defined as follows:
+
+       +o  A new node starts with the attribute iidd,  and  equal  sign  and  the
+          numeric  identification  number  of  the node. Further attributes of
+          that node follow until another iidd-keyword is encountered.
+
+       +o  The attribute ttyyppee defines, if a sharetree node  references  a  user
+          (type=0), or a project (type=1)
+
+       +o  The  attribute  cchhiillddnnooddeess  contains a comma separated list of child
+          nodes to this node.
+
+       +o  The parameter nnaammee refers to an arbitrary name for the node or to  a
+          corresponding  user (see _u_s_e_r(5)) or project (see _p_r_o_j_e_c_t(5)) if the
+          node is a leaf node of the share tree. The name for the root node of
+          the tree is "Root" by convention.
+
+       +o  The  parameter  sshhaarreess defines the share of the node among the nodes
+          with the same parent node.
+
+       +o  A user leaf node named 'default' can be defined as a descendant of a
+          _p_r_o_j_e_c_t(5))  node  in  the  share tree. The default node defines the
+          number of shares for users  who are running in the project, but  who
+          do  not have a user node defined under the project. The default user
+          node is a convenient way of specifying a single node for  all  users
+          which  should  receive  an equal share of the project resources. The
+          default node may be specified by itself or with other _u_s_e_r(5)) nodes
+          at  the  same  level  below a project. All users, whether explicitly
+          specified as a user node or those which map to  the  'default'  user
+          node  must  have a corresponding _u_s_e_r(5)) object defined in order to
+          get shares. Do not configure a _u_s_e_r(5)) object named 'default'.
+
+
+EEXXAAMMPPLLEESS
+       Jobs of projects P1 and P2 get 50 shares, all other jobs get 10 shares.
+
+       id=0
+       name=Root
+       type=0
+       shares=1
+       childnodes=1,2,3
+       id=1
+       name=P1
+       type=1
+       shares=50
+       childnodes=NONE
+       id=2
+       name=P2
+       type=1
+       shares=50
+       childnodes=NONE
+       id=3
+       name=default
+       type=0
+       shares=10
+       childnodes=NONE
+
+SSEEEE AALLSSOO
+       _s_g_e___i_n_t_r_o(1), _q_c_o_n_f(1), _p_r_o_j_e_c_t(5), _u_s_e_r(5).
+
+CCOOPPYYRRIIGGHHTT
+       See _s_g_e___i_n_t_r_o(1) for a full statement of rights and permissions.
+
+
+
+Univa Grid Engine File Formats     UGE 8.4.4                     SHARE_TREE(5)

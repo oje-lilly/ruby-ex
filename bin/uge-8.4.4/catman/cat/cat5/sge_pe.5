@@ -1,0 +1,319 @@
+SGE_PE(5)                                                            SGE_PE(5)
+
+
+
+NNAAMMEE
+       sge_pe - Univa Grid Engine parallel environment configuration file for-
+       mat
+
+DDEESSCCRRIIPPTTIIOONN
+       Parallel environments are parallel programming and runtime environments
+       allowing  for the execution of shared memory or distributed memory par-
+       allelized applications. Parallel environments usually require some kind
+       of  setup  to  be  operational  before  starting parallel applications.
+       Examples for common parallel environments are  shared  memory  parallel
+       operating systems and the distributed memory environments Parallel Vir-
+       tual Machine (PVM) or Message Passing Interface (MPI).
+
+       _s_g_e___p_e allows for the definition of interfaces  to  arbitrary  parallel
+       environments.   Once a parallel environment is defined or modified with
+       the --aapp or --mmpp options to _q_c_o_n_f(1) and linked with one or  more  queues
+       via _p_e___l_i_s_t in _q_u_e_u_e___c_o_n_f(5) the environment can be requested for a job
+       via the --ppee switch to _q_s_u_b(1) together with a request of  a  range  for
+       the number of parallel processes to be allocated by the job. Additional
+       --ll options may be used  to  specify  the  job  requirement  to  further
+       detail.
+
+       Note,  Univa  Grid Engine allows backslashes (\) be used to escape new-
+       line (\newline) characters. The backslash and the newline are  replaced
+       with a space (" ") character before any interpretation.
+
+FFOORRMMAATT
+       The format of a _s_g_e___p_e file is defined as follows:
+
+   ppee__nnaammee
+       The  name  of  the  parallel  environment  as  defined  for  _p_e___n_a_m_e in
+       _s_g_e___t_y_p_e_s(1).  To be used in the _q_s_u_b(1) --ppee switch.
+
+   sslloottss
+       The number of parallel processes being allowed to run  in  total  under
+       the  parallel  environment  concurrently.  Type is number, valid values
+       are 0 to 9999999.
+
+   uusseerr__lliissttss
+       A comma separated list of user access list names (see  _a_c_c_e_s_s___l_i_s_t(5)).
+       Each  user  contained  in at least one of the enlisted access lists has
+       access to the parallel environment. If the uusseerr__lliissttss parameter is  set
+       to NONE (the default) any user has access being not explicitly excluded
+       via the xxuusseerr__lliissttss parameter described below.  If a user is  contained
+       both  in an access list enlisted in xxuusseerr__lliissttss and uusseerr__lliissttss the user
+       is denied access to the parallel environment.
+
+   xxuusseerr__lliissttss
+       The xxuusseerr__lliissttss parameter contains a comma separated list of so  called
+       user  access lists as described in _a_c_c_e_s_s___l_i_s_t(5).  Each user contained
+       in at least one of the enlisted access lists is not allowed  to  access
+       the  parallel  environment. If the xxuusseerr__lliissttss parameter is set to NONE
+       (the default) any user has access. If a user is contained  both  in  an
+       access  list  enlisted in xxuusseerr__lliissttss and uusseerr__lliissttss the user is denied
+       access to the parallel environment.
+
+   ssttaarrtt__pprroocc__aarrggss
+       The invocation command line of a start-up procedure  for  the  parallel
+       environment  or  the  keyword  NONE if no startup-script should be exe-
+       cuted.  The start-up procedure is invoked by  _s_g_e___s_h_e_p_h_e_r_d(8)  for  the
+       master  task  of a parallel job after a possibly configured prolog (see
+       _s_g_e___c_o_n_f(5)) and prior to executing the job script. Its purpose  is  to
+       setup  the  parallel  environment  correspondingly  to  its  needs.  An
+       optional prefix "user@" specifies the user under which  this  procedure
+       is  to  be  started.   The standard output of the start-up procedure is
+       redirected to the file _R_E_Q_U_E_S_T.po_J_I_D in  the  job's  working  directory
+       (see  _q_s_u_b(1)),  with _R_E_Q_U_E_S_T being the name of the job as displayed by
+       _q_s_t_a_t(1) and _J_I_D being the job's identification number.  Likewise,  the
+       standard error output is redirected to _R_E_Q_U_E_S_T.pe_J_I_D
+       Scripts  where  the  execution  duration would exceed 2 minutes will be
+       terminated. This timeout can be adjusted by defining SSCCRRIIPPTT__TTIIMMEEOOUUTT  as
+       eexxeeccdd__ppaarraamm in the configuration.
+       The  following  special variables being expanded at runtime can be used
+       (besides any other strings which have to be interpreted  by  the  start
+       and stop procedures) to constitute a command line:
+
+       _$_p_e___h_o_s_t_f_i_l_e
+              The  pathname of a file containing a detailed description of the
+              layout of the parallel environment to be setup by  the  start-up
+              procedure.  Each line of the file refers to a host on which par-
+              allel processes are to be run. The  first  entry  of  each  line
+              denotes  the  hostname,  the second entry the number of parallel
+              processes to be run on the host, the third entry the name of the
+              queue, and the fourth entry a processor range to be used in case
+              of a multiprocessor machine.
+
+       _$_h_o_s_t  The name of the host on which the start-up  or  stop  procedures
+              are started.
+
+       _$_j_o_b___o_w_n_e_r
+              The user name of the job owner.
+
+       _$_j_o_b___i_d
+              Univa Grid Engine's unique job identification number.
+
+       _$_j_o_b___n_a_m_e
+              The name of the job.
+
+       _$_p_e    The name of the parallel environment in use.
+
+       _$_p_e___s_l_o_t_s
+              Number of slots granted for the job.
+
+       _$_p_r_o_c_e_s_s_o_r_s
+              The  pprroocceessssoorrss  string  as contained in the queue configuration
+              (see _q_u_e_u_e___c_o_n_f(5)) of the master queue (the queue in which  the
+              start-up and stop procedures are started).
+
+       _$_q_u_e_u_e The cluster queue of the master queue instance.
+
+   ssttoopp__pprroocc__aarrggss
+       The  invocation  command  line of a shutdown procedure for the parallel
+       environment or the keyword NONE if no shutdown procedure should be exe-
+       cuted.   The shutdown procedure is invoked by _s_g_e___s_h_e_p_h_e_r_d(8) after the
+       job script has finished, but before a possibly configured  epilog  (see
+       _s_g_e___c_o_n_f(5))  is  started. Its purpose is to stop the parallel environ-
+       ment and to remove it from all participating systems.  An optional pre-
+       fix  "user@"  specifies  the  user  under which this procedure is to be
+       started.  The standard output of the stop procedure is also  redirected
+       to the file _R_E_Q_U_E_S_T.po_J_I_D in the job's working directory (see _q_s_u_b(1)),
+       with _R_E_Q_U_E_S_T being the name of the job as displayed by _q_s_t_a_t(1) and _J_I_D
+       being  the  job's  identification number.  Likewise, the standard error
+       output is redirected to _R_E_Q_U_E_S_T.pe_J_I_D
+       Scripts where the execution duration would exceed  2  minutes  will  be
+       terminated.  This timeout can be adjusted by defining SSCCRRIIPPTT__TTIIMMEEOOUUTT as
+       eexxeeccdd__ppaarraamm in the configuration.
+       The same special variables as for ssttaarrtt__pprroocc__aarrggss can be used  to  con-
+       stitute a command line.
+
+   aallllooccaattiioonn__rruullee
+       The  allocation  rule  is interpreted by the scheduler thread and helps
+       the scheduler to decide how to distribute parallel processes among  the
+       available  machines.  If, for instance, a parallel environment is built
+       for shared memory applications only, all parallel processes have to  be
+       assigned  to a single machine, no matter how much suitable machines are
+       available.  If, however, the  parallel  environment  follows  the  dis-
+       tributed  memory  paradigm,  an  even  distribution  of processes among
+       machines may be favorable.
+       The allocation rule always refers to hosts, not to queues. So if  there
+       are specific queues requested for the parallel job, e.g. using the "-q"
+       or "-masterq" switch (see _q_s_u_b(1)) the tasks of the job might get  dis-
+       tributed  over several queues, but the sum of tasks on one host will be
+       always the one defined by the allocation rule.
+       The current version of the scheduler  only  understands  the  following
+       allocation rules:
+
+       <<iinntt>>:    An integer number fixing the number of processes per host. If
+                 the number is 1, all processes have to  reside  on  different
+                 hosts.   If  the  number  of  tasks  specified with the "-pe"
+                 option (see _q_s_u_b(1)) does not  divide  without  remainder  by
+                 this  <int>  the  job  will not be scheduled.  If there was a
+                 master queue requested by the "-masterq" option and a list of
+                 queues  for the slave tasks by the "-q" option (see _q_s_u_b(1)),
+                 and if the master queue is not part of the slave queue  list,
+                 then  the  job  will be scheduled only if the number of tasks
+                 subtracted by one divides without reminder by this <int>.
+                 If the special denominator $$ppee__sslloottss is used, the full  range
+                 of  processes as specified with the _q_s_u_b(1) --ppee switch has to
+                 be allocated on a single host (no matter which value  belong-
+                 ing  to  the  range is finally chosen for the job to be allo-
+                 cated).
+
+       $$ffiillll__uupp: Starting from the best  suitable  host/queue,  all  available
+                 slots are allocated. Further hosts and queues are "filled up"
+                 as long as a job still requires slots for parallel tasks.
+
+       $$rroouunndd__rroobbiinn:
+                 From all suitable hosts a single slot is allocated until  all
+                 tasks  requested  by the parallel job are dispatched. If more
+                 tasks are requested than suitable hosts are found, allocation
+                 starts  again  from  the  first  host.  The allocation scheme
+                 walks through suitable hosts in a best-suitable-first  order.
+
+       NNoottee:  If the master queue (i.e. the queue where the master task of the
+       parallel job is located) is not requested explicitly, these  allocation
+       rules are always obeyed exactly.
+       If a master queue is requested explicitly by adding the --mmaasstteerrqq switch
+       to the submit command line (see _s_u_b_m_i_t(1)), then the Scheduler tries to
+       fulfill  both  the  allocation rule and the master queue request, which
+       are possibly contrary requirements. If the allocation rule and the dis-
+       tribution of both the master queue and the slave queues over the execu-
+       tion hosts allow to make one of these tasks the master task, then  both
+       the  --mmaasstteerrqq  request  and  the allocation rule are obeyed exactly. If
+       this is not possible, then the Scheduler automatically  adds  one  task
+       that will become the master task.
+       Generally, the Scheduler will have to add one task for fixed allocation
+       rules (i.e. "<int>" or "$pe_slots") if the requested  master  queue  is
+       not part of the set of slave queues and none of the slave queues has an
+       instance on the master host.  The exception of this rule is an  alloca-
+       tion rule of "1".
+
+   ccoonnttrrooll__ssllaavveess
+       This  parameter can be set to TRUE or FALSE (the default). It indicates
+       whether Univa Grid Engine is the  creator  of  the  slave  tasks  of  a
+       parallel  application via _s_g_e___e_x_e_c_d(8) and _s_g_e___s_h_e_p_h_e_r_d(8) and thus has
+       full control over  all  processes  in  a  parallel  application,  which
+       enables  capabilities  such as resource limitation and correct account-
+       ing. However, to gain control over the slave tasks of a parallel appli-
+       cation,  a  sophisticated PE interface is required, which works closely
+       together with Univa Grid Engine  facilities.  Such  PE  interfaces  are
+       available through your local Univa Grid Engine support office.
+
+       Please  set  the  control_slaves  parameter  to  false for all other PE
+       interfaces.
+
+   jjoobb__iiss__ffiirrsstt__ttaasskk
+       The jjoobb__iiss__ffiirrsstt__ttaasskk parameter can be set to TRUE or FALSE. A value of
+       TRUE  indicates  that the Univa Grid Engine job script already contains
+       one of the tasks of the  parallel  application  (the  number  of  slots
+       reserved  for  the  job  is  the number of slots requested with the -pe
+       switch), while a value of FALSE indicates that the job script (and  its
+       child  processes)  is  not  part of the parallel program (the number of
+       slots reserved for the job is the number of slots  requested  with  the
+       -pe switch + 1).
+
+       If  wallclock  accounting  is  used  (execd_params  ACCT_RESERVED_USAGE
+       and/or SHARETREE_RESERVED_USAGE set to TRUE) and ccoonnttrrooll__ssllaavveess is  set
+       to FALSE, the jjoobb__iiss__ffiirrsstt__ttaasskk parameter influences the accounting for
+       the job: A value of TRUE means that accounting for  cpu  and  requested
+       memory  gets  multiplied  by the number of slots requested with the -pe
+       switch, if jjoobb__iiss__ffiirrsstt__ttaasskk is set to FALSE, the  accounting  informa-
+       tion gets multiplied by number of slots + 1.
+
+   uurrggeennccyy__sslloottss
+       For  pending  jobs  with a slot range PE request the number of slots is
+       not determined. This setting specifies the method to be used  by  Univa
+       Grid  Engine to assess the number of slots such jobs might finally get.
+
+       The  assumed  slot  allocation  has  a  meaning  when  determining  the
+       resource-request-based  priority  contribution for numeric resources as
+       described in _s_g_e___p_r_i_o_r_i_t_y(5) and is  displayed  when  _q_s_t_a_t(1)  is  run
+       without --gg tt option.
+
+       The following methods are supported:
+
+       <<iinntt>>:    The  specified integer number is directly used as prospective
+                 slot amount.
+
+       mmiinn:      The slot range minimum is used as prospective slot amount. If
+                 no lower bound is specified with the range 1 is assumed.
+
+       mmaaxx:      The  of  the  slot  range maximum is used as prospective slot
+                 amount.  If no upper bound is specified with  the  range  the
+                 absolute  maximum  possible  due to the PE's sslloottss setting is
+                 assumed.
+
+       aavvgg:      The average of all numbers  occurring  within  the  job's  PE
+                 range request is assumed.
+
+   aaccccoouunnttiinngg__ssuummmmaarryy
+       This  parameter is only checked if ccoonnttrrooll__ssllaavveess (see above) is set to
+       TRUE and thus Univa Grid Engine is the creator of the slave tasks of  a
+       parallel  application  via  _s_g_e___e_x_e_c_d(8)  and _s_g_e___s_h_e_p_h_e_r_d(8).  In this
+       case, accounting information is available for every single  slave  task
+       started by Univa Grid Engine.
+
+       The  aaccccoouunnttiinngg__ssuummmmaarryy  parameter can be set to TRUE or FALSE. A value
+       of TRUE indicates that only a single accounting record  is  written  to
+       the  _a_c_c_o_u_n_t_i_n_g(5) file, containing the accounting summary of the whole
+       job including all slave tasks, while a  value  of  FALSE  indicates  an
+       individual  _a_c_c_o_u_n_t_i_n_g(5)  record  is  written for every slave task, as
+       well as for the master task.
+       NNoottee::   When   running   tightly   integrated    jobs    with    _S_H_A_R_E_-
+       _T_R_E_E___R_E_S_E_R_V_E_D___U_S_A_G_E  set, and with having _a_c_c_o_u_n_t_i_n_g___s_u_m_m_a_r_y enabled in
+       the parallel environment, reserved usage will only be reported  by  the
+       master  task  of  the parallel job.  No per parallel task usage records
+       will be sent from execd to qmaster, which can significantly reduce load
+       on qmaster when running large tightly integrated parallel jobs.
+
+   ddaaeemmoonn__ffoorrkkss__ssllaavveess
+       This  parameter is only checked if ccoonnttrrooll__ssllaavveess (see above) is set to
+       TRUE and thus Univa Grid Engine is the creator of the slave tasks of  a
+       parallel application via _s_g_e___e_x_e_c_d(8) and _s_g_e___s_h_e_p_h_e_r_d(8).
+
+       The  ddaaeemmoonn__ffoorrkkss__ssllaavveess  parameter  defines if every task of a tightly
+       integrated parallel job gets started  individually  via  qqrrsshh  --iinnhheerriitt
+       (default  value  FALSE, e.g. used for mpich integration) or if a single
+       daemon is started via qqrrsshh --iinnhheerriitt on every slave host which forks the
+       slave tasks (value TRUE, e.g. used for openmpi or lam integration).
+
+       With  ddaaeemmoonn__ffoorrkkss__ssllaavveess  set  to TRUE only a single task (the daemon)
+       may get started per slave host, all limits set for this task are multi-
+       plied by the number of slots granted on the host.
+
+
+   mmaasstteerr__ffoorrkkss__ssllaavveess
+       The mmaasstteerr__ffoorrkkss__ssllaavveess parameter can be set to TRUE if the master task
+       (e.g. mpirun called in the job script) starts tasks running on the mas-
+       ter host via fork/exec instead of starting them via qqrrsshh --iinnhheerriitt..
+
+       With mmaasstteerr__ffoorrkkss__ssllaavveess set to TRUE all limits set for the master task
+       (the job script) will be increased by the slave task  limit  multiplied
+       by  the  number  of slots granted on the host.  No further tasks can be
+       started on the master host via qqrrsshh --iinnhheerriitt.
+
+
+RREESSTTRRIICCTTIIOONNSS
+       NNoottee, that the functionality of the start-up,  shutdown  and  signaling
+       procedures remains the full responsibility of the administrator config-
+       uring the parallel environment.  Univa Grid  Engine  will  just  invoke
+       these  procedures  and evaluate their exit status. If the procedures do
+       not perform their tasks properly or if the parallel environment or  the
+       parallel  application  behave  unexpectedly,  Univa  Grid Engine has no
+       means to detect this.
+
+SSEEEE AALLSSOO
+       _s_g_e___i_n_t_r_o(1),  _s_g_e_____t_y_p_e_s(1),  _q_c_o_n_f(1),  _q_d_e_l(1),  _q_m_o_d(1),   _q_s_u_b(1),
+       _a_c_c_e_s_s___l_i_s_t(5), _s_g_e___q_m_a_s_t_e_r(8), _s_g_e___s_h_e_p_h_e_r_d(8).
+
+CCOOPPYYRRIIGGHHTT
+       See _s_g_e___i_n_t_r_o(1) for a full statement of rights and permissions.
+
+
+
+Univa Grid Engine File Formats     UGE 8.4.4                         SGE_PE(5)

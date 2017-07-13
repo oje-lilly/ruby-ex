@@ -1,0 +1,501 @@
+.TH "Preemption in UGE 8.4.4 \- sge_preemption" "" "Mai 15, 2015" "" ""
+.SH NAME
+.PP
+Preemption \- Manual, Semi\-Automatic and Automatic Preemption in
+Univa Grid Engine
+.SH DESCRIPTION
+.PP
+Univa Grid Engine clusters can cope with different types of workloads.
+The configuration of the scheduler component defines the way how to
+handle different workloads in the daily operation.
+Various policies can be combined to reflect the requirements.
+.PP
+In previous versions of Grid Engine enforcing policies sometimes was
+difficult especially when high priority jobs would require resources of
+lower priority jobs that already bind resources like slots, memory or
+licenses.
+In such cases it was required to use slot\-wise suspend on subordinate
+to make such resources available or reservation and advance reservation
+functionality could be used to reserve resources for such high priority
+jobs before they drop in.
+.PP
+Univa Grid Engine 8.3 (and above) additionally provide the possibility to
+enforce configured policies when required resources are already in use.
+This can be done through preemption.
+This document describes preemptive scheduling as an addition to the
+Univa Grid Engine job handling and scheduling that makes it possible to more
+closely follow the goals defined by the policies and if necessary
+enforce them.
+.SH TERMS
+.PP
+Following paragraphs describe a couple of terms that are used throughout
+this document.
+.PP
+Jobs which have high priority based on the configured policies can get
+the role of an \f[I]preemption consumer\f[] that can cause a
+\f[I]preemption action\f[] to be performed for one or more running jobs
+that have the role of an \f[I]preemption provider\f[].
+In general all those running jobs are considered as \f[I]preemption
+provider\f[] where the priority is smaller than that of the
+\f[I]preemption consumer\f[].
+.PP
+There are different \f[I]preemption actions\f[] available in
+Univa Grid Engine.
+What all of them have in common is that they will make all or a subset
+of the bound resources of a \f[I]preemption provider\f[] available so
+that they can be used by one or more \f[I]preemption consumer\f[].
+Different \f[I]preemption actions\f[] differ in the way how bound
+resources are freed and how the Univa Grid Engine system will make the bound
+resources available.
+.PP
+\f[I]Preemption actions\f[] can be executed by Univa Grid Engine due to three
+different \f[I]preemption triggers\f[].
+A \f[I]preemption trigger\f[] will define the time and has an influence
+on the chosen \f[I]preemption action\f[] that is performed.
+In general \f[I]preemption trigger\f[] can be \f[I]manual\f[],
+\f[I]semi\-automatic\f[] or \f[I]automatic\f[].
+.PP
+A \f[I]preemption consumer\f[] that consumes resources that got
+available through triggering a \f[I]preemption action\f[] has the role
+on an \f[I]preemptor\f[] whereas those jobs that get forced to free
+resources are considered as \f[I]preemptee\f[].
+.PP
+Please note: Within Univa Grid Engine 8.3 \f[I]manual preemption\f[] is
+implemented.
+\f[I]semi\-automatic\f[] or \f[I]automatic\f[] trigger will follow with
+upcoming releases.
+.SH PREEMPTIVE TRIGGER AND ACTIONS
+.PP
+Univa Grid Engine 8.3 provides six different preemption actions to preempt a
+job.
+With manual preemption the user/manager has to choose which of the
+available preemptive actions should be used to trigger preemption of a
+job.
+With semi\-automatic and automatic preemption mechanisms (available with
+future versions of Univa Grid Engine) either the system configuration or the
+Univa Grid Engine scheduler decides automatically which preemption action will
+be taken to release resources.
+.PP
+The six preemptive actions differ in the way which of the resources will
+be available for other jobs after the preemptee got preempted.
+Some of those actions have restrictions on which job types they can be
+applied as well as who is allowed to trigger them.
+The actions differ also in the way how they treat the processes that are
+executed on behalf of a job that gets preempted.
+.PP
+Within Univa Grid Engine all preemptive actions are represented by single
+capital letter (\f[B]T\f[], \f[B]R\f[], \f[B]C\f[], \f[B]P\f[],
+\f[B]N\f[] or \f[B]S\f[]) that is either passed to a command, specified
+in a configuration object or that is shown in command output to show the
+internal state of a job.
+.PP
+Some of the preemptive actions trigger the \f[I]suspend_method\f[] that
+might be defined in the queue where the preemptee is executed.
+To be able to distinguish different preemption actions within the
+\f[I]suspend_method\f[] an optional argument named \f[I]$action\f[]
+might be used as pseudo argument when the method is defined.
+That argument will be expanded to the corresponding letter that
+represents the preemptive action during runtime.
+.PP
+(\f[B]T\f[])erminate Action: The preemptee will be terminated.
+As soon as all underlying processes are terminated all resources that
+were bound by that preemptee will be reported as free.
+The T\-action can be applied to any job.
+Users can apply it only to own jobs.
+.PP
+(\f[B]C\f[])heckpoint Action: The preemptee will be checkpointed.
+As soon as a checkpoint is written and all underlying processes are
+terminated all bound resources will be reported as available and the job
+will be rescheduled.
+This preemption action can only be applied to checkpointing jobs where a
+checkpointing environment was specified during submission of this job.
+.PP
+(\f[B]R\f[])erun Action: The preempted job will be rescheduled.
+As soon as all underlying processes are terminated all bound resources
+will be reported as available.
+Managers can enforce the rerun of jobs even if those jobs are not tagged
+as rerun\-able on the job or queue level.
+.PP
+(\f[B]P\f[])reemption Action: The preemptee will be preempted.
+Preempted means that the configured \f[I]queue\-suspend\f[] method
+(\f[I]$action\f[] set to \f[I]P\f[]) will be executed that might trigger
+additional operations to notify the processes about the upcoming
+preemption so that those processes can release bound resources by
+itself.
+After that the processes are suspended and all consumable resources,
+where the attribute available\-after\-preemption (aapre) is set to true,
+are reported as free.
+Not\-available\-after\-preemption resources are still reported to be
+bound by the preempted job.
+The preemption action can be applied to all preemption providers whereas
+users can only preempt own jobs.
+.PP
+e(\f[B]N\f[])hanced Suspend Action: Similar to the preempt action the
+queue \f[I]suspend_method\f[] (\f[I]$action\f[] set to "\f[I]E\f[]")
+will be triggered before the preemptee gets suspended.
+Only non\-memory\-based consumables (including LO\-managed license
+resources) are reported as free when the processes are suspended.
+Memory\-based consumables that are available\-after\-preemption and also
+not\-available\-after\-preemption consumables will still be reported as
+bound by the enhanced suspended job.
+This preemption action can be applied to all preemption providers.
+Users can only preempt own jobs.
+.PP
+(\f[B]S\f[])uspend Action: Similar to the preempt action the triggered
+method will be the \f[I]suspend_method\f[] (\f[I]$action\f[] set to
+"\f[I]S\f[]") before the preemptee gets suspended.
+Only consumed slots (and LO\-managed license resources) will be
+available after suspension.
+All other resources, independent if they are tagged as
+available\-after\-preemption or not\-available\-after\-preemption in the
+complex configuration, will be reported as still in use.
+This preemption action can be applied to all preemption providers.
+Users can only preempt own jobs.
+.PP
+Which of the six preemptive action should be chosen to manually preempt
+a job?
+If a job is checkpointable then it should be the \f[B]C\f[]\-action.
+Here all consumed resources of the preemptee will be available for
+higher priority jobs.
+The preemptee can continue its work at that point where the last
+checkpoint was written when it is restarted.
+.PP
+Although also the \f[B]T\f[]\-action and the \f[B]R\f[]\-action provide
+the full set of resources but they should be seen as the last resort
+when no less disruptive preemptive actions can be applied.
+Reason for this is that the computational work of the preemptee up to
+the point in time where the preemptee is rescheduled or terminated might
+get completely lost which would be a waste of resources.
+.PP
+From the Univa Grid Engine perspective also the P\-action makes all bound
+resources (slots + memory + other consumable resources where
+\f[I]aapree\f[] of the complex is set to \f[I]true\f[]) available for
+higher priority jobs.
+But this is only correct if the machine has enough swap space configured
+so that the underlying OS is able to move consumed physical memory
+pages of the suspended processes into that swap space and also when the
+application either releases consumed resources (like software licenses,
+special devices, ...) automatically or when a \f[I]suspend_method\f[] can
+be configured to trigger the release of those resources.
+The \f[B]N\f[]\-action can be used for jobs that run on hosts without or
+with less configured swap space.
+It will make only non\-memory\-based consumables available (slots +
+other consumable resources where \f[I]aapree\f[] of the complex is set
+to \f[I]true\f[]).
+.PP
+If jobs either do not use other resources (like software licenses,
+special devices, ...) and when memory consumption is not of interest in
+the cluster, then the \f[B]S\f[]\-action can be chosen.
+It is the simplest preemptive action that provides slots (and
+LO\-licenses) only after preemption.
+Please note that the S\-action and S\-state of jobs is different from
+the s\-state of a job (triggered via \f[I]qmod\f[] \-s command).
+A regularely suspended job does not release slots of that job.
+Those slots are blocked by the manually suspended job.
+.PP
+The \f[B]P\f[] and \f[B]N\f[]\-action will make consumable resources of
+preemptees available for higher priority jobs.
+This will be done automatically for all preconfigured consumable
+resources in a cluster.
+For those complexes the
+.PD 0
+.P
+.PD
+available\-after\-preemption\-attribute (\f[I]aapre\f[]) is set to
+\f[I]YES\f[].
+Managers of a cluster can change this for predefined complexes.
+They also have to decide if a self-defined resource gets available after
+preemption.
+For Resources that should be ignored by the preemptive scheduling
+functionality the \f[I]aapre\f[]\-attribute can be set to \f[I]NO\f[].
+.PP
+Please note that the resource set for each explained preemptive action
+defines the maximum set of resources that might get available through
+that preemption action.
+Additional scheduling parameters (like \f[I]prioritize_preemptees\f[] or
+\f[I]preemptees_keep_resources\f[] that are further explained below)
+might reduce the resource set that get available through preemption to a
+subset (only those resources that are demanded by a specified
+\f[I]preemption_consumer\f[]) of the maximum set.
+.SH MANUAL PREEMPTION
+.PP
+Manual preemption can be triggered with the \f[I]qmod\f[] command in
+combination with the \f[I]p\f[]\-switch.
+The \f[I]p\f[]\-switch expects one job ID of a
+\f[I]preemption_consumer\f[] followed by one or multiple job ID's or job
+names of \f[I]preemption_provider\f[].
+As last argument the command allows to specify a character representing
+one of the six \f[I]preemptive_actions\f[].
+This last argument is optional.
+\f[I]P\f[]\-action will be used as default if the argument is omitted.
+.PP
+Syntax:
+.IP
+.nf
+\f[C]
+\ \ qmod\ [\-f]\ \-p\ <preemption_consumer>\ 
+\ \ \ \ \ \ \ \ \ \ \ \ <preemption_provider>\ [<preemption_provider>\ ...]\ 
+\ \ \ \ \ \ \ \ \ \ \ \ [<preemption_action>]
+
+\ \ <preemption_consumer>\ :=\ <job_ID>\ .\ 
+\ \ <preemption_provider>\ :=\ <job_ID>\ |\ <job_name>\ .
+\ \ <preemption_action>\ \ \ :=\ "P"\ |\ "N"\ |\ "S"\ |\ "C"\ |\ "R"\ |\ "T"\ .
+\f[]
+.fi
+.PP
+The manual preemption request will only be accepted if it is valid.
+Manual preemption request will be rejected when:
+.IP \[bu] 2
+Resource reservation is disabled in the cluster.
+.IP \[bu] 2
+\f[I]preemption_consumer\f[] has no reservation request.
+.IP \[bu] 2
+At least one specified \f[I]preemption_provider\f[] is not running.
+.IP \[bu] 2
+\f[B]C\f[]\-action is requested but there is at least one
+\f[I]preemption_provider\f[] that is not checkpointable.
+.IP \[bu] 2
+\f[B]R\f[]\-action is requested but there is at least one
+\f[I]preemption_provider\f[] that is neither tagged as rerunnable nor the
+queue where the job is running is a rerunnable queue.
+(Manager can enforce the R\-action in combination with the
+\f[I]f\f[]\-switch).
+.PP
+Manual preemption requests are not immediately executed after they have
+been accepted by the system.
+The Univa Grid Engine scheduler is responsible to trigger manual preemption
+during the next scheduling run.
+Preemption will only be triggered if the resources will not otherwise be
+available to start the preemption consumer within a configurable time
+frame (see \f[I]preemption_distance\f[] below).
+If enough resources are available or when the scheduler sees that they
+will be available in near future then the manual preemption request will
+be ignored.
+.PP
+Please note that resources that get available through preemption are
+only reserved for the specified \f[I]preemption_consumer\f[] if there
+are no other jobs of higher priority that also demands those resources.
+If there are jobs of higher priority then those jobs will get the
+resources and the specified \f[I]preemption_consumer\f[] might stay in
+pending state till either the higher priority jobs leaves the system or
+another manual preemption request is triggered.
+.PP
+Preemptees will automatically trigger a reservation of those resources
+that they have lost due to preemption.
+This means that they can be reactivated as soon as they are eligible due
+to its priority and as soon as the missing resources get available.
+There is no dependency between a preemptor and the preemptees.
+All or a subset of preemptees might get restarted even if the preemptor
+is still running if demanded resources are added to the cluster or get
+available due to the job end of other jobs.
+.PP
+Preemptees will have the jobs state \f[B]P\f[], \f[B]N\f[] or \f[B]S\f[]
+(shown in the \f[I]qstat\f[] output or \f[I]qmon\f[] dialogs) depending
+of the corresponding preemption action that was triggered.
+Those jobs, as well as preemptees that get rescheduled due to the
+\f[B]R\f[]\-action, will appear as pending jobs even if they still hold
+some resources.
+Please note that regularly suspended jobs (in \f[B]s\f[]\-state due to
+\f[I]qmod\f[] \-s) still consume all resources and therefore block the
+queue slots for other jobs.
+\f[I]qstat\f[] \-j command can be used to see which resources are still
+bound by preemptees.
+.SH PREEMPTION CONFIGURATION
+.PP
+Following scheduling configuration parameters are available to influence
+the preemptive scheduling as well as the preemption behaviour of the
+Univa Grid Engine cluster.
+They
+.PP
+\f[I]max_preemptees\f[]: The maximum number of preemptees in the
+cluster.
+As preempted jobs might hold some resources (e.g memory) and through the
+\f[I]preemptees_keep_resources\f[] parameter might even hold most of
+their resources a high number of preemptees can significantly impact
+cluster operation.
+Limiting the number of preemptees will limit the amount of held but
+unused resources.
+.PP
+\f[I]prioritize_preemptees\f[]: By setting this parameter to
+\f[I]true\f[] or \f[I]1\f[] preemptees get a reservation before the
+regular scheduling is done.
+This can be used to ensure that preemptees get restarted again at latest
+when the preemptor finishes, unless resources required by the preemptee
+are still held by jobs which got backfilled.
+\f[I]prioritize_preemptees\f[] in combination with disabling of
+backfilling provides a guarantee that preemptees get restarted at least
+when the preemptor finishes, at the expense of lower cluster
+utilization.
+.PP
+\f[I]preemptees_keep_resources\f[]: When a job gets preempted only those
+resources will get freed which will be consumed by the preemptor.
+This prevents resources of a preemptee from getting consumed by other
+jobs.
+\f[I]prioritize_preemptees\f[] and \f[I]preemptees_keep_resources\f[] in
+combination provide a guarantee that preemptees get restarted at latest
+when the preemptor finishes, at the expense of a waste of resources and
+bad cluster utilization.
+Exception: Licenses managed through LO and a license manager cannot be
+held by a preemptee.
+As the preemptee processes will be suspended the license manager might
+assume the license to be free which will lead to the license be consumed
+by a different job.
+When the preemptee processes get unsuspended again a license query would
+fail if the license is held.
+.PP
+\f[I]preemption_distance\f[]: A preemption will only be triggered if the
+resource reservation that could be done for a job is farther in the
+future than the given time interval (hh:mm:ss, default 00:15:00).
+Reservation can be disabled by setting the value to 00:00:00.
+Reservation will also be omitted if preemption of jobs is forced by a
+manager manually using (via \f[I]qmod\f[] \-f \-p ...).
+.SH PREEMPTION IN COMBINATION WITH LICENSE ORCHESTRATOR
+.PP
+License complexes that are reported by License Orchestrator are
+automatically defined as available\-after\-preemption (\f[I]aapre\f[] is
+set to \f[I]YES\f[]).
+This means that if a Univa Grid Engine job that consumes a LO\-license
+resource gets preempted, then this will automatically cause preemption
+of the corresponding LO\-license request.
+The license will be freed and is then available for other jobs.
+.PP
+Manual preemption triggered in one Univa Grid Engine cluster does not provide
+a guarantee that the specified preemption consumer (or even a different
+job within the same Univa Grid Engine cluster) will get the released
+resources.
+The decision which cluster will get the released resource depends
+completely on the setup of the License Orchestrator cluster.
+Consequently it might happen that a license resource that gets available
+through preemption in one cluster will be given to a job in a different
+cluster if the final priority of the job/cluster is higher than that of
+the specified preemption consumer.
+.SH COMMON USE CASES
+.IP "A)" 3
+License consumable (without LO)
+.PP
+Scenario: There is a license\-consumable defined that has a maximum
+capacity and multiple jobs compete for those by requesting one or
+multiple of those licenses.
+.PP
+Complex definition:
+.IP
+.nf
+\f[C]
+\ \ $\ qconf\ \-sc
+\ \ ...
+\ \ license\ \ lic\ \ INT\ \ <=\ \ YES\ \ YES\ \ 0\ \ 0\ \ YES
+\ \ ...
+\f[]
+.fi
+.PP
+The last \f[I]YES\f[] defines the value of \f[I]aapre\f[].
+This means that the license resource will be available after preemption.
+.PP
+License capacity is defined on global level:
+.IP
+.nf
+\f[C]
+\ \ $\ qconf\ \-se\ global
+\ \ ...
+\ \ complex_values\ \ \ license=2
+\f[]
+.fi
+.PP
+When now two jobs are submitted into the cluster then both licenses can
+be consumed by the jobs.
+.IP
+.nf
+\f[C]
+\ \ $\ qsub\ \-l\ lic=1\ \-b\ y\ \-l\ h_rt=1:00:00\ sleep\ 3600
+\ \ $\ qsub\ \-l\ lic=1\ \-b\ y\ \-l\ h_rt=1:00:00\ sleep\ 3600
+\ \ ...
+
+\ \ $\ qstat\ \-F\ lic
+\ \ ...
+\ \ all.q\@rgbtest\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BIPC\ \ 0/1/60\ \ \ lx\-amd64
+\ \ \ \ \ \ \ \ \ gc:license=0
+\ \ 3000000005\ 0.55476\ sleep\ \ \ \ \ \ user\ \ \ \ \ \ \ \ \ r
+\ \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+\ \ all.q\@waikiki\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BIPC\ \ 0/1/10\ \ \ \ \ \ \ \ \ 0.00\ \ \ \ \ lx\-amd64
+\ \ \ \ \ \ \ \ \ gc:license=0
+\ \ 3000000004\ 0.55476\ sleep\ \ \ \ \ \ user\ \ \ \ \ \ \ \ \ r\ \ \ \ \ 04/02/2015\ 12:32:54\ \ \ \ \ 1
+\f[]
+.fi
+.PP
+Submission of a higher priority job requesting 2 licenses and resource
+reservation:
+.IP
+.nf
+\f[C]
+\ \ $\ qsub\ \-p\ 100\ \-R\ y\ \-l\ lic=2\ \-b\ y\ \-l\ h_rt=1:00:00\ sleep\ 3600
+\f[]
+.fi
+.PP
+The high priority job stays pending, it will get a reservation, but only
+after both lower priority jobs are expected to finish:
+.IP
+.nf
+\f[C]
+\ \ $\ qstat\ \-j\ 3000000006
+\ \ ...
+\ \ reservation\ \ \ \ \ \ \ 1:\ \ \ \ from\ 04/02/2015\ 13:33:54\ to\ 04/02/2015\ 14:34:54
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ all.q\@hookipa:\ 1
+\f[]
+.fi
+.PP
+We want the high priority job to get started immediately, therefore we
+trigger a manual preemption of the two lower priority jobs:
+.IP
+.nf
+\f[C]
+\ \ $\ qmod\ \-p\ 3000000006\ 3000000004\ 3000000005\ P
+\ \ Accepted\ preemption\ request\ for\ preemptor\ candidate\ 3000000006
+\f[]
+.fi
+.PP
+The lower priority jobs get preempted, the high priority job can start:
+.IP
+.nf
+\f[C]
+\ \ $\ qstat
+\ \ job\-ID\ \ \ \ \ prior\ \ \ name\ \ user\ state\ submit/start\ at\ \ \ \ \ queue\ \ \ \ \ jclass\ slots\ ja\-task\-ID
+\ \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+\ \ 3000000006\ 0.60361\ sleep\ joga\ r\ 04/02/2015\ 12:37:50\ all.q\@waikiki\ \ \ \ \ \ \ \ 1
+\ \ 3000000004\ 0.55476\ sleep\ joga\ P\ 04/02/2015\ 12:32:54\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1
+\ \ 3000000005\ 0.55476\ sleep\ joga\ P\ 04/02/2015\ 12:32:54\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1
+\f[]
+.fi
+.PP
+Resources which have been preempted are shown in qstat \-j .
+In order for the preemptees to be able to resume work as soon as
+possible, preempted jobs get a resource reservation for the resources
+they released, e.g.
+.IP
+.nf
+\f[C]
+\ \ $\ qstat\ \-j\ 3000000004
+\ \ ...
+\ \ preempted\ \ \ 1:\ license,\ slots
+\ \ usage\ \ \ \ \ \ \ 1:\ wallclock=00:04:45,\ cpu=00:00:00,\ mem=0.00015\ GBs,\ io=0.00009,
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vmem=19.414M,\ maxvmem=19.414M
+\ \ reservation\ 1:\ from\ 04/02/2015\ 13:38:50\ to\ 05/09/2151\ 19:07:05
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ all.q\@waikiki:\ 1
+\f[]
+.fi
+.IP "B)" 3
+License managed via LO that is connected to two different UGE clusters
+.PP
+Scenario: There is a license\-consumable defined that has a maximum
+capacity and multiple jobs from two different connected UGE clusters
+(named A and B) compete for those by requesting one or multiple of those
+licenses.
+.PP
+TODO
+.SH SEE ALSO
+.PP
+sge_intro(1)
+.SH COPYRIGHT
+.PP
+See sge_intro(1) for a full statement of rights and permissions.
+.SH AUTHORS
+Copyright (c) 2015 Univa Corporation.

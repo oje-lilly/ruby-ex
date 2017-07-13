@@ -1,0 +1,13 @@
+# Version: Grid Engine 8.1
+#
+# DO NOT MODIFY THIS FILE MANUALLY!
+#
+name        m_mem_used_n0
+shortcut    mused0
+type        MEMORY
+relop       >=
+requestable YES
+consumable  NO
+default     0
+urgency     0
+aapre       FALSE 

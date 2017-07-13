@@ -1,0 +1,28 @@
+#___INFO__MARK_BEGIN__
+###########################################################################
+#
+#  The contents of this file are made available subject to the terms of the
+#  Apache Software License 2.0 ('The License').
+#  You may not use this file except in compliance with The License.
+#  You may obtain a copy of The License at
+#  http://www.apache.org/licenses/LICENSE-2.0.html
+#
+#  Copyright (c) 2011-2012 Univa Corporation.
+#
+###########################################################################
+#___INFO__MARK_END__
+Tight integration for Intel MPI was tested with version
+Intel(R) MPI Library for Linux* OS, Version 4.0 Update 3 Build 20110824
+Copyright (C) 2003-2011, Intel Corporation. All rights reserved.
+
+Installation of Intel MPI
+=========================
+Download Intel MPI packages from http://software.intel.com/en-us/articles/intel-mpi-library/
+and follow the installation instructions.
+
+Grid Engine tight integration is builtin.
+
+Installing the PE
+=================
+qconf -Ap $SGE_ROOT/mpi/impi/impi.template
+

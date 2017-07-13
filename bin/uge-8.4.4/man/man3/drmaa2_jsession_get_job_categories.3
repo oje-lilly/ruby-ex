@@ -1,0 +1,71 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "DRMAA2_JSESSION_GET_JOB_CATEGORIES" "3" "June 2014" "Univa Corporation" "DRMAA2 C API"
+.
+.SH "NAME"
+\fBdrmaa2_jsession_get_job_categories\fR \- drmaa2_jsession_get_job_categories(3), Returns a list of available job categories\.
+.
+.SH "SYNOPSIS"
+\fB#include "drmaa2\.h"\fR
+.
+.P
+drmaa2_string_list drmaa2_jsession_get_job_categories(const drmaa2_jsession jsession);
+.
+.SH "DESCRIPTION"
+Returns a list of job categories available in the job session\. For \fBUniva(R) Grid Engine(TM)\fR a job category is represented by a job class\. Hence requesting a job category in the \fBdrmaa2_jtemplate\fR is equivalent to requesting a job class with qsub(3)\. The job category list is a list of job classes defined in \fBUniva(R) Grid Engine(TM)\fR\. If there is no job category defined in \fBUniva(R) Grid Engine(TM)\fR the job category list is defined but empty (size of 0)\. After a sucessful creation of the list (with 0 or more elements) the list must be freed by the caller after usage with the drmaa2_list_free(3) function\. The \fBdrmaa2_string_list\fR is created with a callback function which frees all allocated strings\.
+.
+.SH "RETURN VALUES"
+Returns a list of strings with job category names\. The list has 0 or more entries\. In case of an failure NULL is returned and the error id and error string is set for the calling thread\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+drmaa2_jsession js = drmaa2_create_jsession("mysession", NULL);
+
+if (js == NULL) {
+   drmaa2_string error = drmaa2_lasterror_text();
+   fprintf(stderr, "Error during creation of job session with the name %s: %s\en",
+              "mysession", error);
+   drmaa2_string_free(&error);
+} else {
+   drmaa2_string_list categories = drmaa2_jsession_get_job_categories(js);
+
+   if (categories == NULL) {
+      drmaa2_string error = drmaa2_lasterror_text();
+      fprintf(stderr, "Error during getting job categories list: %s\en", error);
+      drmaa2_string_free(&error);
+   } else {
+      long size, i;
+
+      size = drmaa2_list_size(categories);
+      for (i = 0; i < size; i++) {
+         fprintf(stdout, "%s\en", (char *) drmaa2_list_get(categories, i));
+         /* \.\.\. if job category has a specific name \-> add it to jtemplate \.\.\. */
+      }
+      drmaa2_list_free(&categories);
+   }
+
+   /* close jsession */
+   drmaa2_jsession_close(js);
+   /* free jsession */
+   drmaa2_jsession_free(&js);
+
+   /* remove the job session from the Univa(R) Grid Engine(TM) master process */
+   if (drmaa2_destroy_jsession("mysession") != DRMAA2_SUCCESS) {
+      /* an error happend */
+      drmaa2_string error = drmaa2_lasterror_text();
+      fprintf(stderr, "Error during destruction of job session with the name %s: %s\en",
+                  "mysession", error);
+      drmaa2_string_free(&error);
+   }
+}
+.
+.fi
+.
+.SH "SEE ALSO"
+drmaa2_jtemplate_create(3), drmaa2_jsession_get_session_names(3), drmaa2_jsession_get_session_name(3), drmaa2_jsession_get_jobs(3), drmaa2_jsession_get_job_array(3), drmaa2_jsession_run_job(3), drmaa2_jsession_run_bulk_jobs(3), drmaa2_jsession_wait_any_started(3), drmaa2_jsession_wait_any_terminated(3), drmaa2_open_jsession(3), drmaa2_list_size(3), drmaa2_list_get(3), drmaa2_list_free(3)
+.
+.SH "AUTHOR"
+Copyright Univa Corporation 2013

@@ -1,0 +1,887 @@
+.\"t
+.TH "Diagnosing Univa Grid Engine \- sge_diagnostics" "" "" "" ""
+.SH NAME
+.PP
+Diagnostics \- Diagnostics and Debugging of Univa Grid Engine
+.SH DESCRIPTION
+.PP
+The sections below describe aspects of diagnosing qmaster behaviour and
+obtaining more detailed information about the state of Univa Grid Engine.
+.SH LOGGING
+.PP
+Certain components as sge_qmaster(1) or sge_execd(1) create informative,
+warning, error or debugging messages that are written to a message file
+of the corresponding component.
+.PP
+The parameter \f[I]loglevel\f[] of the global configuration of
+Univa Grid Engine allows to change the level of infomation that is written to
+the message file.
+When the \f[I]loglevel\f[] is set to \f[I]log_debug\f[] then more
+detailed information is written that allows to see details of the
+internal state of the component and to debug certain error scenarios
+that would be difficult to diagnose otherwise.
+.SS Received and Sent Messages
+.PP
+When the \f[I]loglevel\f[] \f[I]log_debug\f[] is activated then
+Univa Grid Engine writes log messages whenever sge_qmaster receives messages
+or sends messages.
+.PP
+Message have the following format: ACTION:
+HOSTNAME/COMPROC\-NAME/COMPROC\-ID/MESSAGE\-ID:MESSAGE\-TAG:SIZE
+.IP \[bu] 2
+\f[I]ACTION\f[]: SEND or RECEIVE
+.IP \[bu] 2
+\f[I]HOSTNAME\f[]: Identifies the host were the message was send from.
+.IP \[bu] 2
+\f[I]COMPROC\-NAME\f[]: Name of the daemon or command that sent the
+message (e.g.
+qsub, execd, qmon, ...)
+.IP \[bu] 2
+\f[I]COMPROC\-ID\f[]: Univa Grid Engine internal ID used for communication
+.IP \[bu] 2
+\f[I]MESSAGE\-ID\f[]: Message ID that identifies the request on the
+communication layer.
+.IP \[bu] 2
+\f[I]MESSAGE\-TAG\f[]: Type of message: TAG_GDI_REQUEST,
+TAG_ACK_REQUEST, TAG_REPORT_REQUEST, ...
+.IP \[bu] 2
+\f[I]SIZE\f[]: Size of the message in bytes
+.SS Request execution
+.PP
+When the \f[I]loglevel\f[] \f[I]log_debug\f[] is activated then
+Univa Grid Engine writes log messages whenever sge_qmaster accepts new
+requests from client commands (e.g qsub(1), qalter(1), qconf(1), ...),
+other server components (e.g.
+sge_execd) or qmaster internal threads (lothread when the Univa Grid Engine
+cluster is connected to Univa License Orchestrator).
+Incoming requests are stored in qmaster internal queues till a thread is
+available that is able to handle the request properly.
+Log messages will also be written when one of the internal qmaster
+threads start executing such a request and when request handling has
+finished.
+.PP
+In low performing clusters this allows to identify hosts, users,
+requests types ...
+that are the root cause for the performance decrease.
+.PP
+Messages related to request execution have following format:
+.IP
+.nf
+\f[C]
+\ \ \ ACTION:\ HOSTNAME/COMPROC\-NAME/COMPROC\-ID/MESSAGE\-ID:USER:SIZE:INTERFACE:REQUEST\-DETAILS[:DURATION]
+\f[]
+.fi
+.IP \[bu] 2
+\f[I]ACTION\f[]: QUEUE, FETCHED, STARTED or FINISHED
+.IP \[bu] 2
+\f[I]HOSTNAME\f[]: Identifies the host were the request was send from.
+.IP \[bu] 2
+\f[I]COMPROC\-NAME\f[]: Name of the daemon or command that sent the
+request (e.g.
+qsub, execd, qmon, ...)
+.IP \[bu] 2
+\f[I]COMPROC\-ID\f[]: Univa Grid Engine internal ID used for communication
+.IP \[bu] 2
+\f[I]MESSAGE\-ID\f[]: Message ID that identifies the request on the
+communication layer.
+.IP \[bu] 2
+\f[I]USER\f[]: Name of the user that caused the request to be send to
+qmaster.
+.IP \[bu] 2
+\f[I]SIZE\f[]: Size of the request in bytes (the commlib message) when
+receiving requests from external clients, else 0
+.IP \[bu] 2
+\f[I]INTERFACE\f[]: Interface that was used to trigger the request (GDI
+or REP)
+.IP \[bu] 2
+\f[I]REQUEST\-DETAILS\f[]: For GDI requests this will show the operation
+type (e.g ADD, MOD, DEL, ...) and the object type (JB for job object, CQ
+for cluster queue object, ...)
+.IP \[bu] 2
+\f[I]DURATION\f[]: optionally: time in seconds since the last action on
+the request, e.g.
+time a request was queued, time it took from fetching a request till it
+can be processed (acquiring locks), time for processing a request
+.PP
+Messages related to non GDI requests modifying event clients (e.g.
+acknowledge receipt of an event package) have the following format:
+.IP
+.nf
+\f[C]
+\ \ \ ACTION(E):\ REQUEST:ID[:DURATION]
+\f[]
+.fi
+.IP \[bu] 2
+\f[I]ACTION\f[]: QUEUE, STARTED or FINISHED
+.IP \[bu] 2
+\f[I]REQUEST\f[]: type of request, e.g.
+ACK
+.IP \[bu] 2
+\f[I]ID\f[]: the event client id, see qconf \-secl
+.IP \[bu] 2
+\f[I]DURATION\f[]: optionally: time in seconds since the last action on
+the request, e.g.
+time a request was queued, time for processing a request
+.SH MONITORING
+.SS MESSAGE FILE MONITORING
+.PP
+Monitoring output of the sge_qmaster(1) component is disabled by
+default.
+It can be enabled by defining \f[I]MONITOR_TIME\f[] as
+\f[I]qmaster_param\f[] in the global configuration of Univa Grid Engine (see
+sge_conf(5)).
+\f[I]MONITOR_TIME\f[] defines the time interval when monitoring
+information is printed.
+The generated output provides information per thread and it is written
+to the message file or displayed with \f[I]qping(1)\f[].
+.PP
+The messages that are shown start with the name of a qmaster thread
+followed by a three digit number and a colon character (:).
+The number allows to distinguish monitoring output of different threads
+that are part of the same thread pool.
+.PP
+All counters are reset when the monitoring output was printed.
+This means that all numbers show activity characteristics of about one
+\f[I]MONITOR_TIME\f[] interval.
+Please note that the \f[I]MONITOR_TIME\f[] is only a guideline and not a
+fixed interval.
+The interval that is actually used is shown by \f[B]time\f[] in the
+monitoring output.
+.PP
+For each thread type the output contains following parameters:
+.IP \[bu] 2
+\f[B]runs\f[]: [iterations per second] number of cycles per second a
+thread executed its main loop.
+Threads typically handle one work package (message, request) per
+iteration.
+.IP \[bu] 2
+\f[B]out\f[]: [messages per second] number of outgoing TCP/IP
+communication messages per second.
+Only those threads trigger outgoing messages that handle requests that
+were triggered by external commands or interfaces (client commands,
+DRMAA, ...).
+.IP \[bu] 2
+\f[B]APT\f[]: [cpu time per message] average processing time per message
+or request.
+.IP \[bu] 2
+\f[B]idle\f[]: [%] percentage how long the thread was idle and waiting
+for work.
+.IP \[bu] 2
+\f[B]wait\f[]: [%] percentage how long the thread was waiting for
+required resources that where already in use by other threads.
+.IP \[bu] 2
+\f[B]time\f[]: [seconds] time since last monitoring output for this
+thread was written.
+.PP
+Depending on the thread type the output will contain more details:
+.PP
+\f[B]LISTENER\f[]
+.PP
+Listener threads listen for incoming messages that are send to qmaster
+via generic data interface, event client interface, mirror interface or
+reporting interface.
+Requests are unpacked and verified.
+For simple requests a response will also be sent back to the client but
+in most cases the request will be stored in one of the request queues
+that are processed by reader, worker threads or the event master thread.
+.IP \[bu] 2
+IN \f[B]g\f[]: [requests per second] number of requests received via GDI
+interface.
+.IP \[bu] 2
+IN \f[B]a\f[]: [messages per second] handled ack\[aq]s for a request
+response.
+.IP \[bu] 2
+IN \f[B]e\f[]: [requests per second] event client requests received from
+applications using the event client or mirror interface.
+.IP \[bu] 2
+IN \f[B]r\f[]: [requests per second] number of reporting requests
+received from execution hosts.
+.IP \[bu] 2
+OTHER \f[B]wql\f[]: [requests] number of pending read\-write requests
+that can immediately be handled by a worker thread.
+.IP \[bu] 2
+OTHER \f[B]rql\f[]: [requests] number of pending read\-only requests
+that can immediately be handled by a reader thread.
+.IP \[bu] 2
+OTHER \f[B]wrql\f[]: number of waiting read\-only requests.
+read\-only requests in \f[I]waiting\f[]\-state have to be executed as
+part of a GDI session and the data store of the read\-only thread pool
+is not in a state to execute those requests immediately.
+.PP
+\f[B]READER/WORKER\f[]
+.PP
+Reader and worker threads handle GDI and reporting requests.
+Reader threads will handle read\-only requests only whereas all requests
+that require read\-write access will be processed by worker threads.
+.IP \[bu] 2
+EXECD \f[B]l\f[]: [reports per second] handled load reports per second.
+.IP \[bu] 2
+EXECD \f[B]j\f[]: [reports per second] handled job reports per second.
+.IP \[bu] 2
+EXECD \f[B]c\f[]: [reports per second] handled configuration version
+requests.
+.IP \[bu] 2
+EXECD \f[B]p\f[]: [reports per second] handled processor reports.
+.IP \[bu] 2
+EXECD \f[B]a\f[]: [messages per second] handled ack\[aq]s for a request
+response.
+.IP \[bu] 2
+GDI \f[B]a\f[]: [requests per second] handled GDI add requests per
+second.
+.IP \[bu] 2
+GDI \f[B]g\f[]: [requests per second] handled GDI get requests per
+second.
+.IP \[bu] 2
+GDI \f[B]m\f[]: [requests per second] handled GDI modify requests per
+second.
+.IP \[bu] 2
+GDI \f[B]d\f[]: [requests per second] handled GDI delete requests per
+second.
+.IP \[bu] 2
+GDI \f[B]c\f[]: [requests per second] handled GDI copy requests per
+second.
+.IP \[bu] 2
+GDI \f[B]t\f[]: [requests per second] handled GDI trigger requests per
+second.
+.IP \[bu] 2
+GDI \f[B]p\f[]: [requests per second] handled GDI permission requests
+per second.
+.PP
+\f[B]EVENT MASTER\f[]
+.PP
+The event master thread is responsible for handling activities for
+registered event clients that either use the event client or the mirror
+interface.
+The interfaces can be used to register and subscribe all or a subset of
+event types.
+Clients will automatically receive updates for subscribed infomation as
+soon as it is added, modified or deleted within qmaster.
+Clients using those interfaces don\[aq]t have the need to poll required
+information.
+.IP \[bu] 2
+\f[B]clients\f[]: [clients] connected event clients.
+.IP \[bu] 2
+\f[B]mod\f[]: [modifications per second] event client modifications per
+second.
+.IP \[bu] 2
+\f[B]ack\f[]: [messages per second] handled ack\[aq]s per second.
+.IP \[bu] 2
+\f[B]blocked\f[]: [clients] number of event clients blocked during send.
+.IP \[bu] 2
+\f[B]busy\f[]: [clients] number of event clients busy during send.
+.IP \[bu] 2
+\f[B]events\f[]: [events per second] newly added events per second.
+.IP \[bu] 2
+\f[B]added\f[]: [events per second] number of all events per second.
+.IP \[bu] 2
+\f[B]skipt\f[]: [events per second] ignored events per second (because
+no client has subscribed them).
+.PP
+\f[B]TIMED EVENT\f[]
+.PP
+The timed event thread is used within qmaster to either trigger
+activities once at a certain point in time or in regular time intervals.
+.IP \[bu] 2
+\f[B]pending\f[]: [events] number of events waiting that start time is
+reached.
+.IP \[bu] 2
+\f[B]executed\f[]: [events per second] executed events per second.
+.SH QPING MONITORING
+.PP
+The qping(1) command provides monitoring output of Univa Grid Engine
+components.
+.SS REQUEST QUEUES
+.PP
+Requests that are accepted by qmaster but that cannot be immediately
+handled by one of the reader or worker threads are stored in qmaster
+internal request queues.
+qping(1) is able to show details about those pending requests when this
+is enabled by defining the parameter \f[I]MONITOR_REQUEST_QUEUES\f[] as
+\f[I]qmaster_param\f[] in the global configuration of Univa Grid Engine.
+The output format of requests is the same as for requests log messages
+(explained in the section \f[I]Logging\f[] \-> \f[I]Request
+execution\f[] above).
+.SH GRID ENGINE ERROR, FAILURE AND EXIT CODES
+.PP
+Univa Grid Engine provides a number of job or feature related exit codes,
+which can be used to trigger a job or a queue behaviour and a resulting
+consequence, for either the job or also the queue.
+These exit codes are shwon in the following tables.
+.SS Job related error und exit codes
+.PP
+The following table lists the consequences of different job\-related
+error codes or exit codes.
+These codes are valid for every type of job.
+.PP
+.TS
+tab(@);
+l l l.
+T{
+Script/Method
+T}@T{
+Exit or Error Code
+T}@T{
+Consequence
+T}
+_
+T{
+Job Script
+T}@T{
+0
+T}@T{
+Success
+T}
+T{
+T}@T{
+99
+T}@T{
+Requeue
+T}
+T{
+T}@T{
+Rest
+T}@T{
+Success: Exit code in accounting
+T}
+T{
+Epilog/Prolog
+T}@T{
+0
+T}@T{
+Success
+T}
+T{
+T}@T{
+99
+T}@T{
+Requeue
+T}
+T{
+T}@T{
+100
+T}@T{
+Job in Error state
+T}
+T{
+T}@T{
+Rest
+T}@T{
+Queue in Error state, Job requeued
+T}
+.TE
+.SS Parallel\-Environment\-Related Error or Exit Codes
+.PP
+The following table lists the consequences of error codes or exit codes
+of jobs related to parallel environment (PE) configuration.
+.PP
+.TS
+tab(@);
+l l l.
+T{
+Script/Method
+T}@T{
+Error or Exit Code
+T}@T{
+Consequence
+T}
+_
+T{
+pe_start
+T}@T{
+0
+T}@T{
+Success
+T}
+T{
+T}@T{
+Rest
+T}@T{
+Queue set to error state, job requeued
+T}
+T{
+pe_stop
+T}@T{
+0
+T}@T{
+Success
+T}
+T{
+T}@T{
+Rest
+T}@T{
+Queue set to error state, job not requeued
+T}
+.TE
+.SS Queue\-Related Error or Exit Codes
+.PP
+The following table lists the consequences of error codes or exit codes
+of jobs related to queue configuration.
+These codes are valid only if corresponding methods were overwritten.
+.PP
+.TS
+tab(@);
+l l l.
+T{
+Script/Method
+T}@T{
+Error or Exit Code
+T}@T{
+Consequence
+T}
+_
+T{
+Job Starter
+T}@T{
+0
+T}@T{
+Success
+T}
+T{
+T}@T{
+Rest
+T}@T{
+Success, no other special meaning
+T}
+T{
+Suspend
+T}@T{
+0
+T}@T{
+Success
+T}
+T{
+T}@T{
+Rest
+T}@T{
+Success, no other special meaning
+T}
+T{
+Resume
+T}@T{
+0
+T}@T{
+Success
+T}
+T{
+T}@T{
+Rest
+T}@T{
+Success, no other special meaning
+T}
+T{
+Terminate
+T}@T{
+0
+T}@T{
+Success
+T}
+T{
+T}@T{
+Rest
+T}@T{
+Success, no other special meaning
+T}
+.TE
+.SS Checkpointing\-Related Error or Exit Codes
+.PP
+The following table lists the consequences of error or exit codes of
+jobs related to checkpointing.
+.PP
+.TS
+tab(@);
+l l l.
+T{
+Script/Method
+T}@T{
+Error or Exit Code
+T}@T{
+Consequence
+T}
+_
+T{
+Checkpoint
+T}@T{
+0
+T}@T{
+Success
+T}
+T{
+T}@T{
+Rest
+T}@T{
+Success.
+For kernel checkpoint, however, this means that the checkpoint was not
+successful.
+T}
+T{
+Migrate
+T}@T{
+0
+T}@T{
+Success
+T}
+T{
+T}@T{
+Rest
+T}@T{
+Success.
+For kernel checkpoint, however, this means that the checkpoint was not
+successful.
+Migration will occur.
+T}
+T{
+Restart
+T}@T{
+0
+T}@T{
+Success
+T}
+T{
+T}@T{
+Rest
+T}@T{
+Success, no other special meaning
+T}
+T{
+Clean
+T}@T{
+0
+T}@T{
+Success
+T}
+T{
+T}@T{
+Rest
+T}@T{
+Success, no other special meaning
+T}
+.TE
+.SS qacct \-j "failed" line Codes
+.PP
+For jobs that run successfully, the qacct \-j command output shows a
+value of 0 in the failed field, and the output shows the exit status of
+the job in the exit_status field.
+However, the shepherd might not be able to run a job successfully.
+For example, the epilog script might fail, or the shepherd might not be
+able to start the job.
+In such cases, the failed field displays one of the code values listed
+in the following table.
+.PP
+.TS
+tab(@);
+l l l l.
+T{
+Code
+T}@T{
+Description
+T}@T{
+Accounting valid
+T}@T{
+Meaning for Job
+T}
+_
+T{
+0
+T}@T{
+No failure
+T}@T{
+t
+T}@T{
+Job ran, exited normally
+T}
+T{
+1
+T}@T{
+Presumably before job
+T}@T{
+f
+T}@T{
+Job could not be started
+T}
+T{
+3
+T}@T{
+Before writing config
+T}@T{
+f
+T}@T{
+Job could not be started
+T}
+T{
+4
+T}@T{
+Before writing PID
+T}@T{
+f
+T}@T{
+Job could not be started
+T}
+T{
+5
+T}@T{
+On reading config file
+T}@T{
+f
+T}@T{
+Job could not be started
+T}
+T{
+6
+T}@T{
+Setting processor set
+T}@T{
+f
+T}@T{
+Job could not be started
+T}
+T{
+7
+T}@T{
+Before prolog
+T}@T{
+f
+T}@T{
+Job could not be started
+T}
+T{
+8
+T}@T{
+In prolog
+T}@T{
+f
+T}@T{
+Job could not be started
+T}
+T{
+9
+T}@T{
+Before pestart
+T}@T{
+f
+T}@T{
+Job could not be started
+T}
+T{
+10
+T}@T{
+In pestart
+T}@T{
+f
+T}@T{
+Job could not be started
+T}
+T{
+11
+T}@T{
+Before job
+T}@T{
+f
+T}@T{
+Job could not be started
+T}
+T{
+12
+T}@T{
+Before pestop
+T}@T{
+t
+T}@T{
+Job ran, failed before calling PE stop procedure
+T}
+T{
+13
+T}@T{
+In pestop
+T}@T{
+t
+T}@T{
+Job ran, PE stop procedure failed
+T}
+T{
+14
+T}@T{
+Before epilog
+T}@T{
+t
+T}@T{
+Job ran, failed before calling epilog script
+T}
+T{
+15
+T}@T{
+In epilog
+T}@T{
+t
+T}@T{
+Job ran, failed in epilog script
+T}
+T{
+16
+T}@T{
+Releasing processor set
+T}@T{
+t
+T}@T{
+Job ran, processor set could not be released
+T}
+T{
+24
+T}@T{
+Migrating (checkpointing jobs)
+T}@T{
+t
+T}@T{
+Job ran, job will be migrated
+T}
+T{
+25
+T}@T{
+Rescheduling
+T}@T{
+t
+T}@T{
+Job ran, job will be rescheduled
+T}
+T{
+26
+T}@T{
+Opening output file
+T}@T{
+f
+T}@T{
+Job could not be started, stderr/stdout file could not be opened
+T}
+T{
+27
+T}@T{
+Searching requested shell
+T}@T{
+f
+T}@T{
+Job could not be started, shell not found
+T}
+T{
+28
+T}@T{
+Changing to working directory
+T}@T{
+f
+T}@T{
+Job could not be started, error changing to start directory
+T}
+T{
+29
+T}@T{
+No message \-> AFS problem
+T}@T{
+f
+T}@T{
+Job could not be started
+T}
+T{
+30
+T}@T{
+Rescheduling on application error
+T}@T{
+f
+T}@T{
+Job ran until application failed, rescheduling
+T}
+T{
+31
+T}@T{
+Accessing sgepasswd file
+T}@T{
+f
+T}@T{
+Job could not be started, job failure
+T}
+T{
+32
+T}@T{
+Entry is missing in password file
+T}@T{
+f
+T}@T{
+Job could not be started, job failure
+T}
+T{
+33
+T}@T{
+Wrong password
+T}@T{
+f
+T}@T{
+Job could not be started, job failure
+T}
+T{
+34
+T}@T{
+Communicating with Grid Engine Helper Service
+T}@T{
+f
+T}@T{
+Job could not be started, job failure
+T}
+T{
+35
+T}@T{
+Before job in Grid Engine Helper Service
+T}@T{
+f
+T}@T{
+Job could not be started, job failure
+T}
+T{
+36
+T}@T{
+Checking configured daemons
+T}@T{
+f
+T}@T{
+Job could not be started, job failure
+T}
+T{
+37
+T}@T{
+Qmaster enforced h_rt limit
+T}@T{
+t
+T}@T{
+Job was killed by qmaster, enforcing a resource limit, job failure
+T}
+T{
+38
+T}@T{
+No Message \-> ADD_GRP_ID can not be set
+T}@T{
+f
+T}@T{
+Job could not be started, ADD_GRP_ID can not be set
+T}
+T{
+100
+T}@T{
+Assumedly after job
+T}@T{
+t
+T}@T{
+Job ran, job killed by a signal
+T}
+.TE
+.PP
+The Code column lists the value of the failed field.
+The Description column lists the text that appears in the qacct \-j
+output.
+If acctvalid is set to t, the job accounting values are valid.
+If acctvalid is set to f, the resource usage values of the accounting
+record are not valid.
+The Meaning for Job column indicates whether the job ran or not.
+.SH SEE ALSO
+.PP
+sge_intro(1) sge_qmaster(1) sge_execd(1) qconf(1) qping(1) sge_conf(5)
+.SH COPYRIGHT
+.PP
+See sge_intro(1) for a full statement of rights and permissions.
+.SH AUTHORS
+Copyright (c) 2015 Univa Corporation.
